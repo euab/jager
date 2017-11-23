@@ -21,6 +21,10 @@ log = logging.getLogger('discord')
 
 class RickBot(commands.AutoShardedBot):
 
+	developers = [
+		'337333673781100545'
+	]
+
 	def __init__(self):
 		super().__init__(command_prefix=None)
 		self.session = aiohttp.ClientSession(loop=self.loop)
@@ -46,6 +50,7 @@ class RickBot(commands.AutoShardedBot):
 				log.info(f'Loaded extension {extension}')
 			except Exception as e:
 				log.info(f'Unable to load extension {extension}')
+				traceback.print_exc()
 
 	@property
 	def token(self):
