@@ -95,8 +95,8 @@ class RickBot(commands.AutoShardedBot):
 	async def process_commands(self, message):
 		ctx = await self.get_context(message, cls=LeContext) # Le Meme
 		if ctx.command is None:
-			log.info('Got none')
-			
+			return
+
 		await self.invoke(ctx)
 		log.info('Command invoked')
 
