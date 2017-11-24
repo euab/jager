@@ -6,7 +6,7 @@ import textwrap
 
 from contextlib import redirect_stdout
 from discord.ext import commands
-from ext import PaginatorSession
+from ext.paginator import PaginatorSession
 
 class Eval:
 
