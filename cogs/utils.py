@@ -105,6 +105,14 @@ class Utils:
 
         await ctx.send(embed=em)
 
+    @commands.command()
+    async def prefix(self, ctx, *, prefix):
+        id = str(ctx.guild.id)
+        conf = ctx.load_json('data/guild.json')
+        conf[id] = prefix
+        ctx.save_json(conf, 'data/guild.json')
+        await ctx.send(f'I changed your prefix to: `{prefix}`')
+
 def setup(bot):
     cog = Utils(bot)
     bot.add_cog(cog)
