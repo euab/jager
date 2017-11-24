@@ -14,7 +14,7 @@ class Eval:
         self.bot = bot
 
     @commands.command(pass_context=True, hidden=True, name='eval')
-    @commands.is_owner()
+    @command.is_owner()
     async def _eval(self, ctx, *, body: str):
 
         env = {
@@ -51,7 +51,7 @@ class Eval:
         else:
             value = stdout.getvalue()
             if self.bot.token in value:
-                value = value.replace(self.bot.token, "[EXPUNGED]")
+                value = value.replace(self.bot.token,"[EXPUNGED]")
             if ret is None:
                 if value:
                     try:
@@ -74,6 +74,7 @@ class Eval:
                             out = await ctx.send(f'```py\n{page}\n```')
                             break
                         await ctx.send(f'```py\n{page}\n```')
+
         if out:
             await ctx.message.add_reaction('\u2705')
         if err:
@@ -82,10 +83,10 @@ class Eval:
             await ctx.message.add_reaction('\u2705')
 
     def cleanup_code(self, content):
-        if content.startswith('```') and content.endswith('````'):
+        if content.startswith('```') and content.endswith('```'):
             return '\n'.join(content.split('\n')[1:-1])
 
-        return content.strip(' \n')
+        return content.strip('` \n')
 
 def setup(bot):
     cog = Eval(bot)
