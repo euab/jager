@@ -80,7 +80,7 @@ class RickBot(commands.AutoShardedBot):
 		id = str(getattr(message.guild, 'id', None))
 
 		# regex ftw
-		prefix = [
+		prefixes = [
 			f'<@{self.user.id}> ',
 			f'<@!{self.user.id}> ',
 			data.get(id, '!')
