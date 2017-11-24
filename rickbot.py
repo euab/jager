@@ -23,7 +23,7 @@ class RickBot(commands.AutoShardedBot):
 
 	developers = [
 		'337333673781100545'
-	]
+		]
 
 	def __init__(self):
 		super().__init__(command_prefix=None)
