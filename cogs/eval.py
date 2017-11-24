@@ -6,6 +6,7 @@ import textwrap
 
 from contextlib import redirect_stdout
 from discord.ext import commands
+from ext import PaginatorSession
 
 class Eval:
 
@@ -38,7 +39,7 @@ class Eval:
             exec(to_compile, env)
         except Exception as e:
             err = await ctx.send(f'```py\n{e.__class__.__name__}: {e}\n```')
-            return await err.add_reactions('\u2049')
+            return await err.add_reaction('\u2049')
 
         func = env['func']
         try:
