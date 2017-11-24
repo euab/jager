@@ -106,7 +106,7 @@ class Utils:
         await ctx.send(embed=em)
 
     @commands.command()
-    @command.has_permissions(manage_guild=True)
+    @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx, *, prefix):
         id = str(ctx.guild.id)
         conf = ctx.load_json('data/guild.json')
