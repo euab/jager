@@ -74,10 +74,19 @@ class RickBot(commands.AutoShardedBot):
 		os.execv(sys.executable, ["python"] + sys.argv)
 
 	async def get_prefix(self, message):
-		# Nothing really going on here. Will add custom prefix soon.
-		# For now just return the default prefix
+		with open('data/guild.json') as f:
+			data = json.load(f)
 
-		return '!'
+		id = str(getattr(message.guild, 'id', None))
+
+		# regex ftw
+		prefix = [
+			f'<@{self.user.id}> ',
+			f'<@!{self.user.id}> ',
+			data.get(id, '!')
+			]
+
+		return prefixes
 
 	async def on_connect(self):
 		log.info("Connected to gateway")
