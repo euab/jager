@@ -13,6 +13,7 @@ class Search:
 
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
 
     @commands.command()
     async def youtube(self, ctx):
