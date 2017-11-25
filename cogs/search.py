@@ -15,9 +15,8 @@ class Search:
         self.bot = bot
         self.session = aiohttp.ClientSession()
 
-    @commands.command()
-    async def youtube(self, ctx):
-        search = ctx.message
+    @commands.command(pass_context=True, no_pm=True)
+    async def youtube(self, ctx, *, search: str):
         url = "https://googleapis.com.youtube/v3/search"
         async with self.session.get(url, params={"type": "video",
                                                  "q": search,
@@ -32,9 +31,8 @@ class Search:
 
         await ctx.send(response)
 
-    @commands.command()
-    async def urban(self, ctx):
-        search = ctx.message
+    @commands.command(pass_context=True, no_pm=True)
+    async def urban(self, ctx, *, search: str):
         url = "http://api.urbandictionary.com/v0/define"
         async with self.session.get(url, params={"term": search}) as resp:
             data = await resp.json()
