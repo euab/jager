@@ -46,3 +46,7 @@ class Search:
         else:
             response = NOT_FOUND
         await ctx.send(response)
+
+def setup(bot):
+    cog = Search(bot)
+    bot.add_cog(cog)
