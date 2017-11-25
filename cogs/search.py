@@ -16,8 +16,8 @@ class Search:
         self.session = aiohttp.ClientSession()
 
     @commands.command()
-    async def youtube(self, *,ctx):
-        search = ctx
+    async def youtube(self, ctx):
+        search = ctx.message
         url = "https://googleapis.com.youtube/v3/search"
         async with self.session.get(url, params={"type": "video",
                                                  "q": search,
@@ -33,8 +33,8 @@ class Search:
         await ctx.send(response)
 
     @commands.command()
-    async def urban(self, *,ctx):
-        search = ctx
+    async def urban(self, ctx):
+        search = ctx.message
         url = "http://api.urbandictionary.com/v0/define"
         async with self.session.get(url, params={"term": search}) as resp:
             data = await resp.json()
