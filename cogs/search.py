@@ -6,6 +6,7 @@ import secrets
 from discord.ext import commands
 
 GOOGLE_API_KEY = secrets.GOOGLE_API_KEY
+TWITCH_CLIENT_ID = secrets.TWITCH_CLIENT_ID
 
 NOT_FOUND = "I couldn't find anything 😢"
 
@@ -46,6 +47,32 @@ class Search:
         else:
             response = NOT_FOUND
         await ctx.send(response)
+
+    @commands.command(pass_context=True, no_pm=True)
+    async def twitch(self, ctx, *, search: str):
+        url = "https://api.twitch.tv/kraken/search/channels"
+        params = {
+            "q": search,
+            "client_id": TWITCH_CLIENT_ID
+        }
+        async with self.session.get(url, params=params) as resp:
+            data = await resp.json()
+
+        if data["channels"]:
+            channel = data["channels"][0]
+            fmt = "{0[followers]} followers and {0[views]} views"
+            em = discord.Embed()
+            em.color = discord.Color.purple()
+            em.title = channel["display_name"]
+            em.add_field(name="Followers & co", value=fmt.format(channel))
+            em.set_footer(text=f'{channel["url"]}')
+            try:
+                await ctx.send(embed=em)
+            except discord.Forbidden:
+                await ctx.send("I am not allowed to send embeds in your server... :cry:")
+
+        else:
+            ctx.send(NOT_FOUND)
 
 def setup(bot):
     cog = Search(bot)
