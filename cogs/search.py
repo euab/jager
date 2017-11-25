@@ -17,10 +17,10 @@ class Search:
 
     @commands.command(pass_context=True, no_pm=True)
     async def youtube(self, ctx, *, search: str):
-        url = "https://googleapis.com.youtube/v3/search"
+        url = "https://www.googleapis.com/youtube/v3/search"
         async with self.session.get(url, params={"type": "video",
                                                  "q": search,
-                                                 "part": snippet,
+                                                 "part": "snippet",
                                                  "key": GOOGLE_API_KEY}) as resp:
             data = await resp.json()
         if data["items"]:
