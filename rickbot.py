@@ -34,6 +34,7 @@ class RickBot(commands.AutoShardedBot):
 		self.messages_sent = 0
 		self.load_extensions()
 		self._add_commands()
+		self.remove_command('help')
 
 	def _add_commands(self):
 		'''Adds commands automatically'''
