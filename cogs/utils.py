@@ -14,6 +14,7 @@ import io
 import textwrap
 
 from discord.ext import commands
+from ext.paginator import PaginatorSession
 
 class Utils:
 
