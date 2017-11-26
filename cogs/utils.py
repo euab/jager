@@ -125,6 +125,29 @@ class Utils:
         os.system(command)
         exit(0)
 
+    @command.command()
+    async def help(self, ctx, *, command=None):
+        prefix = (await self.bot.get_prefix(ctx.message))[2]
+        if command:
+            em = self.format_command_help(command, prefix)
+            if em:
+                return await ctx.send(embed=em)
+            else:
+                return await ctx.send('I could not find a command or plugin with that name...')
+
+        pages = []
+
+        for name, plugin in sorted(self.bot.cogs.items()):
+            em = self.format_cog_help(prefix, name, plugin)
+            pages.append(em)
+
+        paginator = PaginatorSession(ctx,
+            footer_text=f'type {prefix}help command for more info on a command',
+            pages=pages
+            )
+
+        await paginator.run()
+
 def setup(bot):
     cog = Utils(bot)
     bot.add_cog(cog)
