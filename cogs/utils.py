@@ -126,7 +126,7 @@ class Utils:
         os.system(command)
         exit(0)
 
-    @command.command()
+    @commands.command()
     async def help(self, ctx, *, command=None):
         prefix = (await self.bot.get_prefix(ctx.message))[2]
         if command:
