@@ -104,7 +104,6 @@ class RickBot(commands.AutoShardedBot):
 
 	async def on_command_error(self, ctx, error):
 		log.error('Error processing command')
-		await ctx.send('Something went wrong... :cry:')
 		log.error(error)
 
 	async def process_commands(self, message):

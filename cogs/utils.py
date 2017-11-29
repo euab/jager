@@ -14,6 +14,7 @@ import io
 import textwrap
 
 from discord.ext import commands
+from discord.ext import embeds
 from ext.paginator import PaginatorSession
 
 class Utils:
@@ -126,28 +127,76 @@ class Utils:
         os.system(command)
         exit(0)
 
+    def format_cog_help(self, name, cog, prefix):
+        sigs = []
+
+        for cmd in self.bot.commands:
+            if cmd.hidden:
+                continue
+            if cmd.instance is cog:
+                sigs.append(len(cmd.qualified_name) + len(prefix))
+                if hasattr(cmd, 'all_commands'):
+                    for c in cmd.all_commands.values():
+                        sigs.append(len('\u200b └─ ' + c.name) + 1)
+        maxlen = max(sigs)
+
+        fmt = ''
+        for cmd in self.bot.commands:
+            if cmd.instance is cog:
+                if cmd.hidden:
+                    continue
+                fmt += f'`{prefix+cmd.qualified_name:<{maxlen}} `
+                fmt += f'{cmd.short_doc:<{maxlen}}`\n'
+                if hasattr(cmd, 'commands'):
+                    for c in cmd.commands:
+                        branch = '\u200b └─ ' + c.name
+                        fmt += f"`{branch:<{maxlen + 1}} "
+                        fmt += f"{c.short_doc:<{maxlen}} `\n"
+
+        em.discord.Embed(title=name.replace('_', ' '))
+        em.color = embeds.random_color()
+        em.description = '*'+(inspect.getdoc(cog))+'*'
+        em.add_field(name='Commands', value=fmt)
+        em.set_foot(text=f'Type {prefix}help command for more info on a command.')
+
+        return em
+
+    def format_command_help(self, command, prefix):
+        name = command.replace(' ', '_')
+        cog = self.bot.cogs.get(name)
+        if cog is not None:
+            return self.format_cog_help(name, cog, prefix)
+        cmd = self.bot.get_command(command)
+        if cmd is not None:
+            return discord.Embed(
+                color=embeds.random_color(),
+                title=f'`{prefix}{cmd.signature}`',
+                description=cmd.help
+                )
+
     @commands.command()
-    async def help(self, ctx, *, command=None):
+    async def bothelp(self, ctx, *, command=None):
         prefix = (await self.bot.get_prefix(ctx.message))[2]
+
         if command:
             em = self.format_command_help(command, prefix)
             if em:
                 return await ctx.send(embed=em)
             else:
-                return await ctx.send('I could not find a command or plugin with that name...')
+                return await ctx.send('Could not find a cog or command by that name.')
 
         pages = []
 
-        for name, plugin in sorted(self.bot.cogs.items()):
-            em = self.format_cog_help(prefix, name, plugin)
+        for name, cog in sorted(self.bot.cogs.items()):
+            em = self.format_cog_help(name, cog, prefix)
             pages.append(em)
 
-        paginator = PaginatorSession(ctx,
-            footer_text=f'type {prefix}help command for more info on a command',
+        p_session = PaginatorSession(ctx,
+            footer_text=f'Type {prefix}help command for more info on a command.',
             pages=pages
             )
 
-        await paginator.run()
+        await p_session.run()
 
 def setup(bot):
     cog = Utils(bot)
