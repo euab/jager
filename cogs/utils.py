@@ -14,7 +14,7 @@ import io
 import textwrap
 
 from discord.ext import commands
-from discord.ext import embeds
+from ext import embeds
 from ext.paginator import PaginatorSession
 
 class Utils:
@@ -145,13 +145,13 @@ class Utils:
             if cmd.instance is cog:
                 if cmd.hidden:
                     continue
-                fmt += f'`{prefix+cmd.qualified_name:<{maxlen}} `
+                fmt += f'`{prefix+cmd.qualified_name:<{maxlen}} `'
                 fmt += f'{cmd.short_doc:<{maxlen}}`\n'
                 if hasattr(cmd, 'commands'):
                     for c in cmd.commands:
                         branch = '\u200b └─ ' + c.name
                         fmt += f"`{branch:<{maxlen + 1}} "
-                        fmt += f"{c.short_doc:<{maxlen}} `\n"
+                        fmt += f"{c.short_doc:<{maxlen}}`\n"
 
         em.discord.Embed(title=name.replace('_', ' '))
         em.color = embeds.random_color()
