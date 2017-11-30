@@ -23,10 +23,8 @@ class Utils:
         self.bot = bot
 
     @commands.command(hidden=True)
+    @commands.is_owner()
     async def maintenance(self, ctx):
-        if ctx.author.id not in self.bot.developers:
-            return
-
         if self.bot.maintenance_mode is True:
             await self.bot.change_presence(
                 status=discord.Status.online,
