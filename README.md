@@ -1,4 +1,4 @@
-# rickbot
+# RickBot
 
 [![Build Status](https://travis-ci.org/rickbotdiscord/rickbot.svg?branch=master)](https://travis-ci.org/rickbotdiscord/rickbot)
 
