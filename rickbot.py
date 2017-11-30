@@ -133,8 +133,10 @@ class RickBot(commands.AutoShardedBot):
 			await ctx.send(em.title + em.description)
 
 if __name__ == '__main__':
-	if secrets.RICKBOT_DEBUG:
+	token = os.getenv("TOKEN")
+	debug = os.getenv("RICKBOT_DEBUG")
+	if debug:
 		logging.basicConfig(level='DEBUG')
 	else:
 		logging.basicConfig(level='INFO')
-	RickBot.init(secrets.TOKEN)
+	RickBot.init(token)
