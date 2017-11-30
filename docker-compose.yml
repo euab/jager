@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  rickbot:
+    build: .
+    env_file:
+      - .env
