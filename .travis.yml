@@ -2,6 +2,11 @@ language: python
 python:
   - "3.6"
   - "pypy-3.6"
+env:
+  - "$TOKEN"
+  - "$TWITCH_CLIENT_ID"
+  - "$GOOGLE_API_KEY"
+  - "$RICKBOT_DEBUG"
 install:
   - pip install -r requirements.txt
 script:

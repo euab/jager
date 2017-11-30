@@ -5,8 +5,8 @@ import secrets
 
 from discord.ext import commands
 
-GOOGLE_API_KEY = secrets.GOOGLE_API_KEY
-TWITCH_CLIENT_ID = secrets.TWITCH_CLIENT_ID
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
 
 NOT_FOUND = "I couldn't find anything 😢"
 
