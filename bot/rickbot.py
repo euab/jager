@@ -45,7 +45,7 @@ class RickBot(commands.AutoShardedBot):
 
 
 	def load_extensions(self, cogs=None, path='cogs.'):
-		base_extensions = [x.replace('.py', '') for x in os.listdir('cogs') if x.endswith('.py')]
+		base_extensions = [x.replace('.py', '') for x in os.listdir('cogs' or 'bot/cogs') if x.endswith('.py')]
 		for extension in cogs or base_extensions:
 			try:
 				self.load_extension(f'{path}{extension}')
