@@ -5,6 +5,6 @@ python:
 install:
   - pip install -r bot/requirements.txt
 script:
-  - python -m compileall .bot//rickbot.py
+  - python -m compileall .bot/rickbot.py
   - python -m compileall ./bot/cogs
   - python ./bot/rickbot.py --test-run
