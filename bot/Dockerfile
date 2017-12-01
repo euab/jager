@@ -1,4 +1,5 @@
 FROM python:3
+MAINTAINER Euab
 RUN apt-get upgrade -y && apt-get update
 RUN apt-get install -y libffi-dev
 RUN apt-get install -y git

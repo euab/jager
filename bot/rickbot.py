@@ -28,6 +28,7 @@ class RickBot(commands.AutoShardedBot):
 	def __init__(self):
 		super().__init__(command_prefix=None)
 		self.session = aiohttp.ClientSession(loop=self.loop)
+		self.redis_url = "redis://localhost"
 		self.uptime = datetime.datetime.utcnow()
 		self.commands_used = defaultdict(int)
 		self.process = psutil.Process()
@@ -52,6 +53,13 @@ class RickBot(commands.AutoShardedBot):
 			except Exception as e:
 				log.info(f'Unable to load extension {extension}')
 				traceback.print_exc()
+
+	def add_all_guilds(self):
+		log.info('Syncing guilds to the DB')
+		self.db.redis.delete('guilds')
+		for server in self.servers:
+			log.info(f'Adding server {server.id}\'s to the DB')
+			self.db.redis.sadd('servers', server.id)
 
 	@property
 	def token(self):
