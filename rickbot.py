@@ -50,15 +50,7 @@ class RickBot(commands.AutoShardedBot):
 			try:
 				self.load_extension(f'{path}{extension}')
 				log.info(f'Loaded extension {extension}')
-			except FileNotFoundError as e:
-				base_extensions = [x.replace('.py', '') for x in os.listdir('bot/cogs') if x.endswith('.py')]
-				for extension in cogs or base_extensions:
-					try:
-						self.load_extension(f'{path}{extension}')
-						log.info(f'Loaded extension {extension}')
-					except Exception as e:
-						log.info(f'Unable to load extension {extension}')
-						traceback.print_exc()
+
 			except Exception as e:
 				log.info(f'Unable to load extension {extension}')
 				traceback.print_exc()
