@@ -173,7 +173,7 @@ class Utils:
                 )
 
     @commands.command()
-    async def bothelp(self, ctx, *, command=None):
+    async def help(self, ctx, *, command=None):
         prefix = (await self.bot.get_prefix(ctx.message))[2]
 
         if command:
