@@ -1,6 +1,9 @@
 # RickBot
 
-[![Build Status](https://travis-ci.org/rickbotdiscord/rickbot.svg?branch=master)](https://travis-ci.org/rickbotdiscord/rickbot)
+<p align="center">
+  <a title="Travis" href="https://travis-ci.org/rickbotdiscord/rickbot"><img src="https://travis-ci.org/rickbotdiscord/rickbot.svg?branch=master"></a>
+  <a class="badge-align" href="https://www.codacy.com/app/Euab/rickbot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rickbotdiscord/rickbot&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/916e2741986549fbb20bc385c18db2be"/></a>
+</p>
 
 A cool bot for Discord.
 
