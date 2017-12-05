@@ -108,11 +108,7 @@ class Utils:
     @commands.command()
     @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx, *, prefix):
-        id = str(ctx.guild.id)
-        conf = ctx.load_json('data/guild.json')
-        conf[id] = prefix
-        ctx.save_json(conf, 'data/guild.json')
-        await ctx.send(f'I changed your prefix to: `{prefix}`')
+        await ctx.send("This command has been disabled until we get an proper database.")
 
     @commands.command(hidden=True)
     @commands.is_owner()
