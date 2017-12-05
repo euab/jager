@@ -8,3 +8,8 @@ script:
   - python -m compileall ./rickbot.py
   - python -m compileall ./cogs
   - python ./rickbot.py --test-run
+
+notifications:
+    email:
+        on_success: never
+        on_failure: always
