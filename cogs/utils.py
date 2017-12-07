@@ -119,7 +119,8 @@ class Utils:
         await ctx.send(embed=em)
         command = 'sh update.sh'
         os.system(command)
-        exit(0)
+        # Gracefully exit the bot
+        self.bot.logout()
 
     def format_cog_help(self, name, cog, prefix):
         sigs = []
