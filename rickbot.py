@@ -1,14 +1,11 @@
 import discord
 import datetime
 import traceback
-import asyncio
 import aiohttp
 import psutil
-import time
 import json
 import sys
 import os
-import re
 import inspect
 import logging
 import secrets
@@ -51,7 +48,7 @@ class RickBot(commands.AutoShardedBot):
 				log.info(f'Loaded extension {extension}')
 
 			except Exception as e:
-				log.info(f'Unable to load extension {extension}')
+				log.info(f'Unable to load extension {extension}. Err: {e}')
 				traceback.print_exc()
 
 	@property
@@ -59,7 +56,7 @@ class RickBot(commands.AutoShardedBot):
 		try:
 			with open('data/config.json') as f:
 				json.load(f)['token'].strip("")
-		except FileNotFoundError as e:
+		except FileNotFoundError:
 			return None
 
 	@classmethod

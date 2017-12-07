@@ -1,17 +1,9 @@
 import discord
 import datetime
 import psutil
-import asyncio
-import aiohttp
 import traceback
-import time
-import json
-import sys
 import os
-import re
 import inspect
-import io
-import textwrap
 
 from discord.ext import commands
 from ext import embeds

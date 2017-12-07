@@ -1,9 +1,7 @@
 import discord
 import asyncio
-import inspect
 
 from collections import OrderedDict
-from discord.ext import commands
 
 class PaginatorSession:
 
