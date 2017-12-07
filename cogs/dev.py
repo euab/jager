@@ -15,4 +15,4 @@ class Dev:
 
 def setup(bot):
     cog = Dev(bot)
-    bot.add_cog(Dev)
+    bot.add_cog(cog)
