@@ -1,4 +1,3 @@
-import discord
 import traceback
 import inspect
 import io
@@ -6,7 +5,6 @@ import textwrap
 
 from contextlib import redirect_stdout
 from discord.ext import commands
-from ext.paginator import PaginatorSession
 
 class Eval:
 

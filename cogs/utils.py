@@ -1,7 +1,6 @@
 import discord
 import datetime
 import psutil
-import traceback
 import os
 import inspect
 

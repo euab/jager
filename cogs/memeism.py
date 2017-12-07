@@ -1,7 +1,4 @@
 import discord
-import asyncio
-
-from discord.ext import commands
 
 MEMEISM_SERVER_ID = 377838042905313311
 MEMEISM_BOT_ROLE_ID = 385114533284544512
