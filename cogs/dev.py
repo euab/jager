@@ -14,7 +14,7 @@ class Dev:
     @commands.command(pass_context=True, no_pm=True)
     async def update_listening(self, ctx, *, listening: str):
         game = discord.Game(name=listening, type=2)
-        await self.bot.change_presense(game=game)
+        await self.bot.change_presence(game=game)
 
     @commands.is_owner()
     @commands.command(hidden=True)
