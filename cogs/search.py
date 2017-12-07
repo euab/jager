@@ -1,3 +1,4 @@
+import os
 import aiohttp
 import discord
 import secrets
