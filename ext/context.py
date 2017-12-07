@@ -1,7 +1,5 @@
 import discord
-import asyncio
 import json
-import os
 import io
 
 from discord.ext import commands
@@ -34,7 +32,7 @@ class LeContext(commands.Context):
 
 	async def get_main_colour(self, url=None, quality=10):
 		avatar = self.author.avatar_url
-		url = self.valid_image_url(url or av)
+		url = self.valid_image_url(url or avatar)
 
 		if not url:
 			raise ValueError('invalid url was passed')
@@ -43,7 +41,7 @@ class LeContext(commands.Context):
 			async with self.session.get(url) as resp:
 				image = await resp.read()
 
-		except:
+		except Exception:
 			return discord.Color.default()
 
 		with io.BytesIO(image) as f:
