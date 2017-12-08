@@ -97,6 +97,11 @@ class RickBot(commands.AutoShardedBot):
 
 	async def on_command(self, ctx):
 		cmd = ctx.command.qualified_name.replace(' ', '_')
+		log.info("Invoked: {}@{} >> {}".format(
+			ctx.message.author,
+			ctx.guild.name,
+			ctx.command.qualified_name
+		))
 		self.commands_used[cmd] += 1
 
 	async def on_command_error(self, ctx, error):
