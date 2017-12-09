@@ -12,6 +12,7 @@ class Utils:
 
     def __init__(self, bot):
         self.bot = bot
+        self.bot.remove_command('help')
 
     @commands.command(hidden=True)
     @commands.is_owner()
