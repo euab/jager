@@ -111,11 +111,7 @@ class Dev:
 
             if executor is exec:
                 try:
-<<<<<<< HEAD
-                    code = compile(cleaned, '<repl session', 'exec')
-=======
                     code = compile(cleaned, '<repl session>', 'exec')
->>>>>>> fa3c1e75583352f8da1525daf4f0ed67b50bb8fd
                 except SyntaxError as e:
                     await ctx.send(self.get_syntax_error(e))
                     continue
