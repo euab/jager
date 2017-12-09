@@ -13,6 +13,7 @@ import secrets
 from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
+from datadog import DDAgent
 
 log = logging.getLogger('discord')
 
@@ -32,6 +33,8 @@ class RickBot(commands.AutoShardedBot):
 		self.load_extensions()
 		self._add_commands()
 		self.remove_command('help')
+		self.dd_agent_url = os.getenv("DD_AGENT_URL") or secrets.DD_AGENT_URL
+		self.stats = DDAgent(self.dd_agent_url)
 
 	def _add_commands(self):
 		'''Adds commands automatically'''
@@ -97,7 +100,13 @@ class RickBot(commands.AutoShardedBot):
 
 	async def on_command(self, ctx):
 		cmd = ctx.command.qualified_name.replace(' ', '_')
+		log.info("Invoked: {}@{} >> {}".format(
+			ctx.message.author,
+			ctx.guild.name,
+			ctx.command.qualified_name
+		))
 		self.commands_used[cmd] += 1
+		self.stats.incr('rickbot.commands_invoked')
 
 	async def on_command_error(self, ctx, error):
 		log.error('Error processing command')
