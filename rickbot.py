@@ -147,7 +147,7 @@ def check_files():
         log.info("Creating guild.json")
         dataIO.save_json(fp, {})
 	
-def main()
+def main():
 	check_folders()
 	check_files()
 	token = os.getenv("TOKEN") or secrets.TOKEN
