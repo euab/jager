@@ -7,7 +7,7 @@ A cool bot for Discord.
 Please do not try to host your own instance of this bot. Just invite it by calling the `invite` command on the
 [official Discord server](https://discord.gg/TzDbESZ).
 
-## Geting started
+## Getting started
 By default. RickBot's prefix is `!`. This can be changed at anytime by writing `!prefix <new prefix>`.
 After that you can invoke commands with the new prefix.
 The prefix can consist of any alphanumeric character.
