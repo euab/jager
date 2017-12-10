@@ -56,11 +56,7 @@ class RickBot(commands.AutoShardedBot):
 
 	@property
 	def token(self):
-		try:
-			with open('data/config.json') as f:
-				json.load(f)['token'].strip("")
-		except FileNotFoundError:
-			return None
+		os.getenv("TOKEN") or secrets.TOKEN
 
 	@classmethod
 	def init(bot, token=None):
