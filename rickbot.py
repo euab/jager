@@ -135,17 +135,13 @@ def check_files():
     if not dataIO.is_valid_json(fp):
         log.info("Creating guild.json")
         dataIO.save_json(fp, {})
-	
+
 def main():
 	check_folders()
 	check_files()
 	token = os.getenv("TOKEN") or secrets.TOKEN
-	debug = os.getenv("RICKBOT_DEBUG") or secrets.RICKBOT_DEBUG
-	if debug:
-		logging.basicConfig(level='DEBUG')
-	else:
-		logging.basicConfig(level='INFO')
+	logging.basicConfig(level="INFO")
 	RickBot.init(token)
 
-if __name__ == '__main__':	
+if __name__ == '__main__':
 	main()

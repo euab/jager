@@ -8,7 +8,7 @@ import io
 from discord.ext import commands
 from contextlib import redirect_stdout
 
-log = logging.getLogger('discord')
+log = logging.getLogger(__name__)
 
 SUCCESS = '\u2705'
 FAILIURE = '\u2049'
@@ -63,6 +63,8 @@ class Dev:
 
     @commands.command(pass_context=True, hidden=True)
     async def repl(self, ctx):
+        log.info(f"A REPL session has started in {ctx.guild}->{ctx.channel}")
+
         variables = {
             'ctx': ctx,
             'bot': self.bot,
