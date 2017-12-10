@@ -14,6 +14,7 @@ from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
 from datadog import DDAgent
+from ext.dataIO import dataIO
 
 log = logging.getLogger('discord')
 
@@ -134,7 +135,21 @@ class RickBot(commands.AutoShardedBot):
 		except discord.Forbidden:
 			await ctx.send(em.title + em.description)
 
-if __name__ == '__main__':
+def check_folders():
+    if not os.path.exists("data"):
+        log.info("Creating data folder")
+        os.mkdir("data")
+
+
+def check_files():
+    fp = "data/guild.json"
+    if not dataIO.is_valid_json(fp):
+        log.info("Creating guild.json")
+        dataIO.save_json(fp, {})
+
+if __name__ == '__main__':	
+	check_folders()
+	check_files()
 	token = os.getenv("TOKEN") or secrets.TOKEN
 	debug = os.getenv("RICKBOT_DEBUG") or secrets.RICKBOT_DEBUG
 	if debug:
