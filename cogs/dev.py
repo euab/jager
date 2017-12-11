@@ -31,6 +31,28 @@ class Dev:
             await ctx.message.add_reaction(FAILIURE)
 
     @commands.is_owner()
+    @commands.command(pass_context=True, no_pm=True)
+    async def playing(self, ctx, *, playing: str):
+        try:
+            game = discord.Game(name=playing, type=1)
+            await self.bot.change_presence(game=game)
+            await ctx.message.add_reaction(SUCCESS)
+        except Exception as e:
+            log.error(e)
+            await ctx.message.add_reaction(FAILIURE)
+
+    @commands.is_owner()
+    @commands.command(pass_context=True, no_pm=True)
+    async def streaming(self, ctx, *, playing: str):
+        try:
+            game = discord.Game(name=playing, type=1, url="https://www.twitch.tv/euab")
+            await self.bot.change_presence(game=game)
+            await ctx.message.add_reaction(SUCCESS)
+        except Exception as e:
+            log.error(e)
+            await ctx.message.add_reaction(FAILIURE)
+
+    @commands.is_owner()
     @commands.command(hidden=True)
     async def load(self, ctx, *, module):
         try:
