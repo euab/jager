@@ -47,15 +47,15 @@ class LeContext(commands.Context):
 		with io.BytesIO(image) as f:
 			try:
 				color = ColorThief(f).get_color(quality=quality)
-			except:
+			except Exception:
 				return discord.Color.dark_grey()
 
 		return discord.Color.from_rgb(*color)
 
-	def load_json(self, path=None):
-		with open(path) as f:
-			return json.load(f)
+def load_json(path=None):
+	with open(path) as f:
+		return json.load(f)
 
-	def save_json(self, data,path=None):
-		with open(path, 'w') as f:
-			f.write(json.dumps(data, indent=4))
+def save_json(data, path=None):
+	with open(path, 'w') as f:
+		f.write(json.dumps(data, indent=4))

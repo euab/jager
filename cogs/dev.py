@@ -117,7 +117,7 @@ class Dev:
                 self.sessions.remove(ctx.channel.id)
                 break
 
-            cleaned = self.cleanup_code(response.content)
+            cleaned = cleanup_code(response.content)
 
             if cleaned in ('quit', 'exit', 'exit()'):
                 await ctx.send("Exiting REPL session and popping ID")
@@ -137,7 +137,7 @@ class Dev:
                 try:
                     code = compile(cleaned, '<repl session>', 'exec')
                 except SyntaxError as e:
-                    await ctx.send(self.get_syntax_error(e))
+                    await ctx.send(get_syntax_error(e))
                     continue
 
             variables['message'] = response
@@ -172,16 +172,16 @@ class Dev:
             except discord.HTTPException as e:
                 await ctx.send(f'Unexpected error: `{e}`')
 
-    def cleanup_code(self, content):
-        if content.startswith('```') and content.endswith('```'):
-            return '\n'.join(content.split('\n')[1:-1])
+def cleanup_code(content):
+    if content.startswith('```') and content.endswith('```'):
+        return '\n'.join(content.split('\n')[1:-1])
 
-        return content.strip('` \n')
+    return content.strip('` \n')
 
-    def get_syntax_error(self, e):
-        if e.text is None:
-            return f'```py\n{e.__class__.__name__}: {e}\n```'
-        return f'```py\n{e.text}{"^":>{e.offset}}\n{e.__class__.__name__}: {e}```'
+def get_syntax_error(e):
+    if e.text is None:
+        return f'```py\n{e.__class__.__name__}: {e}\n```'
+    return f'```py\n{e.text}{"^":>{e.offset}}\n{e.__class__.__name__}: {e}```'
 
 
 def setup(bot):

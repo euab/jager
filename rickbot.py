@@ -3,7 +3,6 @@ import datetime
 import traceback
 import aiohttp
 import psutil
-import json
 import sys
 import os
 import inspect
@@ -14,7 +13,6 @@ from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
 from datadog import DDAgent
-from ext.dataIO import dataIO
 
 log = logging.getLogger('discord')
 
@@ -39,7 +37,7 @@ class RickBot(commands.AutoShardedBot):
 
 	def _add_commands(self):
 		'''Adds commands automatically'''
-		for name, attr in inspect.getmembers(self):
+		for attr in inspect.getmembers(self):
 			if isinstance(attr, commands.Command):
 				self.add_command(attr)
 
@@ -57,7 +55,8 @@ class RickBot(commands.AutoShardedBot):
 
 	@property
 	def token(self):
-		os.getenv("TOKEN") or secrets.TOKEN
+		token = os.getenv("TOKEN") or secrets.TOKEN
+		return token
 
 	@classmethod
 	def init(bot, token=None):
@@ -68,9 +67,6 @@ class RickBot(commands.AutoShardedBot):
 		except Exception as e:
 			log.critical("COULD NOT ACCESS TOKEN!")
 			log.critical(e)
-
-	def restart(self):
-		os.execv(sys.executable, ["python"] + sys.argv)
 
 	async def get_prefix(self, message):
 		return '!'
@@ -124,21 +120,7 @@ class RickBot(commands.AutoShardedBot):
 		except discord.Forbidden:
 			await ctx.send(em.title + em.description)
 
-def check_folders():
-    if not os.path.exists("data"):
-        log.info("Creating data folder")
-        os.mkdir("data")
-
-
-def check_files():
-    fp = "data/guild.json"
-    if not dataIO.is_valid_json(fp):
-        log.info("Creating guild.json")
-        dataIO.save_json(fp, {})
-
 def main():
-	check_folders()
-	check_files()
 	token = os.getenv("TOKEN") or secrets.TOKEN
 	logging.basicConfig(level="INFO")
 	RickBot.init(token)

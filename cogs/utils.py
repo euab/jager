@@ -100,9 +100,9 @@ class Utils:
     @commands.command()
     @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx, *, prefix):
-        id = str(ctx.guild.id)
+        guild_id = str(ctx.guild.id)
         conf = ctx.load_json('data/guild.json')
-        conf[id] = prefix
+        conf[guild_id] = prefix
         ctx.save_json(conf, 'data/guild.json')
         await ctx.send(f'I changed your prefix to: `{prefix}`')
 
