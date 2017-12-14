@@ -69,7 +69,18 @@ class RickBot(commands.AutoShardedBot):
 			log.critical(e)
 
 	async def get_prefix(self, message):
-		return '!'
+		with open('data/guild.json') as f:
+			data = json.load(f)
+
+		gid = str(getattr(message.guild, 'id', None))
+
+		prefixes = [
+			f'<@{self.user.id}> ',
+			f'<@!{self.user.id}> ',
+			data.get(gid, '!')
+			]
+
+		return prefixes
 
 	async def on_connect(self):
 		log.info("Connected to gateway")
