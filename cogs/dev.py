@@ -43,7 +43,7 @@ class Dev:
 
     @commands.is_owner()
     @commands.command(pass_context=True, no_pm=True)
-    async def playing(self, ctx, *, watching: str):
+    async def watching(self, ctx, *, watching: str):
         try:
             game = discord.Game(name=watching, type=3)
             await self.bot.change_presence(game=game)
