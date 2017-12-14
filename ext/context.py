@@ -52,10 +52,10 @@ class LeContext(commands.Context):
 
 		return discord.Color.from_rgb(*color)
 
-	def load_json(path=None):
+	def load_json(self, path=None):
 		with open(path) as f:
 			return json.load(f)
 
-	def save_json(data, path=None):
+	def save_json(self, data, path=None):
 		with open(path, 'w') as f:
 			f.write(json.dumps(data, indent=4))
