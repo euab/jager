@@ -91,6 +91,7 @@ class RickBot(commands.AutoShardedBot):
 
 	async def on_ready(self):
 		log.info("Ready. Yay.")
+		clean_cache_job()
 
 	async def on_command(self, ctx):
 		cmd = ctx.command.qualified_name.replace(' ', '_')
@@ -120,6 +121,9 @@ class RickBot(commands.AutoShardedBot):
 		if message.author.bot:
 			return
 		await self.process_commands(message)
+
+	def clean_cache_job():
+		os.system("rm -r cache")
 
 	@commands.command()
 	async def ping(self, ctx):
