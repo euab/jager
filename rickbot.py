@@ -91,7 +91,7 @@ class RickBot(commands.AutoShardedBot):
 
 	async def on_ready(self):
 		log.info("Ready. Yay.")
-		clean_cache_job()
+		self.clean_cache_job()
 
 	async def on_command(self, ctx):
 		cmd = ctx.command.qualified_name.replace(' ', '_')
