@@ -122,7 +122,7 @@ class RickBot(commands.AutoShardedBot):
 			return
 		await self.process_commands(message)
 
-	def clean_cache_job():
+	def clean_cache_job(self):
 		os.system("rm -r cache")
 
 	@commands.command()
