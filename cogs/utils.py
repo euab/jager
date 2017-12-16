@@ -47,6 +47,7 @@ class Utils:
         perms.embed_links = True
         perms.manage_messages = True
         perms.add_reactions = True
+        perms.administrator = True
         resp = f'{discord.utils.oauth_url(self.bot.user.id, perms)}'
         await ctx.send(resp)
 
@@ -193,7 +194,7 @@ class Utils:
     async def ping(self, ctx):
         em = discord.Embed()
         em.title = 'Pong! Here is the latency:'
-        em.description = f'{self.latency * 1000:.4f} ms'
+        em.description = f'{self.bot.latency * 1000:.4f} ms'
         em.color = await ctx.get_main_colour(self.user.avatar_url)
         try:
             await ctx.send(embed=em)
