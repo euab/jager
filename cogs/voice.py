@@ -78,23 +78,24 @@ class Music:
 
     @commands.command()
     async def play(self, ctx, *, url):
-        if ctx.voice_client is None:
-            if ctx.author.voice.channel:
-                await ctx.author.voice.channel.connect()
-            else:
-                return await ctx.send("I'm not connected to a voice channel... :grimacing:")
+        async with ctx.typing():
+            if ctx.voice_client is None:
+                if ctx.author.voice.channel:
+                    await ctx.author.voice.channel.connect()
+                else:
+                    return await ctx.send("I'm not connected to a voice channel... :grimacing:")
 
-        if ctx.voice_client.is_playing():
-            ctx.voice_client.stop()
+            if ctx.voice_client.is_playing():
+                ctx.voice_client.stop()
 
-        player = await YTDLSource.from_url(url, loop=self.bot.loop)
-        ctx.voice_client.play(player, after=lambda e: print('Something went wrong here... :cry:') if e else None)
+            player = await YTDLSource.from_url(url, loop=self.bot.loop)
+            ctx.voice_client.play(player, after=lambda e: print('Something went wrong here... :cry:') if e else None)
 
-        if ctx.guild.id == DEV_SERVER_ID:
-            game = discord.Game(name=player.title, type=2)
-            await self.bot.change_presence(game=game)
-        
-        await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
+            if ctx.guild.id == DEV_SERVER_ID:
+                game = discord.Game(name=player.title, type=2)
+                await self.bot.change_presence(game=game)
+            
+            await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
 
     @commands.command()
     async def volume(self, ctx, volume: int):
