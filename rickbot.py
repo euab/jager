@@ -125,17 +125,6 @@ class RickBot(commands.AutoShardedBot):
 	def clean_cache_job(self):
 		os.system("rm -r cache")
 
-	@commands.command()
-	async def ping(self, ctx):
-		em = discord.Embed()
-		em.title = 'Pong! Here is the latency:'
-		em.description = f'{self.latency * 1000:.4f} ms'
-		em.color = await ctx.get_main_colour(self.user.avatar_url)
-		try:
-			await ctx.send(embed=em)
-		except discord.Forbidden:
-			await ctx.send(em.title + em.description)
-
 def main():
 	token = os.getenv("TOKEN") or secrets.TOKEN
 	logging.basicConfig(level="INFO")
