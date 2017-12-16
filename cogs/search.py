@@ -42,7 +42,7 @@ class Search:
         if data["list"]:
             entry = data["list"][0]
             fmt = "\n **{e[word]}** ```\n{e[definition]}``` \n " \
-                  "**example: {e[example]} \n" \
+                  "**example:** {e[example]} \n" \
                   "<{e[permalink]}>"
             response = fmt.format(e=entry)
         else:
