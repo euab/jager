@@ -1,12 +1,25 @@
 import asyncio
-
+import logging
 import discord
 import youtube_dl
+import os
 
 from discord.ext import commands
+from ext.decorators import bg_task
+
+DEV_SERVER_ID = 366583119622569986
+
+log = logging.getLogger(__name__)
+
+try:
+    if not discord.opus.is_loaded:
+        discord.opus.load_opus('libopus.so')
+except OSError:
+    log.info("pleb")
+except Exception as e:
+    log.error(e)
 
 youtube_dl.utils.bug_reports_message = lambda: ''
-
 
 ytdl_format_options = {
     'format': 'bestaudio/best',
@@ -28,9 +41,6 @@ ffmpeg_options = {
 }
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
-
-if not discord.opus.is_loaded:
-    discord.opus.load_opus('libopus.so')
 
 class YTDLSource(discord.PCMVolumeTransformer):
 
@@ -79,6 +89,10 @@ class Music:
 
         player = await YTDLSource.from_url(url, loop=self.bot.loop)
         ctx.voice_client.play(player, after=lambda e: print('Something went wrong here... :cry:') if e else None)
+
+        if ctx.guild.id == DEV_SERVER_ID:
+            game = discord.Game(name=player.title, type=2)
+            await self.bot.change_presence(game=game)
         
         await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
 
