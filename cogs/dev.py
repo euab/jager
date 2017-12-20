@@ -10,8 +10,9 @@ from contextlib import redirect_stdout
 
 log = logging.getLogger(__name__)
 
-SUCCESS = '\u2705'
-FAILIURE = '\u2049'
+SUCCESS = '\N{WHITE HEAVY CHECK MARK}'
+FAILURE = '\N{WARNING SIGN}'
+
 
 class Dev:
 
@@ -20,7 +21,7 @@ class Dev:
         self.sessions = set()
 
     @commands.is_owner()
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def listening(self, ctx, *, listening: str):
         try:
             game = discord.Game(name=listening, type=2)
@@ -28,10 +29,10 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            await ctx.message.add_reaction(FAILIURE)
+            await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def playing(self, ctx, *, playing: str):
         try:
             game = discord.Game(name=playing, type=1)
@@ -39,10 +40,10 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            await ctx.message.add_reaction(FAILIURE)
+            await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def watching(self, ctx, *, watching: str):
         try:
             game = discord.Game(name=watching, type=3)
@@ -50,10 +51,10 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            await ctx.message.add_reaction(FAILIURE)
+            await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
-    @commands.command(pass_context=True, no_pm=True)
+    @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def streaming(self, ctx, *, playing: str):
         try:
             game = discord.Game(name=playing, type=1, url="https://www.twitch.tv/euab")
@@ -61,7 +62,7 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            await ctx.message.add_reaction(FAILIURE)
+            await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
     @commands.command(hidden=True)
@@ -71,7 +72,7 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            await ctx.message.add_reaction(FAILIURE)
+            await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
     @commands.command(hidden=True)
@@ -81,7 +82,7 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            await ctx.message.add_reaction(FAILIURE)
+            await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
     @commands.command(hidden=True)
@@ -92,9 +93,9 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            await ctx.message.add_reaction(FAILIURE)
+            await ctx.message.add_reaction(FAILURE)
 
-    @commands.command(pass_context=True, hidden=True)
+    @commands.command(pass_context=True)
     async def repl(self, ctx):
         log.info(f"A REPL session has started in {ctx.guild}->{ctx.channel}")
 
@@ -183,11 +184,13 @@ class Dev:
             except discord.HTTPException as e:
                 await ctx.send(f'Unexpected error: `{e}`')
 
+
 def cleanup_code(content):
     if content.startswith('```') and content.endswith('```'):
         return '\n'.join(content.split('\n')[1:-1])
 
     return content.strip('` \n')
+
 
 def get_syntax_error(e):
     if e.text is None:
