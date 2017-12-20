@@ -110,7 +110,8 @@ class Music:
     async def stop(self, ctx):
         await ctx.voice_client.disconnect()
         if ctx.guild.id == DEV_SERVER_ID:
-            game = discord.Game(name="!help")
+            game = discord.Game(name="!help",
+                                url="https://www.twitch.tv/euab")
             await self.bot.change_presence(game=game)
 
 def setup(bot):

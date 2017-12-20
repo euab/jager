@@ -75,7 +75,7 @@ class Utils:
 
         fmt = '{h}h {m}m {s}s'
         if days:
-            fmt = '{d}d' + fmt
+            fmt = '{d}d ' + fmt
         uptime = fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
         em.add_field(name='Current Status', value=str(status).title())
