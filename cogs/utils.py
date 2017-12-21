@@ -10,9 +10,9 @@ class Utils:
         self.bot = bot
 
     async def __error(self, ctx, error):
-        if isinstance(commands.BadArgument):
+        if isinstance(error, commands.BadArgument):
             await ctx.send(error)
-        elif isinstance(commands.CommandInvokeError):
+        elif isinstance(error, commands.CommandInvokeError):
             original = error.original
             if isinstance(original, discord.Forbidden):
                 await ctx.send("I do not have permissions to do this")
