@@ -80,7 +80,7 @@ class RickBot(commands.AutoShardedBot):
         return prefixes
 
     async def create_presence(self):
-        game = discord.Game(name="!help",
+        game = discord.Game(name="!help", type=1,
                             url="https://www.twitch.tv/euab")
         await self.change_presence(game=game)
 
