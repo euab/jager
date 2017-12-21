@@ -1,7 +1,6 @@
 import discord
 import datetime
 import psutil
-import os
 
 from discord.ext import commands
 
@@ -9,6 +8,17 @@ class Utils:
 
     def __init__(self, bot):
         self.bot = bot
+
+    async def __error(self, ctx, error):
+        if isinstance(commands.BadArgument):
+            await ctx.send(error)
+        elif isinstance(commands.CommandInvokeError):
+            original = error.original
+            if isinstance(original, discord.Forbidden):
+                await ctx.send("I do not have permissions to do this")
+            if isinstance(original, discord.HTTPException):
+                await ctx.send("Somehow, something went wrong on the internet. "
+                               "Try again later?")
 
     @commands.command(hidden=True)
     @commands.is_owner()
