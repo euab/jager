@@ -4,6 +4,7 @@ import asyncio
 import inspect
 import traceback
 import io
+import os
 
 from discord.ext import commands
 from contextlib import redirect_stdout
@@ -94,6 +95,18 @@ class Dev:
         except Exception as e:
             log.error(e)
             await ctx.message.add_reaction(FAILURE)
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def update(self, ctx):
+        em = discord.Embed()
+        em.title = 'Updating bot'
+        em.description = 'Pulling from repository and restarting shards...'
+        await ctx.send(embed=em)
+        command = 'sh update.sh'
+        os.system(command)
+        # Gracefully exit the bot
+        exit(0)
 
     @commands.command(pass_context=True)
     async def repl(self, ctx):

@@ -103,18 +103,6 @@ class Utils:
         ctx.save_json(conf, 'data/guild.json')
         await ctx.send(f'I changed your prefix to: `{prefix}`')
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
-    async def update(self, ctx):
-        em = discord.Embed()
-        em.title = 'Updating bot'
-        em.description = 'Pulling from repository and restarting shards...'
-        await ctx.send(embed=em)
-        command = 'sh update.sh'
-        os.system(command)
-        # Gracefully exit the bot
-        self.bot.logout()
-
     @commands.command()
     async def ping(self, ctx):
         em = discord.Embed()
