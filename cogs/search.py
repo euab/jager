@@ -5,6 +5,7 @@ import secrets
 import json
 
 from discord.ext import commands
+from lxml import etree
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or secrets.GOOGLE_API_KEY
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID") or secrets.TWITCH_CLIENT_ID
@@ -74,6 +75,54 @@ class Search:
 
         else:
             ctx.send(NOT_FOUND)
+
+    @commands.command()
+    async def cpp(self, ctx, *, query: str):
+        url = 'http://en.cppreference.com/w/cpp/index.php'
+        params = {
+            'title': 'Special:Search',
+            'search': query
+        }
+
+        async with self.bot.session.get(url, params=params) as resp:
+            if resp.status != 200:
+                return await ctx.send(f'An error has occurred. '
+                                      '(error code: {resp.status}). '
+                                      'Retry later maybe?')
+            if len(resp.history) > 0:
+                return await ctx.send(resp.url)
+
+            em = discord.Embed()
+            root = etree.fromstring(await resp.text(), etree.HTMLParser())
+
+            nodes = root.findall(".//div[@class='mw-search-result-heading']/a")
+
+            description = []
+            special_pages = []
+            for node in nodes:
+                href = node.attrib['href']
+                if not href.startswith('/w/cpp'):
+                    continue
+
+                if href.startswith(('/w/cpp/language', '/w/cpp/concept')):
+                    special_pages.append(f'[{node.text}](http://en.cpprefernce.com{href})')
+                else:
+                    description.append(f'[`{node.text}`](http://en.cppreference.com{href})')
+
+            if len(special_pages) > 0:
+                em.add_field(name='Language Results', value='\n'.join(special_pages), inline=False)
+                if len(description):
+                    em.add_field(name="Library Results", value='\n'.join(description[:10]), inline=False)
+
+            else:
+                if not len(description):
+                    return await ctx.send(NOT_FOUND)
+
+                em.title = 'Search Results'
+                em.description = '\n'.join(description[:15])
+
+            await ctx.send(embed=em)
+
 
 def setup(bot):
     cog = Search(bot)
