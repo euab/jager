@@ -106,7 +106,7 @@ class Dev:
         command = 'sh update.sh'
         os.system(command)
         # Gracefully exit the bot
-        exit(0)
+        await self.bot.logout()
 
     @commands.command(pass_context=True)
     async def repl(self, ctx):
