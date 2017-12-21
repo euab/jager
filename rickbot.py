@@ -79,6 +79,11 @@ class RickBot(commands.AutoShardedBot):
 
         return prefixes
 
+    async def create_presence(self):
+        game = discord.Game(name="!help",
+                            url="https://www.twitch.tv/euab")
+        await self.change_presence(game=game)
+
     async def on_connect(self):
         """Event triggered when the bot connects to Discord"""
         log.info("Connected to gateway")
@@ -91,6 +96,7 @@ class RickBot(commands.AutoShardedBot):
         """Triggered when the bot has completed startup"""
         log.info("Ready. Yay.")
         self.clean_cache_job()
+        self.create_presence()
 
     async def on_command(self, ctx):
         """Triggered whenever a command is invoked"""
@@ -126,6 +132,9 @@ class RickBot(commands.AutoShardedBot):
     def clean_cache_job(self):
         """Job which cleans the bot's cache"""
         os.system("rm -r cache")
+        os.system("mkdir cache")
+        os.system("cd cache && mkdir voice")
+        os.system("cd ..")
 
 
 def main():
