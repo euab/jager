@@ -1,8 +1,5 @@
-import aiohttp
-import discord
 import json
 
-from lxml import etree
 from discord.ext import commands
 
 NO_CODE_BLOCK_ERROR = 'Missing code block. Please use the following markdown\n\\`\\`\\`language\ncode here\n\\`\\`\\`'
