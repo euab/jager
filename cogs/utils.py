@@ -48,6 +48,7 @@ class Utils:
 
     @commands.command(name='bot', aliases=['about', 'info', 'status'])
     async def _bot(self, ctx):
+        prefix = (await self.bot.get_prefix(ctx.message))[2]
         em = discord.Embed()
         em.timestamp = datetime.datetime.utcnow()
         status = str(ctx.guild.me.status)
@@ -89,7 +90,7 @@ class Utils:
         em.add_field(name='CPU Usage', value=f'{cpu_usage:.2f}% CPU Usage')
         em.add_field(name='Commands Run', value=sum(self.bot.commands_used.values()))
         em.add_field(name='GitHub', value='[Click Here](https://github.com/rickbotdiscord/rickbot)')
-        em.set_footer(text=f'Your shard: {self.bot.shard_id}')
+        em.set_footer(text=f'{prefix}help')
 
         await ctx.send(embed=em)
 
