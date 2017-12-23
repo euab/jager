@@ -105,7 +105,7 @@ class Search:
                     continue
 
                 if href.startswith(('/w/cpp/language', '/w/cpp/concept')):
-                    special_pages.append(f'[{node.text}](http://en.cpprefernce.com{href})')
+                    special_pages.append(f'[{node.text}](http://en.cppreference.com{href})')
                 else:
                     description.append(f'[`{node.text}`](http://en.cppreference.com{href})')
 
