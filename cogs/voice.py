@@ -42,6 +42,7 @@ ffmpeg_options = {
 
 ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
+
 class YTDLSource(discord.PCMVolumeTransformer):
 
     def __init__(self, source, *, data, volume=0.5):
@@ -96,6 +97,23 @@ class Music:
                 await self.bot.change_presence(game=game)
             
             await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
+
+    @commands.command()
+    async def nonce(self, ctx):
+        async with ctx.typing():
+            url = "https://www.youtube.com/watch?v=C5eUJZWs-2k"
+            if ctx.author.voice.channel:
+                await ctx.author.voice.channel.connect()
+            else:
+                return await ctx.send("I am not connected to a voice channel you nonce.")
+
+            if ctx.voice_client.is_playing():
+                ctx.voice_client.stop()
+
+            player = await YTDLSource.from_url(url, loop=self.bot.loop)
+            ctx.voice_client.play(player, after=lambda e: print('Something went wrong... :cry:') if e else None)
+
+            await ctx.send('http://gph.is/2zsPLKf')
 
     @commands.command()
     async def volume(self, ctx, volume: int):
