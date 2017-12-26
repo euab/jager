@@ -30,9 +30,6 @@ class MemeismExclusive:
 
     @commands.command()
     async def kenm(self, ctx):
-        if ctx.guild.id is not MEMEISM_SERVER_ID:
-            return
-
         url = "https://api.imgur.com/3/gallery/search"
         headers = {"Authorization": "Client-ID " + IMGUR_ID}
         async with self.bot.session.get(url,
