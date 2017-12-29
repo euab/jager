@@ -2,7 +2,6 @@ import os
 import aiohttp
 import discord
 import secrets
-import json
 
 from discord.ext import commands
 from lxml import etree

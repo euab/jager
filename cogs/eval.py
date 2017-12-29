@@ -54,7 +54,7 @@ class Eval:
                 if value:
                     try:
                         out = await ctx.send(f'```py\n{value}\n```')
-                    except:
+                    except Exception:
                         paginated_text = ctx.paginate(value)
                         for page in paginated_text:
                             if page == paginated_text[-1]:
@@ -65,7 +65,7 @@ class Eval:
                 self.bot._last_result = ret
                 try:
                     out = await ctx.send(f'```py\n{value}{ret}\n```')
-                except:
+                except Exception:
                     paginated_text = ctx.paginate(f"{value}{ret}")
                     for page in paginated_text:
                         if page == paginated_text[-1]:
@@ -80,11 +80,13 @@ class Eval:
         else:
             await ctx.message.add_reaction('\u2705')
 
-    def cleanup_code(self, content):
+    @staticmethod
+    def cleanup_code(content):
         if content.startswith('```') and content.endswith('```'):
             return '\n'.join(content.split('\n')[1:-1])
 
         return content.strip('` \n')
+
 
 def setup(bot):
     cog = Eval(bot)

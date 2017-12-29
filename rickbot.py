@@ -3,7 +3,6 @@ import datetime
 import traceback
 import aiohttp
 import psutil
-import sys
 import os
 import inspect
 import logging
@@ -117,7 +116,7 @@ class RickBot(commands.AutoShardedBot):
         elif isinstance(error, commands.CommandInvokeError):
             original = error.original
             if isinstance(original, discord.Forbidden):
-                await ctx.send("I do not have permission to " 
+                await ctx.send("I do not have permission to "
                                "do that.")
             elif isinstance(original, discord.HTTPException):
                 await ctx.send("It appears that something has "
@@ -140,7 +139,8 @@ class RickBot(commands.AutoShardedBot):
             return
         await self.process_commands(message)
 
-    def clean_cache_job(self):
+    @staticmethod
+    def clean_cache_job():
         """Job which cleans the bot's cache"""
         os.system("rm -r cache")
         os.system("mkdir cache")
