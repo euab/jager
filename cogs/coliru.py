@@ -4,6 +4,7 @@ from discord.ext import commands
 
 NO_CODE_BLOCK_ERROR = 'Missing code block. Please use the following markdown\n\\`\\`\\`language\ncode here\n\\`\\`\\`'
 
+
 class CodeBlock:
 
     def __init__(self, argument):
@@ -11,12 +12,13 @@ class CodeBlock:
             block, code = argument.split('\n', 1)
         except ValueError:
             raise commands.BadArgument(NO_CODE_BLOCK_ERROR)
-        
+
         language = block[3:]
         self.command = self.get_command_from_language(language.lower())
         self.source = code.rstrip('`')
 
-    def get_command_from_language(self, language):
+    @staticmethod
+    def get_command_from_language(language):
         cmds = {
             'cpp': 'g++ -std=c++1z -O2 -Wall -Wextra -pedantic -pthread main.cpp -lstdc++fs && ./a.out',
             'c': 'mv main.cpp main.c && gcc -std=c11 -O2 -Wall -Wextra -pedantic main.c && ./a.out',
@@ -36,6 +38,7 @@ class CodeBlock:
             else:
                 fmt = 'Could not find a language to compile with.'
             raise commands.BadArgument(fmt) from e
+
 
 class Coliru:
 
@@ -83,6 +86,7 @@ class Coliru:
             await ctx.send(error)
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(CodeBlock.missing_error)
+
 
 def setup(bot):
     cog = Coliru(bot)

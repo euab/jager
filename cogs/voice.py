@@ -2,10 +2,8 @@ import asyncio
 import logging
 import discord
 import youtube_dl
-import os
 
 from discord.ext import commands
-from ext.decorators import bg_task
 
 DEV_SERVER_ID = 366583119622569986
 
