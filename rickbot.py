@@ -25,6 +25,7 @@ class RickBot(commands.AutoShardedBot):
         self.session = aiohttp.ClientSession(loop=self.loop)
         self.uptime = datetime.datetime.utcnow()
         self.commands_used = defaultdict(int)
+        self.commands_failed = defaultdict(int)
         self.process = psutil.Process()
         self.messages_sent = 0
         self.load_extensions()
@@ -111,6 +112,8 @@ class RickBot(commands.AutoShardedBot):
     async def on_command_error(self, ctx, error):
         """Whenever a command fails"""
         log.error(error)
+        cmd = ctx.command.qualified_name.replace(' ', '_')
+        self.commands_failed[cmd] += 1
 
         if isinstance(error, commands.BadArgument):
             await ctx.send(error)
