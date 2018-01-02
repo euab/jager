@@ -15,6 +15,3 @@ The prefix can consist of any alphanumeric character.
 Throughout this guide I'm going to use `!` as the prefix. Replace this with your server's prefix.
 
 To get help with a command type `!help <command name>` and the bot will show you the arguments to pass along with the command.
-
-## An important message
-# DON'T SELF HOST THIS BOT
