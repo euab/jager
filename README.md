@@ -51,7 +51,7 @@ $ sudo apt-get install ffmpeg
 ```
 
 ### 3. Set up config
-When the bot starts. It'll look for either environment variables or a secrets.py file.
+When the bot starts, it'll look for either environment variables or a secrets.py file.
 Either way is good enough but here are the variables needed:
 
     - TOKEN = bot token
