@@ -133,7 +133,6 @@ class RickBot(commands.AutoShardedBot):
             return
 
         await self.invoke(ctx)
-        log.info('Command invoked')
 
     async def on_message(self, message):
         """The bot's actual listener. Triggered whenever any message is sent."""
