@@ -4,8 +4,6 @@
 
 A cool bot for Discord.
 
-> I am taking an extended break from this stuff. I will respond to PRs but it may be slow.
-
 Please do not try to host your own instance of this bot. Just invite it by calling the `invite` command on the
 [official Discord server](https://discord.gg/TzDbESZ).
 
