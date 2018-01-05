@@ -126,6 +126,8 @@ class RickBot(commands.AutoShardedBot):
                                "gone wrong over the line between "
                                "me and Discord. Try again later?")
 
+        await ctx.send("https://imgur.com/rlsPsfX")
+
     async def process_commands(self, message):
         """Process the command"""
         ctx = await self.get_context(message, cls=LeContext)  # Le Meme
