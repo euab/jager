@@ -115,18 +115,19 @@ class RickBot(commands.AutoShardedBot):
         self.commands_failed[cmd] += 1
 
         if isinstance(error, commands.BadArgument):
-            await ctx.send(error)
+            msg = error
         elif isinstance(error, commands.CommandInvokeError):
             original = error.original
             if isinstance(original, discord.Forbidden):
-                await ctx.send("I do not have permission to "
-                               "do that.")
+                msg = ("I do not have permission to "
+                        "do that.")
             elif isinstance(original, discord.HTTPException):
-                await ctx.send("It appears that something has "
-                               "gone wrong over the line between "
-                               "me and Discord. Try again later?")
+                msg = ("It appears that something has "
+                       "gone wrong over the line between "
+                       "me and Discord. Try again later?")
 
-        await ctx.send("https://imgur.com/rlsPsfX")
+        msg = msg + "\nhttps://imgur.com/rlsPsfX"
+        await ctx.send(msg)
 
     async def process_commands(self, message):
         """Process the command"""
