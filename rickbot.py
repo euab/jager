@@ -119,12 +119,12 @@ class RickBot(commands.AutoShardedBot):
         elif isinstance(error, commands.CommandInvokeError):
             original = error.original
             if isinstance(original, discord.Forbidden):
-                msg = ("I do not have permission to "
-                        "do that.")
+                msg = "I do not have permission to " \
+                      "do that."
             elif isinstance(original, discord.HTTPException):
-                msg = ("It appears that something has "
-                       "gone wrong over the line between "
-                       "me and Discord. Try again later?")
+                msg = "It appears that something has " \
+                      "gone wrong over the line between " \
+                      "me and Discord. Try again later?"
 
         msg = msg + "\nhttps://imgur.com/rlsPsfX"
         await ctx.send(msg)
