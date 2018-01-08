@@ -41,13 +41,20 @@ class Search:
 
         if data["list"]:
             entry = data["list"][0]
-            fmt = "\n **{e[word]}** ```\n{e[definition]}``` \n " \
-                  "**example:** {e[example]} \n" \
-                  "<{e[permalink]}>"
-            response = fmt.format(e=entry)
+            em = discord.Embed()
+            em.set_thumbnail(url="http://www.extension.zone/wp-content"
+                                 "/uploads/2015/11/Urban-Dictionary-logo.png")
+            em.color = 0xCC3C32
+            em.title = entry["word"]
+            em.description = entry["definition"]
+            em.url = entry["permalink"]
+            em.add_field(name="example", value=entry["example"],
+                         inline=True)
+
+            await ctx.send(embed=em)
+
         else:
-            response = NOT_FOUND
-        await ctx.send(response)
+            await ctx.send(NOT_FOUND)
 
     @commands.command(pass_context=True, no_pm=True)
     async def twitch(self, ctx, *, search: str):
