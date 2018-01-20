@@ -137,7 +137,7 @@ class Search:
         async with self.bot.session.get(url,
                                         params={"q": search},
                                         headers=headers) as resp:
-            data = await resp.json
+            data = await resp.json()
 
         if data["data"]:
             result = data["data"][0]
