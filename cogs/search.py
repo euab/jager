@@ -8,6 +8,7 @@ from lxml import etree
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or secrets.GOOGLE_API_KEY
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID") or secrets.TWITCH_CLIENT_ID
+IMGUR_ID = os.getenv("IMGUR_ID") or secrets.IMGUR_ID
 
 NOT_FOUND = "I couldn't find anything 😢"
 
@@ -128,6 +129,23 @@ class Search:
                 em.description = '\n'.join(description[:15])
 
             await ctx.send(embed=em)
+
+    @commands.command()
+    async def imgur(self, ctx, *, search: str):
+        url = "https://api.imgur.com/3/gallery/search/viral"
+        headers = {"Authorization": "Client-ID " + IMGUR_ID}
+        async with self.bot.session(url,
+                                    params={"q": search},
+                                    headers=headers) as resp:
+            data = await resp.json
+
+        if data["data"]:
+            result = data["data"][0]
+            response = result["link"]
+        else:
+            response = NOT_FOUND
+
+        await ctx.send(response)
 
 
 def setup(bot):
