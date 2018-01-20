@@ -134,9 +134,9 @@ class Search:
     async def imgur(self, ctx, *, search: str):
         url = "https://api.imgur.com/3/gallery/search/viral"
         headers = {"Authorization": "Client-ID " + IMGUR_ID}
-        async with self.bot.session(url,
-                                    params={"q": search},
-                                    headers=headers) as resp:
+        async with self.bot.session.get(url,
+                                        params={"q": search},
+                                        headers=headers) as resp:
             data = await resp.json
 
         if data["data"]:
