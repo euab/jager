@@ -144,14 +144,6 @@ class RickBot(commands.AutoShardedBot):
             return
         await self.process_commands(message)
 
-    @staticmethod
-    def clean_cache_job():
-        """Job which cleans the bot's cache"""
-        os.system("rm -r cache")
-        os.system("mkdir cache")
-        os.system("cd cache && mkdir voice")
-        os.system("cd ..")
-
 
 def main():
     """Initialise logger and run init func"""
