@@ -95,7 +95,6 @@ class RickBot(commands.AutoShardedBot):
     async def on_ready(self):
         """Triggered when the bot has completed startup"""
         log.info("Ready. Yay.")
-        self.clean_cache_job()
         await self.create_presence()
 
     async def on_command(self, ctx):
