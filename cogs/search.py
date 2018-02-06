@@ -5,6 +5,7 @@ import secrets
 
 from discord.ext import commands
 from lxml import etree
+from random import randint
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or secrets.GOOGLE_API_KEY
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID") or secrets.TWITCH_CLIENT_ID
@@ -140,7 +141,8 @@ class Search:
             data = await resp.json()
 
         if data["data"]:
-            result = data["data"][0]
+            index = randint(0, 50)
+            result = data["data"][index]
             response = result["link"]
         else:
             response = NOT_FOUND
