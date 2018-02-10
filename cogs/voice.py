@@ -77,6 +77,10 @@ class Music:
 
     @commands.command()
     async def play(self, ctx, *, url):
+        # TODO: Check for stream in JSON if that is even provided.
+        if "stream" in url:
+            return await ctx.send("**No**")
+
         async with ctx.typing():
             if ctx.voice_client is None:
                 if ctx.author.voice.channel:
