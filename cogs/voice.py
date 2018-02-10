@@ -77,6 +77,9 @@ class Music:
 
     @commands.command()
     async def play(self, ctx, *, url):
+        # TODO: Check the video data for a stream index. Don't know one is provided. Will find out.
+        if "stream" in url:
+            return await ctx.send("**No**")
         async with ctx.typing():
             if ctx.voice_client is None:
                 if ctx.author.voice.channel:
