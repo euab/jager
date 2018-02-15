@@ -95,7 +95,6 @@ class RickBot(commands.AutoShardedBot):
     async def on_ready(self):
         """Triggered when the bot has completed startup"""
         log.info("Ready. Yay.")
-        self.clean_cache_job()
         await self.create_presence()
 
     async def on_command(self, ctx):
@@ -115,16 +114,19 @@ class RickBot(commands.AutoShardedBot):
         self.commands_failed[cmd] += 1
 
         if isinstance(error, commands.BadArgument):
-            await ctx.send(error)
+            msg = error
         elif isinstance(error, commands.CommandInvokeError):
             original = error.original
             if isinstance(original, discord.Forbidden):
-                await ctx.send("I do not have permission to "
-                               "do that.")
+                msg = "I do not have permission to " \
+                      "do that."
             elif isinstance(original, discord.HTTPException):
-                await ctx.send("It appears that something has "
-                               "gone wrong over the line between "
-                               "me and Discord. Try again later?")
+                msg = "It appears that something has " \
+                      "gone wrong over the line between " \
+                      "me and Discord. Try again later?"
+
+        msg = msg + "\nhttps://imgur.com/rlsPsfX"
+        await ctx.send(msg)
 
     async def process_commands(self, message):
         """Process the command"""
@@ -133,7 +135,6 @@ class RickBot(commands.AutoShardedBot):
             return
 
         await self.invoke(ctx)
-        log.info('Command invoked')
 
     async def on_message(self, message):
         """The bot's actual listener. Triggered whenever any message is sent."""
@@ -141,14 +142,6 @@ class RickBot(commands.AutoShardedBot):
         if message.author.bot:
             return
         await self.process_commands(message)
-
-    @staticmethod
-    def clean_cache_job():
-        """Job which cleans the bot's cache"""
-        os.system("rm -r cache")
-        os.system("mkdir cache")
-        os.system("cd cache && mkdir voice")
-        os.system("cd ..")
 
 
 def main():

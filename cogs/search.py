@@ -5,9 +5,11 @@ import secrets
 
 from discord.ext import commands
 from lxml import etree
+from random import randint
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY") or secrets.GOOGLE_API_KEY
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID") or secrets.TWITCH_CLIENT_ID
+IMGUR_ID = os.getenv("IMGUR_ID") or secrets.IMGUR_ID
 
 NOT_FOUND = "I couldn't find anything 😢"
 
@@ -41,13 +43,20 @@ class Search:
 
         if data["list"]:
             entry = data["list"][0]
-            fmt = "\n **{e[word]}** ```\n{e[definition]}``` \n " \
-                  "**example:** {e[example]} \n" \
-                  "<{e[permalink]}>"
-            response = fmt.format(e=entry)
+            em = discord.Embed()
+            em.set_thumbnail(url="http://www.extension.zone/wp-content"
+                                 "/uploads/2015/11/Urban-Dictionary-logo.png")
+            em.color = 0xCC3C32
+            em.title = entry["word"]
+            em.description = entry["definition"]
+            em.url = entry["permalink"]
+            em.add_field(name="example", value=entry["example"],
+                         inline=True)
+
+            await ctx.send(embed=em)
+
         else:
-            response = NOT_FOUND
-        await ctx.send(response)
+            await ctx.send(NOT_FOUND)
 
     @commands.command(pass_context=True, no_pm=True)
     async def twitch(self, ctx, *, search: str):
@@ -121,6 +130,24 @@ class Search:
                 em.description = '\n'.join(description[:15])
 
             await ctx.send(embed=em)
+
+    @commands.command()
+    async def imgur(self, ctx, *, search: str):
+        url = "https://api.imgur.com/3/gallery/search/viral"
+        headers = {"Authorization": "Client-ID " + IMGUR_ID}
+        async with self.bot.session.get(url,
+                                        params={"q": search},
+                                        headers=headers) as resp:
+            data = await resp.json()
+
+        if data["data"]:
+            index = randint(0, 50)
+            result = data["data"][index]
+            response = result["link"]
+        else:
+            response = NOT_FOUND
+
+        await ctx.send(response)
 
 
 def setup(bot):

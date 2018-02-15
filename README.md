@@ -1,6 +1,6 @@
 # RickBot
 
-[![Build Status](https://travis-ci.org/rickbotdiscord/rickbot.svg?branch=master)](https://travis-ci.org/rickbotdiscord/rickbot) [![PyPI](https://img.shields.io/badge/Python-3.6.3-green.svg)](https://www.python.org/downloads/)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a0d19fe4283b4288a5146caa5c0891c5)](https://www.codacy.com/app/Euab/rickbot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rickbotdiscord/rickbot&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/Euab/rickbot.svg?branch=master)](https://travis-ci.org/Euab/rickbot) [![PyPI](https://img.shields.io/badge/Python-3.6.3-green.svg)](https://www.python.org/downloads/)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a0d19fe4283b4288a5146caa5c0891c5)](https://www.codacy.com/app/Euab/rickbot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rickbotdiscord/rickbot&amp;utm_campaign=Badge_Grade)
 
 A cool bot for Discord.
 
@@ -12,9 +12,4 @@ By default. RickBot's prefix is `!`. This can be changed at anytime by writing `
 After that you can invoke commands with the new prefix.
 The prefix can consist of any alphanumeric character.
 
-Throughout this guide I'm going to use `!` as the prefix. Replace this with your server's prefix.
-
 To get help with a command type `!help <command name>` and the bot will show you the arguments to pass along with the command.
-
-## An important message
-# DON'T SELF HOST THIS BOT

@@ -1,6 +1,7 @@
 import discord
 
 from discord.ext import commands
+from inspect import cleandoc
 
 
 class Meta:
@@ -21,6 +22,24 @@ class Meta:
                "watch."
         em.description = desc
         await ctx.send(embed=em)
+
+    async def on_guild_join(self, guild):
+        owner = guild.owner
+
+        fmt = """
+        **Hi**, `{username}` :wave:! Cheers for adding me to your Discord server: `{guild}` :smile:
+        
+        Here are some commands to get you going :thumbsup:
+        `!prefix <new prefix>` - Change the server prefix, requires moderator.
+        `!play <song name>` - Play a song. You need to be in a voice channel.
+        `!help` - Hmm. Not really sure.
+        
+        **Use** `!help` **at any time to find out more about the bot's commands.**
+        """
+        msg = fmt.format(username=owner.name,
+                         guild=guild.name)
+        msg = cleandoc(msg)
+        await owner.send(msg)
 
 
 def setup(bot):

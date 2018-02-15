@@ -80,6 +80,7 @@ class Music:
         # TODO: Check the video data for a stream index. Don't know one is provided. Will find out.
         if "stream" in url:
             return await ctx.send("**No**")
+
         async with ctx.typing():
             if ctx.voice_client is None:
                 if ctx.author.voice.channel:
@@ -100,23 +101,6 @@ class Music:
             await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
 
     @commands.command()
-    async def nonce(self, ctx):
-        async with ctx.typing():
-            url = "https://www.youtube.com/watch?v=C5eUJZWs-2k"
-            if ctx.author.voice.channel:
-                await ctx.author.voice.channel.connect()
-            else:
-                return await ctx.send("I am not connected to a voice channel you nonce.")
-
-            if ctx.voice_client.is_playing():
-                ctx.voice_client.stop()
-
-            player = await YTDLSource.from_url(url, loop=self.bot.loop)
-            ctx.voice_client.play(player, after=lambda e: print('Something went wrong... :cry:') if e else None)
-
-            await ctx.send('http://gph.is/2zsPLKf')
-
-    @commands.command()
     async def volume(self, ctx, volume: int):
         if ctx.voice_client is None:
             return await ctx.send("I'm not connected to a voice channel... :grimacing:")
@@ -124,12 +108,12 @@ class Music:
         ctx.voice_client.source.volume = volume
         await ctx.send("Changed player volume to {}%".format(volume))
 
-
     @commands.command()
     async def stop(self, ctx):
         await ctx.voice_client.disconnect()
         if ctx.guild.id == DEV_SERVER_ID:
             await self.bot.create_presence()
+
 
 def setup(bot):
     cog = Music(bot)

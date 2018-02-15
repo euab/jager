@@ -3,7 +3,7 @@ import os
 
 from discord.ext import commands
 
-SOURCE_URL = "https://github.com/rickbotdiscord/rickbot"
+SOURCE_URL = "https://github.com/euab/rickbot"
 
 class Source:
 
