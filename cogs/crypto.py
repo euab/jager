@@ -7,8 +7,8 @@ from discord.ext import commands
 
 class Crypto:
     """
-    Interact with the Blockchain wallet API and the NiceHash
-    API to see exchange rates and algorithm profitablilty.
+    Interact with the Blockchain wallet API to see exchange
+    rates between cryptocurrencies and fiat currencies.
     """
 
     def __init__(self, bot):
