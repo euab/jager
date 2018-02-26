@@ -5,3 +5,4 @@ redis
 aiomeasures
 youtube_dl
 lxml
+blockchain
