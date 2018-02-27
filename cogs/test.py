@@ -16,4 +16,4 @@ class Test:
 def setup(bot):
     cog = Test(bot)
     bot.add_listener(cog.test, "on_ready")
-    bot.load_cog(cog)
+    bot.add_cog(cog)
