@@ -8,7 +8,7 @@ class Test:
     def __init__(self, bot):
         self.bot = bot
 
-    def test(self):
+    async def test(self):
         assert 1 + 1 == 2
         assert 1 + 1 == 2
 
@@ -16,4 +16,4 @@ class Test:
 def setup(bot):
     cog = Test(bot)
     bot.add_listener(cog.test, "on_ready")
-    # bot.load_cog(cog)
+    bot.load_cog(cog)
