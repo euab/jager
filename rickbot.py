@@ -12,6 +12,7 @@ import json
 from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
+from ext.flags import parse_flags
 
 log = logging.getLogger('discord')
 
@@ -147,7 +148,7 @@ class RickBot(commands.AutoShardedBot):
 def main():
     """Initialise logger and run init func"""
     token = os.getenv("TOKEN") or secrets.TOKEN
-    logging.basicConfig(level="INFO")
+    parse_flags()
     RickBot.init(token)
 
 
