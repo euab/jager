@@ -26,7 +26,7 @@ class Crypto:
     async def stats(self, ctx):
         stats = blockchainapi.statistics.get()
         em = discord.Embed()
-        em.set_author(name="Bitcoin Infomation", icon_url="https://bitcoin.org/img/icons/opengraph.png")
+        em.set_author(name="Bitcoin Information", icon_url="https://bitcoin.org/img/icons/opengraph.png")
         em.timestamp = datetime.utcnow()
         em.color = discord.Color.orange()
         em.add_field(name="Trade Volume (USD)", value=str(stats.trade_volume_usd) + " USD")
