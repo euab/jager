@@ -101,7 +101,7 @@ class Utils:
         guild_id = str(ctx.guild.id)
         conf = DataIO.load_json("data/guild.json")
         conf[guild_id] = prefix
-        DataIO.save_json("data/guild.json")
+        DataIO.save_json(conf, "data/guild.json")
         await ctx.send(f'I changed your prefix to: `{prefix}`')
 
     @commands.command()
