@@ -2,6 +2,7 @@ import discord
 import datetime
 import psutil
 
+from ext.dataio import DataIO
 from discord.ext import commands
 
 class Utils:
@@ -98,9 +99,9 @@ class Utils:
     @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx, *, prefix):
         guild_id = str(ctx.guild.id)
-        conf = ctx.load_json('data/guild.json')
+        conf = DataIO.load_json("data/guild.json")
         conf[guild_id] = prefix
-        ctx.save_json(conf, 'data/guild.json')
+        DataIO.save_json("data/guild.json")
         await ctx.send(f'I changed your prefix to: `{prefix}`')
 
     @commands.command()
