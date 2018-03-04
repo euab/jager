@@ -18,5 +18,5 @@ def parse_flags():
     else:
         logging.basicConfig(level="INFO")
 
-    if args.test_run():
+    if args.test_run:
         pass
