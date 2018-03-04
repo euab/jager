@@ -4,6 +4,7 @@ import logging
 def parse_flags():
     parser = argparse.ArgumentParser(description="Flags to start the bot with.")
     parser.add_argument('--debug', help="Start the bot into debug mode.", action="store_true")
+    parser.add_argument('--test-run', help="For CI testing", action="store_true")
 
     try:
         args = parser.parse_args()
@@ -16,3 +17,6 @@ def parse_flags():
         logging.basicConfig(level="DEBUG")
     else:
         logging.basicConfig(level="INFO")
+
+    if args.test_run():
+        pass
