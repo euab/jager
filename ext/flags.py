@@ -19,4 +19,5 @@ def parse_flags():
         logging.basicConfig(level="INFO")
 
     if args.test_run:
-        pass
+        logging.basicConfig(level="DEBUG")
+        print("Running for CI")
