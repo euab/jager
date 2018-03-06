@@ -25,8 +25,8 @@ class Dev:
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def listening(self, ctx, *, listening: str):
         try:
-            game = discord.Game(name=listening, type=2)
-            await self.bot.change_presence(game=game)
+            activity = discord.Activity(name=listening, type=2)
+            await self.bot.change_presence(activity=activity)
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
@@ -36,8 +36,8 @@ class Dev:
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def playing(self, ctx, *, playing: str):
         try:
-            game = discord.Game(name=playing, type=1)
-            await self.bot.change_presence(game=game)
+            activity = discord.Game(name=playing)
+            await self.bot.change_presence(activity=activity)
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
@@ -47,8 +47,8 @@ class Dev:
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def watching(self, ctx, *, watching: str):
         try:
-            game = discord.Game(name=watching, type=3)
-            await self.bot.change_presence(game=game)
+            activity = discord.Activity(name=watching, type=3)
+            await self.bot.change_presence(activity=activity)
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
@@ -58,8 +58,8 @@ class Dev:
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def streaming(self, ctx, *, playing: str):
         try:
-            game = discord.Game(name=playing, type=1, url="https://www.twitch.tv/euab")
-            await self.bot.change_presence(game=game)
+            activity = discord.Streaming(name=playing, url="https://www.twitch.tv/euab")
+            await self.bot.change_presence(activity=activity)
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
