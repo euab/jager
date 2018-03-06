@@ -6,3 +6,4 @@ data/
 cache/
 /.idea
 /venv
+*.log
