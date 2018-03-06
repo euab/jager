@@ -99,10 +99,9 @@ class Dev:
     @commands.command(hidden=True)
     @commands.is_owner()
     async def update(self, ctx):
-        em = discord.Embed()
-        em.title = 'Updating bot'
-        em.description = 'Pulling from repository and restarting shards...'
-        await ctx.send(embed=em)
+        msg = "<a:updating:403035325242540032> **Pulling from repository and " \
+              "restarting shards.**"
+        await ctx.send(msg)
         command = 'sh update.sh'
         os.system(command)
         # Gracefully exit the bot
