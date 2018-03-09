@@ -8,6 +8,7 @@ import inspect
 import logging
 import secrets
 import json
+import asyncio
 
 from collections import defaultdict
 from ext.context import LeContext
@@ -30,6 +31,7 @@ class RickBot(commands.AutoShardedBot):
         self.messages_sent = 0
         self.load_extensions()
         self._add_commands()
+        self.loop = asyncio.get_event_loop()
 
     def _add_commands(self):
         """Adds commands automatically"""
@@ -80,10 +82,10 @@ class RickBot(commands.AutoShardedBot):
 
         return prefixes
 
-    async def create_presence(self):
-        game = discord.Game(name="!help", type=1,
+    async def create_activity(self):
+        activity = discord.Activity(name="!help",
                             url="https://www.twitch.tv/euab")
-        await self.change_presence(game=game)
+        await self.change_presence(activity=activity)
 
     async def on_connect(self):
         """Event triggered when the bot connects to Discord"""
@@ -96,7 +98,7 @@ class RickBot(commands.AutoShardedBot):
     async def on_ready(self):
         """Triggered when the bot has completed startup"""
         log.info("Ready. Yay.")
-        await self.create_presence()
+        await self.create_activity()
 
     async def on_command(self, ctx):
         """Triggered whenever a command is invoked"""
@@ -148,7 +150,11 @@ class RickBot(commands.AutoShardedBot):
 def main():
     """Initialise logger and run init func"""
     token = os.getenv("TOKEN") or secrets.TOKEN
-    parse_flags()
+    logging.basicConfig(filename="log.log",
+                        filemode="w",
+                        format="[%(asctime)s] %(msecs)d %(name)s %(levelname)s %(message)s",
+                        datefmt="'%H:%M:%S'",
+                        level=logging.INFO)
     RickBot.init(token)
 
 
