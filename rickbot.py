@@ -13,7 +13,6 @@ import asyncio
 from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
-from ext.flags import parse_flags
 
 log = logging.getLogger('discord')
 
