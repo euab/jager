@@ -22,7 +22,7 @@ def parse_flags():
                                           filemode="w",
                                           format="[%(asctime)s] %(msecs)d %(name)s %(levelname)s %(message)s",
                                           datefmt="'%H:%M:%S'",
-                                          level=logging.DEBUG)
+                                          level=logging.INFO)
 
     if args.test_run:
         logging.basicConfig(level=logging.DEBUG)
