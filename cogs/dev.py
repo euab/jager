@@ -107,13 +107,6 @@ class Dev:
         # Gracefully exit the bot
         await self.bot.logout()
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
-    async def logs(self, ctx):
-        file = discord.File(fp="log.log")
-        await ctx.send(":white_check_mark: **Retrieved logs**",
-                       file=file)
-
     @commands.command(pass_context=True)
     async def repl(self, ctx):
         log.info(f"A REPL session has started in {ctx.guild}->{ctx.channel}")
