@@ -82,7 +82,7 @@ class RickBot(commands.AutoShardedBot):
         return prefixes
 
     async def create_activity(self):
-        activity = discord.Activity(name="!help",
+        activity = discord.Streaming(name="!help",
                             url="https://www.twitch.tv/euab")
         await self.change_presence(activity=activity)
 

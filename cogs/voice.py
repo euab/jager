@@ -95,8 +95,8 @@ class Music:
             ctx.voice_client.play(player, after=lambda e: print('Something went wrong here... :cry:') if e else None)
 
             if ctx.guild.id == DEV_SERVER_ID:
-                game = discord.Game(name=player.title, type=2)
-                await self.bot.change_presence(game=game)
+                activity = discord.Activity(name=player.title, type=2)
+                await self.bot.change_presence(activity=activity)
             
             await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
 
@@ -112,7 +112,7 @@ class Music:
     async def stop(self, ctx):
         await ctx.voice_client.disconnect()
         if ctx.guild.id == DEV_SERVER_ID:
-            await self.bot.create_presence()
+            await self.bot.create_activity()
 
 
 def setup(bot):
