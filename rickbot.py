@@ -136,7 +136,7 @@ class RickBot(commands.AutoShardedBot):
         if ctx.command is None:
             return
         # disallow Tommy from using anything other than !play.
-        if ctx.author.id == 337333673781100545 and "play" not in ctx.message.content:
+        if ctx.author.id == 292556142952054794 and "play" not in ctx.message.content:
             log.info("t0nk tried...")
             return await ctx.send(f"**Classic Mustapher**")
 
