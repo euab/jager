@@ -71,9 +71,12 @@ class Music:
     @commands.command()
     async def join(self, ctx, *, channel: discord.VoiceChannel):
         if ctx.voice_client is not None:
-            return await ctx.voice_client.move_to(channel)
+            await ctx.voice_client.move_to(channel)
+            return await ctx.send(f"Moved to **{channel}** \N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
         
         await channel.connect()
+        await ctx.send(f"Joined **{channel}** \N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
+
 
     @commands.command()
     async def play(self, ctx, *, url):
@@ -113,6 +116,7 @@ class Music:
         await ctx.voice_client.disconnect()
         if ctx.guild.id == DEV_SERVER_ID:
             await self.bot.create_activity()
+        await ctx.send(f"**Left channel** \N{WAVING HAND SIGN}")
 
 
 def setup(bot):
