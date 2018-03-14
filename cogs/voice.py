@@ -88,6 +88,8 @@ class Music:
             if ctx.voice_client is None:
                 if ctx.author.voice.channel:
                     await ctx.author.voice.channel.connect()
+                    await ctx.send(f"Connecting to **{ctx.author.voice.channel.name}** "
+                                    "\N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
                 else:
                     return await ctx.send("I'm not connected to a voice channel... :grimacing:")
 
