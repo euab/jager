@@ -82,9 +82,20 @@ class RickBot(commands.AutoShardedBot):
         return prefixes
 
     async def create_activity(self):
-        activity = discord.Streaming(name="!help",
-                            url="https://www.twitch.tv/euab")
+        """Create standard ticker presence"""
+        activity = discord.Game(name="!help | Get help")
         await self.change_presence(activity=activity)
+        await asyncio.sleep(10.0)
+        activity = discord.Streaming(name="Uncompelling gameplay",
+                                     url="https://www.twitch.tv/euab")
+        await self.change_presence(activity=activity)
+        await asyncio.sleep(10.0)
+        total_online = len({m.id for m in self.get_all_members() if m.status is not discord.Status.offline})
+        total_unique = len(self.users)
+        activity = discord.Activity(f"{total_online}/{total_unique} users online", type=2)
+        await self.change_presence(activity=activity)
+        await asyncio.sleep(10.0)
+        await self.create_activity()
 
     async def on_connect(self):
         """Event triggered when the bot connects to Discord"""
