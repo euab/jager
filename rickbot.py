@@ -135,11 +135,6 @@ class RickBot(commands.AutoShardedBot):
         ctx = await self.get_context(message, cls=LeContext)  # Le Meme
         if ctx.command is None:
             return
-        # disallow Tommy from using anything other than !play.
-        allowed = ["play", "stop", "volume"]
-        if ctx.author.id == 292556142952054794 and allowed not in ctx.message.content:
-            log.info("t0nk tried...")
-            return await ctx.send(f"**Classic Mustapher**")
 
         await self.invoke(ctx)
 
