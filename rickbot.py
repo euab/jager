@@ -95,6 +95,13 @@ class RickBot(commands.AutoShardedBot):
         activity = discord.Activity(name=f"{total_online}/{total_unique} users online", type=3)
         await self.change_presence(activity=activity)
         await asyncio.sleep(10.0)
+        vc = len(self.voice_clients)
+        if vc == 1:
+            activity = discord.Activity(name=f"{vc} voice client", type=2)
+        else:
+            activity = discord.Activity(name=f"{vc} voice clients", type=2)
+        await self.change_presence(activity=activity)
+        await asyncio.sleep(10.0)
         await self.create_activity()
 
     async def on_connect(self):
