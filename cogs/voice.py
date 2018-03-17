@@ -55,7 +55,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
     async def from_url(cls, url, *, loop=None):
         loop = loop or asyncio.get_event_loop()
         data = await loop.run_in_executor(None, ytdl.extract_info, url)
-        
+
         if 'entries' in data:
             data = data['entries'][0]
 
@@ -73,7 +73,7 @@ class Music:
         if ctx.voice_client is not None:
             await ctx.voice_client.move_to(channel)
             return await ctx.send(f"Moved to **{channel}** \N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
-        
+
         await channel.connect()
         await ctx.send(f"Joined **{channel}** \N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
 
@@ -102,7 +102,7 @@ class Music:
             if ctx.guild.id == DEV_SERVER_ID:
                 activity = discord.Activity(name=player.title, type=2)
                 await self.bot.change_presence(activity=activity)
-            
+
             await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
 
     @commands.command()
@@ -113,7 +113,7 @@ class Music:
         ctx.voice_client.source.volume = volume
         await ctx.send("Changed player volume to {}%".format(volume))
 
-    @commands.command()
+    @commands.command(aliases=["fuck off"])
     async def stop(self, ctx):
         await ctx.voice_client.disconnect()
         if ctx.guild.id == DEV_SERVER_ID:
