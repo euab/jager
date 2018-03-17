@@ -133,21 +133,6 @@ class RickBot(commands.AutoShardedBot):
         cmd = ctx.command.qualified_name.replace(' ', '_')
         self.commands_failed[cmd] += 1
 
-        if isinstance(error, commands.BadArgument):
-            msg = error
-        elif isinstance(error, commands.CommandInvokeError):
-            original = error.original
-            if isinstance(original, discord.Forbidden):
-                msg = "I do not have permission to " \
-                      "do that."
-            elif isinstance(original, discord.HTTPException):
-                msg = "It appears that something has " \
-                      "gone wrong over the line between " \
-                      "me and Discord. Try again later?"
-
-        msg = msg + "\nhttps://imgur.com/rlsPsfX"
-        await ctx.send(msg)
-
     async def process_commands(self, message):
         """Process the command"""
         ctx = await self.get_context(message, cls=LeContext)  # Le Meme
@@ -177,3 +162,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
