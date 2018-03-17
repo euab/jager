@@ -18,7 +18,7 @@ class Crypto:
     async def bitcoin(self, ctx):
         if ctx.invoked_subcommand is None:
             return await ctx.send("You need to use a subcommand "
-                                  "eg:\n`{}blockchain stats`".format(
+                                  "eg:\n`{}bitcoin stats`".format(
                                       ctx.prefix
                                   ))
     
