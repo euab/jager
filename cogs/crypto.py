@@ -1,4 +1,4 @@
-import blockchain as blockchainapi
+import blockchain
 import discord
 
 from datetime import datetime
@@ -15,16 +15,16 @@ class Crypto:
         self.bot = bot
 
     @commands.group()
-    async def blockchain(self, ctx):
+    async def bitcoin(self, ctx):
         if ctx.invoked_subcommand is None:
             return await ctx.send("You need to use a subcommand "
                                   "eg:\n`{}blockchain stats`".format(
                                       ctx.prefix
                                   ))
     
-    @blockchain.command()
+    @bitcoin.command()
     async def stats(self, ctx):
-        stats = blockchainapi.statistics.get()
+        stats = blockchain.statistics.get()
         em = discord.Embed()
         em.set_author(name="Bitcoin Information", icon_url="https://bitcoin.org/img/icons/opengraph.png")
         em.timestamp = datetime.utcnow()
@@ -44,7 +44,7 @@ class Crypto:
         em.add_field(name="Estimated BTC Sent", value=str(stats.estimated_btc_sent) + " BTC")
         em.add_field(name="Total BTC Sent", value=str(stats.total_btc_sent) + " BTC")
         em.add_field(name="Total BTC Fees", value=str(stats.total_fees_btc) + " BTC")
-        em.set_footer(text="https://blockchain.info")
+        em.set_footer(text="https://blockchain.info/api")
 
         await ctx.send(embed=em)
 
