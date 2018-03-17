@@ -108,26 +108,6 @@ class Dev:
         await self.bot.logout()
 
     @commands.is_owner()
-    @commands.group()
-    async def status(self, ctx):
-        if ctx.invoked_subcommand is None:
-            return await ctx.send("Add an operation status. Fool.")
-
-    @status.command()
-    async def normal(self, ctx):
-        await self.bot.create_activity()
-
-    @status.command()
-    async def maintenance(self, ctx, *, reason: str):
-        activity = discord.Activity(name=reason, type=1)
-        await self.bot.change_presence(status="afk", activity=activity)
-
-    @status.command()
-    async def critical(self, ctx, *, reason: str):
-        activity = discord.Activity(name=reason, type=1)
-        await self.bot.change_presence(status="dnd", activity=activity)
-
-    @commands.is_owner()
     @commands.command(name="ws.close")
     async def ws_close(self, ctx):
         await ctx.send(f"{SUCCESS} **Closing connection to Discord.**")
