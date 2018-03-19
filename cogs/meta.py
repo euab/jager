@@ -1,7 +1,9 @@
 import discord
+import traceback
 
 from discord.ext import commands
 from inspect import cleandoc
+from ext.paginator import HelpPaginator, CouldNotPaginate
 
 
 class Meta:
@@ -9,6 +11,7 @@ class Meta:
 
     def __init__(self, bot):
         self.bot = bot
+        bot.remove_command('help')
 
     @commands.command()
     async def streams(self, ctx):
@@ -40,6 +43,26 @@ class Meta:
                          guild=guild.name)
         msg = cleandoc(msg)
         await owner.send(msg)
+
+    @commands.command(name='help')
+    async def _help(self, ctx, *, command: str = None):
+        try:
+            if command is None:
+                pages = await HelpPaginator.from_bot(ctx)
+            else:
+                entity = self.bot.get_cog(command) or self.bot.get_command(command)
+
+                if entity is not None:
+                    clean = command.replace('@', '@\u200b')
+                    return await ctx.send(f'Command or category **"{clean}"** not found.')
+                elif isinstance(entity, commands.Command):
+                    pages = await HelpPaginator.from_command(ctx, entity)
+                else:
+                    pages = await HelpPaginator.from_cog(ctx, entity)
+
+            await pages.paginate()
+        except Exception as e:
+            traceback.print_exc()
 
 
 def setup(bot):
