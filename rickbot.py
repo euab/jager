@@ -130,6 +130,7 @@ class RickBot(commands.AutoShardedBot):
     async def on_command_error(self, ctx, error):
         """Whenever a command fails"""
         log.error(error)
+        traceback.print_exc()
         cmd = ctx.command.qualified_name.replace(' ', '_')
         self.commands_failed[cmd] += 1
 
