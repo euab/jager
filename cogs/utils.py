@@ -81,7 +81,11 @@ class Utils:
         uptime = fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
         cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/rickbot/commit%H) %s (%cr)"'
-        cmd = cmd.format(r'`%h`')
+        
+        if os.name == 'posix':
+            cmd = cmd.format(r'\`%h\`')
+        else:
+            cmd = cmd.format(r'`%h`')
 
         revision = os.popen(cmd).read().strip()
 
