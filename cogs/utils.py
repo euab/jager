@@ -1,6 +1,7 @@
 import discord
 import datetime
 import psutil
+import os
 
 from ext.dataio import DataIO
 from discord.ext import commands
@@ -47,7 +48,7 @@ class Utils:
         resp = f'{discord.utils.oauth_url(self.bot.user.id, perms)}'
         await ctx.send(resp)
 
-    @commands.command(name='bot', aliases=['about', 'info', 'status'])
+    @commands.command(name='bot', aliases=['about', 'info', 'stats'])
     async def _bot(self, ctx):
         prefix = (await self.bot.get_prefix(ctx.message))[2]
         em = discord.Embed()
@@ -79,6 +80,12 @@ class Utils:
             fmt = '{d}d ' + fmt
         uptime = fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
+        cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/rickbot/commit%H) %s (%cr)"'
+        cmd = cmd.format(r'`%h`')
+
+        revision = os.popen(cmd).read().strip()
+
+        em.add_field(name='Latest Updates', value=revision, inline=False)
         em.add_field(name='Current Status', value=str(status).title())
         em.add_field(name='Uptime', value=uptime)
         em.add_field(name='Latency', value=f'{self.bot.latency*1000:.2f} ms')
