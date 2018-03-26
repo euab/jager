@@ -31,6 +31,7 @@ class RickBot(commands.AutoShardedBot):
         self.load_extensions()
         self._add_commands()
         self.loop = asyncio.get_event_loop()
+        self.psa = None
 
     def _add_commands(self):
         """Adds commands automatically"""
