@@ -80,6 +80,11 @@ class Utils:
             fmt = '{d}d ' + fmt
         uptime = fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
+        # TODO: Make a PSA command in dev.py this will currently be set by changing superclass PSA attribute via !eval
+        psa = self.bot.psa
+        if psa is None:
+            psa = "Business as usual..."
+
         cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/rickbot/commit/%H) %s (%cr)"'
 
         if os.name == 'posix':
@@ -89,6 +94,7 @@ class Utils:
 
         revision = os.popen(cmd).read().strip()
 
+        em.add_field(name='PSA', value=psa, inline=False)
         em.add_field(name='Changelog', value=revision, inline=False)
         em.add_field(name='Current Status', value=str(status).title())
         em.add_field(name='Uptime', value=uptime)
