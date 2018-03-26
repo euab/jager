@@ -80,7 +80,7 @@ class Utils:
             fmt = '{d}d ' + fmt
         uptime = fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
-        cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/rickbot/commit%H) %s (%cr)"'
+        cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/rickbot/commit/%H) %s (%cr)"'
 
         if os.name == 'posix':
             cmd = cmd.format(r'\`%h\`')
