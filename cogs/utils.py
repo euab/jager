@@ -81,7 +81,7 @@ class Utils:
         uptime = fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
         cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/rickbot/commit%H) %s (%cr)"'
-        
+
         if os.name == 'posix':
             cmd = cmd.format(r'\`%h\`')
         else:
@@ -89,7 +89,7 @@ class Utils:
 
         revision = os.popen(cmd).read().strip()
 
-        em.add_field(name='Latest Updates', value=revision, inline=False)
+        em.add_field(name='Changelog', value=revision, inline=False)
         em.add_field(name='Current Status', value=str(status).title())
         em.add_field(name='Uptime', value=uptime)
         em.add_field(name='Latency', value=f'{self.bot.latency*1000:.2f} ms')
