@@ -8,6 +8,9 @@ from urllib.parse import urlparse
 
 
 class LeContext(commands.Context):
+    """
+    Provides the bot with context for each message sent.
+    """
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -53,12 +56,49 @@ class LeContext(commands.Context):
 
         return discord.Color.from_rgb(*color)
 
-    @staticmethod
-    def load_json(path=None):
-        with open(path) as f:
-            return json.load(f)
+    async def authorize(self, message, *, timeout=60.0, delete_after=True,
+                        author_id=None):
+        """Prompt the user to confirm an action"""
+        if not self.channel.permissions_for(self.me).add_reactions:
+            raise RuntimeError("Bot does not have permissions to add reactions")
 
-    @staticmethod
-    def save_json(data, path=None):
-        with open(path, 'w') as f:
-            f.write(json.dumps(data, indent=4))
+        fmt = f'{message}\n\n**React with \N{WHITE HEAVY CHECK MARK} to accept and \N{CROSS MARK} to reject**'
+
+        author_id = author_id or self.author.id
+        msg = await self.send(fmt)
+
+        user_confirmation = None
+
+        def check(emoji, message_id, channel_id, user_id):
+            # nonlocal: get user_confirmation from the scope of the outer function
+            nonlocal user_confirmation
+
+            if message_id != msg.id or user_id != author_id:
+                return False
+
+            utf = str(emoji)
+
+            if utf == '\N{WHITE HEAVY CHECK MARK}':
+                user_confirmation = True
+                return True
+            elif utf == '\N{CROSS MARK}':
+                user_confirmation = False
+                return True
+
+            return False
+
+        for emoji in ('\N{WHITE HEAVY CHECK MARK}', '\N{CROSS MARK}'):
+            await msg.add_reaction(emoji)
+
+        try:
+            await self.bot.wait_for('raw_reaction_add', check=check, timeout=timeout)
+        except asyncio.timeout:
+            user_confirmation = None
+
+        try:
+            if delete_after:
+                await msg.delete()
+        except Exception as e:
+            raise RuntimeError(e)
+        finally:
+            return user_confirmation
