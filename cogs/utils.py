@@ -85,7 +85,7 @@ class Utils:
         if psa is None:
             psa = "Business as usual..."
 
-        cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/rickbot/commit/%H) %s (%cr)"'
+        cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/oofster/commit/%H) %s (%cr)"'
 
         if os.name == 'posix':
             cmd = cmd.format(r'\`%h\`')
@@ -107,7 +107,7 @@ class Utils:
         em.add_field(name='RAM Usage', value=f'{memory_usage:.2f} MiB')
         em.add_field(name='CPU Usage', value=f'{cpu_usage:.2f}% CPU Usage')
         em.add_field(name='Commands Run', value=sum(self.bot.commands_used.values()))
-        em.add_field(name='GitHub', value='[Click Here](https://github.com/rickbotdiscord/rickbot)')
+        em.add_field(name='GitHub', value='[Click Here](https://github.com/euab/the-oofster)')
         em.set_footer(text=f'{prefix}help')
 
         await ctx.send(embed=em)

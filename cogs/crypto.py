@@ -16,6 +16,7 @@ class Crypto:
 
     @commands.group()
     async def bitcoin(self, ctx):
+        """Get information on bitcoin"""
         if ctx.invoked_subcommand is None:
             return await ctx.send("You need to use a subcommand "
                                   "eg:\n`{}bitcoin stats`".format(

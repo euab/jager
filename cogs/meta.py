@@ -21,7 +21,7 @@ class Meta:
         em.color = discord.Color.purple()
         desc = "Join Euab on Twitch where he streams stuff like games. " \
                "Yay.\nTo get to it either visit this link:\n" \
-               "https://twitch.tv/euab \nor click RickBot and click " \
+               "https://twitch.tv/euab \nor click The Oofster and click " \
                "watch."
         em.description = desc
         await ctx.send(embed=em)
