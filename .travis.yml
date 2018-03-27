@@ -5,10 +5,10 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  - python -m compileall ./rickbot.py
+  - python -m compileall ./oofster.py
   - python -m compileall ./ext
   - python -m compileall ./cogs
-  - python ./rickbot.py --test-run
+  - python ./oofster.py --test-run
 
 notifications:
     email:
