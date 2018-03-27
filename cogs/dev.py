@@ -108,12 +108,30 @@ class Dev:
         await self.bot.logout()
 
     @commands.is_owner()
-    @commands.command(name="ws.close")
+    @commands.command(name="ws.close", hidden=True)
     async def ws_close(self, ctx):
+        auth = await ctx.authorize("**Fricc**")
+        if not auth:
+            return
         await ctx.send(f"{SUCCESS} **Closing connection to Discord.**")
         await self.bot.close()
         await self.bot.session.close()
         # As the program has nothing to do. It will just be terminated automatically.
+
+    @commands.is_owner()
+    @commands.command(hidden=True)
+    async def changeusername(self, ctx, *, name: str):
+        name = name.strip()
+        if name != "":
+            try:
+                prompt = "**Are you sure {}? This is a dangerous command.** After doing " \
+                         "this you not be able to change it for a few hours.".format(ctx.author.name)
+                authorized = await ctx.authorize(prompt)
+                if not authorized:
+                    return
+                await self.bot.user.edit(username=name)
+            except Exception as e:
+                await ctx.send(f"Error:\n```py\n{e}\n```")
 
     @commands.command(pass_context=True)
     async def repl(self, ctx):
