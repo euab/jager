@@ -55,14 +55,14 @@ class Utils:
         em.timestamp = datetime.datetime.utcnow()
         status = str(ctx.guild.me.status)
         if status == 'online':
-            em.set_author(name="Bot Information", icon_url='https://i.imgur.com/YpQyZO7.png')
+            em.set_author(name="Bot Information", icon_url='https://i.imgur.com/YfbMnn5.jpg')
             em.color = discord.Color.green()
         elif status == 'dnd':
             status = 'maintenance'
             em.set_author(name="Bot Information", icon_url=None)
             em.color = discord.Color.purple()
         else:
-            em.set_author(name="Bot Information", icon_url='https://i.imgur.com/YpQyZO7.png')
+            em.set_author(name="Bot Information", icon_url='https://i.imgur.com/YfbMnn5.jpg')
             em.color = discord.Color.red()
 
         total_online = len({m.id for m in self.bot.get_all_members() if m.status is not discord.Status.offline})
@@ -85,7 +85,7 @@ class Utils:
         if psa is None:
             psa = "Business as usual..."
 
-        cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/oofster/commit/%H) %s (%cr)"'
+        cmd = r'git show -s HEAD~3..HEAD --format="[{}](https://github.com/euab/the-oofster/commit/%H) %s (%cr)"'
 
         if os.name == 'posix':
             cmd = cmd.format(r'\`%h\`')
