@@ -87,23 +87,23 @@ class TheOofster(commands.AutoShardedBot):
         while True:
             activity = discord.Game(name="!help | Get help")
             await self.change_presence(activity=activity)
-            await asyncio.sleep(10.0)
+            await asyncio.sleep(12.0)
             activity = discord.Streaming(name="Uncompelling gameplay",
                                         url="https://www.twitch.tv/euab")
             await self.change_presence(activity=activity)
-            await asyncio.sleep(10.0)
+            await asyncio.sleep(12.0)
             total_online = len({m.id for m in self.get_all_members() if m.status is not discord.Status.offline})
             total_unique = len(self.users)
             activity = discord.Activity(name=f"{total_online}/{total_unique} users online", type=3)
             await self.change_presence(activity=activity)
-            await asyncio.sleep(10.0)
+            await asyncio.sleep(12.0)
             vc = len(self.voice_clients)
             if vc == 1:
                 activity = discord.Activity(name=f"{vc} voice client", type=2)
             else:
                 activity = discord.Activity(name=f"{vc} voice clients", type=2)
             await self.change_presence(activity=activity)
-            await asyncio.sleep(10.0)
+            await asyncio.sleep(12.0)
 
     async def on_connect(self):
         """Event triggered when the bot connects to Discord"""
