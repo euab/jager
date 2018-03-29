@@ -106,6 +106,24 @@ class Music:
             await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
 
     @commands.command()
+    async def pause(self, ctx):
+        if ctx.voice_client.is_playing():
+            ctx.voice_client.pause()
+            await ctx.send("**Paused** \N{DOUBLE VERTICAL BAR}")
+        else:
+            return await ctx.send("**Not playing anything.** Use `{}play` to play something."
+                                  "".format(ctx.prefix))
+
+    @commands.command()
+    async def resume(self, ctx):
+        if ctx.voice_client.is_paused():
+            ctx.voice_client.resume()
+            await ctx.send("**Resumed** \N{BLACK RIGHT-POINTING TRIANGLE}")
+        else:
+            return await ctx.send("**Not paused.** Use `{}pause` to pause."
+                                  "".format(ctx.prefix))
+
+    @commands.command()
     async def volume(self, ctx, volume: int):
         if ctx.voice_client is None:
             return await ctx.send("I'm not connected to a voice channel... :grimacing:")
@@ -117,6 +135,7 @@ class Music:
     async def stop(self, ctx):
         await ctx.voice_client.disconnect()
         if ctx.guild.id == DEV_SERVER_ID:
+            await ctx.send(f"**Left channel** \N{WAVING HAND SIGN}")
             await self.bot.create_activity()
         await ctx.send(f"**Left channel** \N{WAVING HAND SIGN}")
 
