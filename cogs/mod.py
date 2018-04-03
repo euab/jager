@@ -13,6 +13,25 @@ class Reason(commands.Converter):
         return resp
 
 
+class MemberID(commands.Converter):
+    async def convert(self, ctx, argument):
+        try:
+            m = await commands.MemberConverter().convert(ctx, argument)
+        except commands.BadArgument:
+            try:
+                return int(argument, base=10)
+            except ValueError:
+                raise commands.BadArgument(f"{argument} is not a valid member or member ID.") from None
+        else:
+            can_execute = ctx.author.id == ctx.bot.owner_id or \
+                          ctx.author == ctx.guild.owner or \
+                          ctx.author.top_role > m.top_role
+
+            if not can_execute:
+                raise commands.BadArgument('You cannot do this action on this user due to role hierarchy.')
+            return m.id
+
+
 class Mod:
     """
     Moderation features for your server.
@@ -54,6 +73,16 @@ class Mod:
         
         await member.kick(reason=reason)
         await ctx.send(f'**{member}** has been kicked \N{OK HAND SIGN}')
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.has_permissions()
+    async def ban(self, ctx, member: MemberID, *, reason: ActionReason = None):
+        if reason is None:
+            reason = f'Action done by {ctx.author} (ID: {ctx.author.id})'
+
+        await ctx.guild.ban(discord.Object(id=member), reason=reason)
+        await ctx.send("***THICC BAN HAMMER*** \N{OK HAND SIGN}")
 
 
 def setup(bot):
