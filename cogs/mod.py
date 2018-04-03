@@ -76,8 +76,8 @@ class Mod:
 
     @commands.command()
     @commands.guild_only()
-    @commands.has_permissions()
-    async def ban(self, ctx, member: MemberID, *, reason: ActionReason = None):
+    @commands.has_permissions(ban_members=True)
+    async def ban(self, ctx, member: MemberID, *, reason: Reason = None):
         if reason is None:
             reason = f'Action done by {ctx.author} (ID: {ctx.author.id})'
 
