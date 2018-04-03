@@ -32,6 +32,20 @@ class MemberID(commands.Converter):
             return m.id
 
 
+class BannedMember(commands.Converter):
+    async def convert(self, ctx, argument):
+        ban_list = await ctx.guild.bans()
+        try:
+            member_id = int(argument, base=10)
+            entity = discord.utils.find(lambda u: u.user.id == member_id, ban_list)
+        except ValueError:
+            entity = discord.utils.find(lambda u: str(u.user) == argument, ban_list)
+
+        if entity is None:
+            raise commands.BadArgument("Not a valid previously-banned member.")
+        return entity
+
+
 class Mod:
     """
     Moderation features for your server.
@@ -83,6 +97,21 @@ class Mod:
 
         await ctx.guild.ban(discord.Object(id=member), reason=reason)
         await ctx.send("***THICC BAN HAMMER*** \N{OK HAND SIGN}")
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.has_permissions(ban_members=True)
+    async def unban(self, ctx, member: BannedMember, *, reason: Reason = None):
+        if reason is None:
+            reason = f'Action done by {ctx.author} (ID: {ctx.author.id})'
+
+        await ctx.guild.unban(member.user, reason=reason)
+        if member.reason:
+            await ctx.send(f'***NO MORE THICC BAN HAMMER***\n'
+                           f'Unbanned {member.user} (ID: {member.user.id}), previously banned for {member.reason}.')
+        else:
+            await ctx.send(f"***NO MORE THICC BAN HAMMER***\n"
+                           f"Unbanned {member.user} (ID: {member.user.id}).")
 
 
 def setup(bot):
