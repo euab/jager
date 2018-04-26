@@ -9,6 +9,7 @@ import logging
 import secrets
 import json
 import asyncio
+import raven
 
 from collections import defaultdict
 from ext.context import LeContext
@@ -32,6 +33,7 @@ class TheOofster(commands.AutoShardedBot):
         self._add_commands()
         self.loop = asyncio.get_event_loop()
         self.psa = None
+        self.sentry = raven.Client(secrets.SENTRY_DSN)
 
     def _add_commands(self):
         """Adds commands automatically"""
@@ -164,4 +166,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    

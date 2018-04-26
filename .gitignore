@@ -7,3 +7,4 @@ cache/
 /.idea
 /venv
 *.log
+.DS_Store
