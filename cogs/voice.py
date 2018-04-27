@@ -4,6 +4,7 @@ import discord
 import youtube_dl
 
 from discord.ext import commands
+from sys import platform
 
 DEV_SERVER_ID = 366583119622569986
 
@@ -11,7 +12,11 @@ log = logging.getLogger(__name__)
 
 try:
     if not discord.opus.is_loaded:
-        discord.opus.load_opus('libopus.so')
+        if platform == 'linux' or 'linux2':
+            discord.opus.load_opus('libopus.so')
+        if platform == 'darwin':
+            discord.opus.load_opus('libopus.dylib')
+            
 except OSError:
     log.info("pleb")
 except Exception as e:
