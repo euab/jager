@@ -13,7 +13,7 @@ import asyncio
 from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
-from raven import client
+from raven import Client
 
 log = logging.getLogger('discord')
 
