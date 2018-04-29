@@ -120,6 +120,10 @@ class TheOofster(commands.AutoShardedBot):
         log.info("Ready. Yay.")
         await self.create_activity()
 
+        # ready ascii
+        with open("ready_ascii.txt") as f:
+            print(f.read())
+
     async def on_command(self, ctx):
         """Triggered whenever a command is invoked"""
         cmd = ctx.command.qualified_name.replace(' ', '_')
