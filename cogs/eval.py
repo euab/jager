@@ -2,6 +2,7 @@ import traceback
 import inspect
 import io
 import textwrap
+import discord
 
 from contextlib import redirect_stdout
 from discord.ext import commands
