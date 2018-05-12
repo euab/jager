@@ -86,29 +86,33 @@ class Music:
     @commands.command()
     async def play(self, ctx, *, url):
         # TODO: Check the video data for a stream index. Don't know one is provided. Will find out.
-        if "stream" in url:
-            return await ctx.send("**No**")
+        try:
+            if "stream" in url:
+                return await ctx.send("**No**")
 
-        async with ctx.typing():
-            if ctx.voice_client is None:
-                if ctx.author.voice.channel:
-                    await ctx.author.voice.channel.connect()
-                    await ctx.send(f"Connecting to **{ctx.author.voice.channel.name}** "
-                                    "\N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
-                else:
-                    return await ctx.send("I'm not connected to a voice channel... :grimacing:")
+            async with ctx.typing():
+                if ctx.voice_client is None:
+                    if ctx.author.voice.channel:
+                        await ctx.author.voice.channel.connect()
+                        await ctx.send(f"Connecting to **{ctx.author.voice.channel.name}** "
+                                        "\N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
+                    else:
+                        return await ctx.send("I'm not connected to a voice channel... :grimacing:")
 
-            if ctx.voice_client.is_playing():
-                ctx.voice_client.stop()
+                if ctx.voice_client.is_playing():
+                    ctx.voice_client.stop()
 
-            player = await YTDLSource.from_url(url, loop=self.bot.loop)
-            ctx.voice_client.play(player, after=lambda e: print('Something went wrong here... :cry:') if e else None)
+                player = await YTDLSource.from_url(url, loop=self.bot.loop)
+                ctx.voice_client.play(player, after=lambda e: print('Something went wrong here... :cry:') if e else None)
 
-            if ctx.guild.id == DEV_SERVER_ID:
-                activity = discord.Activity(name=player.title, type=2)
-                await self.bot.change_presence(activity=activity)
+                if ctx.guild.id == DEV_SERVER_ID:
+                    activity = discord.Activity(name=player.title, type=2)
+                    await self.bot.change_presence(activity=activity)
 
-            await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
+                await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
+        except Exception as e:
+            log.error(e)
+            self.bot.sentry.captureException()
 
     @commands.command()
     async def pause(self, ctx):

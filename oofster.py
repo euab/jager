@@ -52,6 +52,7 @@ class TheOofster(commands.AutoShardedBot):
             except Exception as e:
                 log.info(f'Unable to load extension {extension}. Err: {e}')
                 traceback.print_exc()
+                self.sentry.captureException()
 
     @property
     def token(self):
@@ -119,6 +120,7 @@ class TheOofster(commands.AutoShardedBot):
         """Triggered when the bot has completed startup"""
         log.info("Ready. Yay.")
         await self.create_activity()
+        self.test_sentry()
 
         # ready ascii
         with open("ready_ascii.txt") as f:
@@ -155,6 +157,13 @@ class TheOofster(commands.AutoShardedBot):
         if message.author.bot:
             return
         await self.process_commands(message)
+
+    def test_sentry(self):
+        """Test Sentry by creating an error and having the DSN capture it"""
+        try:
+            1 / 0
+        except ZeroDivisionError:
+            self.sentry.captureException()
 
 
 def main():
