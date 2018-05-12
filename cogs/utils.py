@@ -50,19 +50,20 @@ class Utils:
 
     @commands.command(name='bot', aliases=['about', 'info', 'stats'])
     async def _bot(self, ctx):
+        avatar_url = self.bot.user.avatar_url_as(static_format='jpg')
         prefix = (await self.bot.get_prefix(ctx.message))[2]
         em = discord.Embed()
         em.timestamp = datetime.datetime.utcnow()
         status = str(ctx.guild.me.status)
         if status == 'online':
-            em.set_author(name="Bot Information", icon_url='https://i.imgur.com/YfbMnn5.jpg')
+            em.set_author(name="Bot Information", icon_url=avatar_url)
             em.color = discord.Color.green()
         elif status == 'dnd':
             status = 'maintenance'
             em.set_author(name="Bot Information", icon_url=None)
             em.color = discord.Color.purple()
         else:
-            em.set_author(name="Bot Information", icon_url='https://i.imgur.com/YfbMnn5.jpg')
+            em.set_author(name="Bot Information", icon_url=avatar_url)
             em.color = discord.Color.red()
 
         total_online = len({m.id for m in self.bot.get_all_members() if m.status is not discord.Status.offline})
