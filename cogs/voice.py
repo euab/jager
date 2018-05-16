@@ -142,6 +142,11 @@ class Music:
 
     @commands.command(aliases=["fuck off"])
     async def stop(self, ctx):
+        prompt = "This will disconnect the bot. **If you want to just stop the music why not instead use** `{}pause`?. " \
+                 "Would you still like to go ahead and disconnect the bot from the voice channel?".format(ctx.prefix)
+        auth = await ctx.authorize(prompt)
+        if not auth:
+            return
         await ctx.voice_client.disconnect()
         if ctx.guild.id == DEV_SERVER_ID:
             await ctx.send(f"**Left channel** \N{WAVING HAND SIGN}")

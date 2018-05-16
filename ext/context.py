@@ -62,7 +62,7 @@ class LeContext(commands.Context):
         if not self.channel.permissions_for(self.me).add_reactions:
             raise RuntimeError("Bot does not have permissions to add reactions")
 
-        fmt = f'{message}\n\n**React with \N{WHITE HEAVY CHECK MARK} to accept and \N{CROSS MARK} to reject**'
+        fmt = f'{message}\n**React with \N{WHITE HEAVY CHECK MARK} to accept and \N{CROSS MARK} to reject**'
 
         author_id = author_id or self.author.id
         msg = await self.send(fmt)
