@@ -29,11 +29,11 @@ class TheOofster(commands.AutoShardedBot):
         self.commands_failed = defaultdict(int)
         self.process = psutil.Process()
         self.messages_sent = 0
+        self.sentry = Client(os.getenv("SENTRY_DSN") or secrets.SENTRY_DSN)
         self.load_extensions()
         self._add_commands()
         self.loop = asyncio.get_event_loop()
         self.psa = None
-        self.sentry = Client(os.getenv("SENTRY_DSN") or secrets.SENTRY_DSN)
 
     def _add_commands(self):
         """Adds commands automatically"""
@@ -124,7 +124,7 @@ class TheOofster(commands.AutoShardedBot):
 
         # ready ascii
         with open("ready_ascii.txt") as f:
-            print(f.read())
+            print(f'\n{f.read()})
 
     async def on_command(self, ctx):
         """Triggered whenever a command is invoked"""
