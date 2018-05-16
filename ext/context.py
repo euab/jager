@@ -1,6 +1,7 @@
 import discord
 import json
 import io
+import asyncio
 
 from discord.ext import commands
 from colorthief import ColorThief
