@@ -93,7 +93,7 @@ class LeContext(commands.Context):
 
         try:
             await self.bot.wait_for('raw_reaction_add', check=check, timeout=timeout)
-        except asyncio.timeout:
+        except asyncio.TimeoutError:
             user_confirmation = None
 
         try:
