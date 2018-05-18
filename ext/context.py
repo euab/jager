@@ -70,14 +70,14 @@ class LeContext(commands.Context):
 
         user_confirmation = None
 
-        def check(emoji, message_id, channel_id, user_id):
+        def check(payload):
             # nonlocal: get user_confirmation from the scope of the outer function
             nonlocal user_confirmation
 
-            if message_id != msg.id or user_id != author_id:
+            if payload.message_id != msg.id or payload.user_id != author_id:
                 return False
 
-            utf = str(emoji)
+            utf = str(payload.emoji)
 
             if utf == '\N{WHITE HEAVY CHECK MARK}':
                 user_confirmation = True
