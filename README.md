@@ -1,4 +1,4 @@
-> **This project has been DEPRECATED.** Contact me if you want to continue where I left off.
+> **This project has been DEPRECATED.** The code here is now public domain. Do whatever you want with it.
 
 # The Oofster
 
