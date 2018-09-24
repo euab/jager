@@ -56,7 +56,7 @@ class Jager(commands.AutoShardedBot):
 
     @property
     def token(self):
-        token = os.getenv("TOKEN") or secrets.TOKEN
+        token = os.getenv("JAGER_TOKEN") or secrets.JAGER_TOKEN
         return token
 
     @classmethod
@@ -168,7 +168,7 @@ class Jager(commands.AutoShardedBot):
 
 def main():
     """Initialise logger and run init func"""
-    token = os.getenv("TOKEN") or secrets.TOKEN
+    token = os.getenv("TOKEN") or secrets.JAGER_TOKEN
     logging.basicConfig(filename="log.log",
                         filemode="w",
                         format="[%(asctime)s] %(msecs)d %(name)s %(levelname)s %(message)s",
