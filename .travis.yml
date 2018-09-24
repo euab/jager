@@ -5,10 +5,10 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  - python -m compileall ./oofster.py
+  - python -m compileall ./jager.py
   - python -m compileall ./ext
   - python -m compileall ./cogs
-  - python ./oofster.py --test-run
+  - python ./jager.py --test-run
 
 notifications:
     email:
