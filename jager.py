@@ -72,18 +72,8 @@ class Jager(commands.AutoShardedBot):
 
     async def get_prefix(self, message):
         """Get the prefix for the context's guild"""
-        with open('data/guild.json') as f:
-            data = json.load(f)
-
-        gid = str(getattr(message.guild, 'id', None))
-
-        prefixes = [
-            f'<@{self.user.id}> ',
-            f'<@!{self.user.id}> ',
-            data or "!"
-        ]
-
-        return prefixes
+        # TODO: Fix the prefix system. It has been temporarily disabled.
+        return "!"
 
     async def create_activity(self):
         """Create standard ticker presence"""
