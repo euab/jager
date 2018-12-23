@@ -6,3 +6,4 @@ youtube_dl
 lxml
 blockchain
 raven
+requests
