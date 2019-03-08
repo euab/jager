@@ -5,5 +5,5 @@ aiomeasures
 youtube_dl
 lxml
 blockchain
-raven
+sentry-sdk
 requests

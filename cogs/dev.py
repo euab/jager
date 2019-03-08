@@ -30,7 +30,6 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            self.bot.sentry.captureException()
             await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
@@ -42,7 +41,6 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            self.bot.sentry.captureException()
             await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
@@ -54,7 +52,6 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            self.bot.sentry.captureException()
             await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
@@ -66,7 +63,6 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            self.bot.sentry.captureException()
             await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
@@ -77,7 +73,6 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            self.bot.sentry.captureException()
             await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
@@ -88,7 +83,6 @@ class Dev:
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)
-            self.bot.sentry.captureException()
             await ctx.message.add_reaction(FAILURE)
 
     @commands.is_owner()
@@ -99,7 +93,6 @@ class Dev:
             self.bot.load_extension(module)
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
-            self.bot.sentry.captureException()
             log.error(e)
             await ctx.message.add_reaction(FAILURE)
 
@@ -138,7 +131,6 @@ class Dev:
                     return
                 await self.bot.user.edit(username=name)
             except Exception as e:
-                self.bot.sentry.captureException()
                 await ctx.send(f"Error:\n```py\n{e}\n```")
 
     @commands.command(pass_context=True)

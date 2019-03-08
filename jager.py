@@ -9,11 +9,11 @@ import logging
 import secrets
 import json
 import asyncio
+import sentry_sdk
 
 from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
-from raven import Client
 
 log = logging.getLogger('discord')
 
@@ -29,7 +29,7 @@ class Jager(commands.AutoShardedBot):
         self.commands_failed = defaultdict(int)
         self.process = psutil.Process()
         self.messages_sent = 0
-        self.sentry = Client(os.getenv("SENTRY_DSN") or secrets.SENTRY_DSN)
+        self.sentry = sentry_sdk.init(os.getenv("SENTRY_DSN") or secrets.SENTRY_DSN)
         self.load_extensions()
         self._add_commands()
         self.loop = asyncio.get_event_loop()
@@ -52,7 +52,7 @@ class Jager(commands.AutoShardedBot):
             except Exception as e:
                 log.info(f'Unable to load extension {extension}. Err: {e}')
                 traceback.print_exc()
-                self.sentry.captureException()
+                sentry_sdk.capture_exception(e)
 
     @property
     def token(self):
@@ -131,6 +131,7 @@ class Jager(commands.AutoShardedBot):
         log.error(error)
         traceback.print_exc()
         cmd = ctx.command.qualified_name.replace(' ', '_')
+        sentry_sdk.capture_exception(error)
         self.commands_failed[cmd] += 1
 
     async def process_commands(self, message):
@@ -152,8 +153,8 @@ class Jager(commands.AutoShardedBot):
         """Test Sentry by creating an error and having the DSN capture it"""
         try:
             1 / 0
-        except ZeroDivisionError:
-            self.sentry.captureException()
+        except ZeroDivisionError as e:
+            sentry_sdk.capture_exception(e)
 
 
 def main():
