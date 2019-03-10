@@ -122,8 +122,7 @@ class Utils:
         await ctx.send(f'I changed your prefix to: `{prefix}`')
 
     @commands.command()
-    async def ping(self, ctx:
-        lat = f'{self.bot.latency * 1000:.4f} ms'
+    async def ping(self, ctx):
         await ctx.send('{} **Pong!** Message latency: {}'.format(
             ctx.author.mention
         ))
