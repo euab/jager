@@ -6,7 +6,7 @@ import os
 from ext.dataio import DataIO
 from discord.ext import commands
 
-class Utils:
+class Utils (commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

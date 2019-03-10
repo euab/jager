@@ -6,7 +6,7 @@ from inspect import cleandoc
 from ext.paginator import HelpPaginator, CouldNotPaginate
 
 
-class Meta:
+class Meta(commands.Cog):
     """Info commands for the bot. Good for new users."""
 
     def __init__(self, bot):

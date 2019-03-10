@@ -12,7 +12,7 @@ user = secrets.CLEVERBOT_API_USER
 key  = secrets.CLEVERBOT_API_KEY
 
 
-class AI:
+class AI(commands.Cog):
     """
     Simple class using an API to send and retrieve an automated conversation.
 

@@ -46,7 +46,7 @@ class BannedMember(commands.Converter):
         return entity
 
 
-class Mod:
+class Mod(commands.Cog):
     """
     Moderation features for your server.
     These commands tend to be a tad more complicated.

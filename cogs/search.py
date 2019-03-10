@@ -13,7 +13,7 @@ IMGUR_ID = os.getenv("IMGUR_ID") or secrets.IMGUR_ID
 
 NOT_FOUND = "I couldn't find anything 😢"
 
-class Search:
+class Search(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

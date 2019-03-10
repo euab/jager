@@ -5,7 +5,7 @@ from discord.ext import commands
 
 SOURCE_URL = "https://github.com/euab/the-oofster"
 
-class Source:
+class Source(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot

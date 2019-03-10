@@ -5,7 +5,7 @@ from datetime import datetime
 from discord.ext import commands
 
 
-class Crypto:
+class Crypto(commands.Cog):
     """
     Interact with the Blockchain wallet API to see exchange
     rates between cryptocurrencies and fiat currencies.

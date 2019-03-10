@@ -1,4 +1,6 @@
-class Test:
+from discord.ext import commands
+
+class Test(commands.Cog):
     """
     This test asserts the sanity of the known universe.
     That 1 + 1 == 2. If this test fails then we are all
