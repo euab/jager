@@ -113,7 +113,6 @@ class Utils:
 
         await ctx.send(embed=em)
 
-    @commands.command()
     @commands.has_permissions(manage_guild=True)
     async def prefix(self, ctx, *, prefix):
         guild_id = str(ctx.guild.id)
@@ -124,14 +123,10 @@ class Utils:
 
     @commands.command()
     async def ping(self, ctx):
-        em = discord.Embed()
-        em.title = 'Pong! Here is the latency:'
-        em.description = f'{self.bot.latency * 1000:.4f} ms'
-        em.color = await ctx.get_main_colour(self.user.avatar_url)
-        try:
-            await ctx.send(embed=em)
-        except discord.Forbidden:
-            await ctx.send(em.title + em.description)
+        lat = f'{self.bot.latency * 1000:.4f} ms'
+        await ctx.send('{} **Pong!** Message latency: {}'.format(
+            ctx.author.mentions
+        ))
 
 def setup(bot):
     cog = Utils(bot)
