@@ -123,8 +123,10 @@ class Utils:
 
     @commands.command()
     async def ping(self, ctx):
+        lat = f'{self.bot.latency * 1000:.4f} ms'
         await ctx.send('{} **Pong!** Message latency: {}'.format(
-            ctx.author.mention
+            ctx.author.mention,
+            lat
         ))
 
 def setup(bot):
