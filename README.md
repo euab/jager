@@ -5,6 +5,8 @@ Jäger is a open source bot for Discord. It has many different functionalities, 
 
 > Please do not try to host your own instance of this bot, it is built for the environment that it runs in. If you want the bot in your server, visit the website in the repository's description.
 
+![](https://media.giphy.com/media/xjVHHIMqzSniA66vIb/giphy.gif)
+
 # Getting Started
 Invite the bot to your server by visiting [this link.](https://discordapp.com/oauth2/authorize?&client_id=493534734413201408&scope=bot&permissions=8)
 From here you can call `!help` to see a list of the commands.
