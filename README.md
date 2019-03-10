@@ -1,7 +1,7 @@
 # Jäger
 Jäger is a open source bot for Discord. It has many different functionalities, that are stated below.
 
-[![Build Status](https://travis-ci.org/Euab/Jager.svg?branch=master)](https://travis-ci.org/Euab/Jager) [![PyPI](https://img.shields.io/badge/Python-3.6.3-green.svg)](https://www.python.org/downloads/)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a0d19fe4283b4288a5146caa5c0891c5)](https://www.codacy.com/app/Euab/rickbot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rickbotdiscord/rickbot&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/Euab/Jager.svg?branch=master)](https://travis-ci.org/Euab/Jager) [![PyPI](https://img.shields.io/badge/Python-3.6.3-green.svg)](https://www.python.org/downloads/) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fa73126c883d4b769c68b403aa0acb7d)](https://www.codacy.com/app/Euab/jager?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Euab/jager&amp;utm_campaign=Badge_Grade)
 
 > Please do not try to host your own instance of this bot, it is built for the environment that it runs in. If you want the bot in your server, visit the website in the repository's description.
 
