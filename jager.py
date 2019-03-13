@@ -149,6 +149,18 @@ class Jager(commands.AutoShardedBot):
             return
         await self.process_commands(message)
 
+    async def on_guild_join(self, guild):
+        log.info('Joined Guild: {}. Owner: {}'.format(
+            guild.name,
+            guild.owner.name
+        ))
+
+    async def on_guild_remove(self, guild):
+        log.info('Left Guild: {}. Owner: {}'.format(
+            guild.name,
+            guild.owner.name
+        ))
+
     def test_sentry(self):
         """Test Sentry by creating an error and having the DSN capture it"""
         try:
@@ -164,7 +176,10 @@ def main():
                         filemode="w",
                         format="[%(asctime)s] %(msecs)d %(name)s %(levelname)s %(message)s",
                         datefmt="'%H:%M:%S'",
-                        level=logging.INFO)
+                        level=logging.INFO,
+                        handlers = [
+                            logging.StreamHandler()
+                        ])
     Jager.init(token)
 
 
