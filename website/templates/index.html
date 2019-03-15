@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Jäger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='css/bulma.css') }}">
+  <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+  <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="padding-left: 15vh; padding-right: 15vh;">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+        <img src="{{ url_for('static', filename='img/jager.png')}}">
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarHome">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarHome" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item">
+          Features
+        </a>
+
+        <a class="navbar-item">
+          Getting started
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item">
+              Features
+            </a>
+            <a class="navbar-item">
+              Getting Started
+            </a>
+            <a class="navbar-item">
+              Contact
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              Report an issue
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <i class="fas fa-sign-in-alt"></i>
+              &nbsp <strong>Log in</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero is-primary is-bold is-large">
+    <div class="hero-body">
+      <div class="container animated fadeInUp" style="text-align: center">
+        <h1 class="title" style="font-size: 10vh">
+          Jäger
+        </h1>
+        <h2 class="subtitle" style="padding-top: 2vh">
+          Wow, isn't this cool.
+        </h2>
+        <div class="container" style="padding-top: 2vh">
+          <a class="button is-primary is-large is-inverted is-outlined" href="#">
+            <i class="fab fa-discord"></i>
+            &nbsp Add to Discord
+          </a>
+          <a class="button is-primary is-large is-inverted is-outlined" href="#">
+            Learn More
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <!-- Add promotional content here -->
+      <h1>
+    </div>
+  </section>
+
+</body>
+
+</html>
