@@ -175,6 +175,7 @@ class Jager(commands.AutoShardedBot):
             guild.owner.name
         ))
         log.info('Removing guild {} id from the db'.format(guild.id))
+        self.db.redis.srem('guilds', guild.id)
 
 
     def test_sentry(self):
