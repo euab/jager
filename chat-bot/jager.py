@@ -14,6 +14,9 @@ import sentry_sdk
 from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
+from database import Db
+
+LOG_TO_SCREEN = True
 
 log = logging.getLogger('discord')
 
@@ -34,6 +37,8 @@ class Jager(commands.AutoShardedBot):
         self._add_commands()
         self.loop = asyncio.get_event_loop()
         self.psa = None
+        self.redis_url = secrets.REDIS_URL
+        self.db = Db(self.redis_url)
 
     def _add_commands(self):
         """Adds commands automatically"""
@@ -109,12 +114,19 @@ class Jager(commands.AutoShardedBot):
     async def on_ready(self):
         """Triggered when the bot has completed startup"""
         log.info("Ready. Yay.")
+        self.add_all_guilds()
         await self.create_activity()
         self.test_sentry()
 
         # ready ascii
         with open("ready_ascii.txt") as f:
             print(f'\n{f.read()}')
+
+    def add_all_guilds(self):
+        log.info('Preparing to add guilds to db...')
+        for guild in self.guilds:
+            log.info('Adding guild: {} to db'.format(guild.id))
+            self.db.redis.sadd('guilds', guild.id)
 
     async def on_command(self, ctx):
         """Triggered whenever a command is invoked"""
@@ -154,12 +166,16 @@ class Jager(commands.AutoShardedBot):
             guild.name,
             guild.owner.name
         ))
+        log.info('Adding guild {} id to db'.format(guild.id))
+        self.db.redis.sadd('guilds', guild.id)
 
     async def on_guild_remove(self, guild):
         log.info('Left Guild: {}. Owner: {}'.format(
             guild.name,
             guild.owner.name
         ))
+        log.info('Removing guild {} id from the db'.format(guild.id))
+
 
     def test_sentry(self):
         """Test Sentry by creating an error and having the DSN capture it"""
@@ -172,12 +188,15 @@ class Jager(commands.AutoShardedBot):
 def main():
     """Initialise logger and run init func"""
     token = os.getenv("TOKEN") or secrets.JAGER_TOKEN
-    logging.basicConfig(filename="log.log",
-                        filemode="w",
-                        format="[%(asctime)s] %(msecs)d %(name)s %(levelname)s %(message)s",
-                        datefmt="'%H:%M:%S'",
-                        level=logging.INFO)
-    Jager.init(token)
+    if LOG_TO_SCREEN:
+        logging.basicConfig(level=logging.INFO)
+        Jager.init(token)
+    else:
+        logging.basicConfig(filename="log.log",
+                            filemode="w",
+                            format="[%(asctime)s] %(msecs)d %(name)s %(levelname)s %(message)s",
+                            datefmt="'%H:%M:%S'",
+                            level=logging.INFO)
 
 
 if __name__ == '__main__':

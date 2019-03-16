@@ -5,7 +5,7 @@ from discord.ext import commands
 NO_CODE_BLOCK_ERROR = 'Missing code block. Please use the following markdown\n\\`\\`\\`language\ncode here\n\\`\\`\\`'
 
 
-class CodeBlock(commands.Cog):
+class CodeBlock:
 
     def __init__(self, argument):
         try:
@@ -40,7 +40,7 @@ class CodeBlock(commands.Cog):
             raise commands.BadArgument(fmt) from e
 
 
-class Coliru:
+class Coliru(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
