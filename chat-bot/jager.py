@@ -16,7 +16,7 @@ from ext.context import LeContext
 from discord.ext import commands
 from database import Db
 
-LOG_TO_SCREEN = True
+LOG_TO_SCREEN = False
 
 log = logging.getLogger('discord')
 
@@ -191,13 +191,14 @@ def main():
     token = os.getenv("TOKEN") or secrets.JAGER_TOKEN
     if LOG_TO_SCREEN:
         logging.basicConfig(level=logging.INFO)
-        Jager.init(token)
     else:
         logging.basicConfig(filename="log.log",
                             filemode="w",
                             format="[%(asctime)s] %(msecs)d %(name)s %(levelname)s %(message)s",
                             datefmt="'%H:%M:%S'",
                             level=logging.INFO)
+
+    Jager.init(token)
 
 
 if __name__ == '__main__':
