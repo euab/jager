@@ -1,32 +1,16 @@
-import asyncio
-import logging
 import discord
 import youtube_dl
+import asyncio
+import logging
 
 from discord.ext import commands
 from sys import platform
 
-DEV_SERVER_ID = 366583119622569986
-
 log = logging.getLogger(__name__)
 
-try:
-    if not discord.opus.is_loaded:
-        if platform == 'linux' or 'linux2':
-            discord.opus.load_opus('libopus.so')
-        if platform == 'darwin':
-            discord.opus.load_opus('libopus.dylib')
-            
-except OSError:
-    log.info("pleb")
-except Exception as e:
-    log.error(e)
-
-youtube_dl.utils.bug_reports_message = lambda: ''
-
-ytdl_format_options = {
+YTDL_OPTS = {
     'format': 'bestaudio/best',
-    'outtmpl': 'cache/voice/%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
@@ -38,81 +22,125 @@ ytdl_format_options = {
     'source_address': '0.0.0.0'
 }
 
-ffmpeg_options = {
-    'before_options': '-nostdin',
+FFMPEG_OPTS = {
     'options': '-vn'
 }
 
-ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+DEV_SERVER_ID = 366583119622569986
+
+ytdl = youtube_dl.YoutubeDL(YTDL_OPTS)
 
 
-class YTDLSource(discord.PCMVolumeTransformer):
+# Load the libopus binaries into the bot to allow for the
+# parsing of audio files.
+try:
+    if not discord.opus.is_loaded:
+        if platform == 'linux' or 'linux2':
+            discord.opus.load_opus('libopus.so')
+        if platform == 'darwin':
+            discord.opus.load_opus('libopus.dylib')
+            
+except OSError:
+    log.warning("Libopus binaries could not be located.")
+except Exception as e:
+    log.error(e)
 
+
+class YoutubeSource(discord.PCMVolumeTransformer):
     def __init__(self, source, *, data, volume=0.5):
         super().__init__(source, volume)
-
         self.data = data
-
         self.title = data.get('title')
         self.url = data.get('url')
 
     @classmethod
-    async def from_url(cls, url, *, loop=None):
+    async def from_url(cls, url, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
-        data = await loop.run_in_executor(None, ytdl.extract_info, url)
+        data = await loop.run_in_executor(None,
+               lambda: ytdl.extract_info(url, download=not stream))
 
         if 'entries' in data:
+            # Take the first index of the playlist
             data = data['entries'][0]
 
-        filename = ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+        filename = data['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **FFMPEG_OPTS), data=data)
 
 
-class Music(commands.Cog):
+class Voice(commands.Cog):
+    """
+    Plugin for voice channel related commands. Including:
+        - Playing music
+        - Playing Youtube streams
+        - Controling bot volume
+        - SOON: Server queues
+    """
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, jager):
+        self.jager = jager
 
     @commands.command()
-    async def join(self, ctx, *, channel: discord.VoiceChannel):
+    async def join(self, ctx, *, channel : discord.VoiceChannel):
         if ctx.voice_client is not None:
             await ctx.voice_client.move_to(channel)
-            return await ctx.send(f"Moved to **{channel}** \N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
+            return await ctx.send(f'***MOVING TO*** `{channel}` ' \
+                                   '\N{MULTIPLE MUSICAL NOTES}')
 
         await channel.connect()
-        await ctx.send(f"Joined **{channel}** \N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
-
+        await ctx.send(f'***CONNECTING TO*** `{channel}`. '
+                        '\N{MULTIPLE MUSICAL NOTES}')
 
     @commands.command()
     async def play(self, ctx, *, url):
-        # TODO: Check the video data for a stream index. Don't know one is provided. Will find out.
-        try:
-            if "stream" in url:
-                return await ctx.send("**No**")
+        """
+        This plays from mostly youtube but also any other site that
+        YoutubeDL supports. Might refactor from YTDL to Lavalink
+        to allow for enhanced soundcloud and spotify support.
 
-            async with ctx.typing():
-                if ctx.voice_client is None:
-                    if ctx.author.voice.channel:
-                        await ctx.author.voice.channel.connect()
-                        await ctx.send(f"Connecting to **{ctx.author.voice.channel.name}** "
-                                        "\N{MULTIPLE MUSICAL NOTES} \N{OK HAND SIGN}")
-                    else:
-                        return await ctx.send("I'm not connected to a voice channel... :grimacing:")
+        This updated version of the player system allows for the video
+        to be streamed directly from the site instead of predownloading.
+        """
 
-                if ctx.voice_client.is_playing():
-                    ctx.voice_client.stop()
+        async with ctx.typing():
+            player = await YoutubeSource.from_url(url, loop=self.jager.loop, stream=True)
+            ctx.voice_client.play(player,
+                after=lambda e: log.error('VC Err: %s' % e) if e else None)
 
-                player = await YTDLSource.from_url(url, loop=self.bot.loop)
-                ctx.voice_client.play(player, after=lambda e: print('Something went wrong here... :cry:') if e else None)
+            if ctx.guild.id == DEV_SERVER_ID:
+                activity = discord.Activity(name=player.title, type=2)
+                await self.bot.change_presence(activity=activity)
 
-                if ctx.guild.id == DEV_SERVER_ID:
-                    activity = discord.Activity(name=player.title, type=2)
-                    await self.bot.change_presence(activity=activity)
+            fmt = '**NOW PLAYING** `{}`'
+            await ctx.send(fmt.format(player.title))
 
-                await ctx.send('Now playing **{}** :ok_hand:'.format(player.title))
-        except Exception as e:
-            log.error(e)
-            self.bot.sentry.captureException()
+    @commands.command()
+    async def volume(self, ctx, volume : int):
+        """
+        Changes the player object's volume property.
+        Uses a floating point percentage. This might fix any issues.
+        """
+
+        if ctx.voice_client is None:
+            return await ctx.send('I am not connected to a voice channel. '
+                                  'Use `!join` or `!play <song name> to add '
+                                  'me to your channel.')
+        ctx.voice_client.source.volume = volume / 100
+        await ctx.send(f'Changed volume to **{volume}%**.')
+
+    @commands.command()
+    async def stop(self, ctx):
+        prompt = 'This will disconnect the bot. **If you want to just stop ' \
+                 'the music why not instead use** `{}pause`?. Would you ' \
+                 'still like to go ahead and disconnect the bot from the ' \
+                 'voice channel?'
+        auth = await ctx.authorize(prompt)
+        if not auth:
+            return
+        await ctx.voice_client.disconnect()
+        if ctx.guild.id == DEV_SERVER_ID:
+            await ctx.send(f'**Left channel** \N{WAVING HAND SIGN}')
+            await self.bot.create_activity()
+        await ctx.send(f'**Left channel** \N{WAVING HAND SIGN}')
 
     @commands.command()
     async def pause(self, ctx):
@@ -120,40 +148,32 @@ class Music(commands.Cog):
             ctx.voice_client.pause()
             await ctx.send("**Paused** \N{DOUBLE VERTICAL BAR}")
         else:
-            return await ctx.send("**Not playing anything.** Use `{}play` to play something."
-                                  "".format(ctx.prefix))
+            return await ctx.send('**Not playing anything.** Use '
+                                  '`{}play` to play something.'
+                                  ''.format(ctx.prefix))
 
     @commands.command()
     async def resume(self, ctx):
         if ctx.voice_client.is_paused():
             ctx.voice_client.resume()
-            await ctx.send("**Resumed** \N{BLACK RIGHT-POINTING TRIANGLE}")
+            await ctx.send('**Resumed** \N{BLACK RIGHT-POINTING TRIANGLE}')
         else:
-            return await ctx.send("**Not paused.** Use `{}pause` to pause."
-                                  "".format(ctx.prefix))
+            return await ctx.send('**Not paused.** Use `{}pause` to pause.'
+                                  ''.format(ctx.prefix))
 
-    @commands.command()
-    async def volume(self, ctx, volume: int):
+    @play.before_invoke
+    async def insure_voice_connection(self, ctx):
         if ctx.voice_client is None:
-            return await ctx.send("I'm not connected to a voice channel... :grimacing:")
-
-        ctx.voice_client.source.volume = volume
-        await ctx.send("Changed player volume to {}%".format(volume))
-
-    @commands.command(aliases=["fuck off"])
-    async def stop(self, ctx):
-        prompt = "This will disconnect the bot. **If you want to just stop the music why not instead use** `{}pause`?. " \
-                 "Would you still like to go ahead and disconnect the bot from the voice channel?".format(ctx.prefix)
-        auth = await ctx.authorize(prompt)
-        if not auth:
-            return
-        await ctx.voice_client.disconnect()
-        if ctx.guild.id == DEV_SERVER_ID:
-            await ctx.send(f"**Left channel** \N{WAVING HAND SIGN}")
-            await self.bot.create_activity()
-        await ctx.send(f"**Left channel** \N{WAVING HAND SIGN}")
+            if ctx.author.voice:
+                await ctx.author.voice.channel.connect()
+            else:
+                ctx.send('You are not connected to a voice channel '
+                '\N{GRIMACING FACE}')
+                raise commands.CommandError('User not connected to VC.')
+        elif ctx.voice_client.is_playing:
+            ctx.voice_client.stop()
 
 
 def setup(bot):
-    cog = Music(bot)
+    cog = Voice(bot)
     bot.add_cog(cog)
