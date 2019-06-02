@@ -83,11 +83,11 @@ class Voice(commands.Cog):
     async def join(self, ctx, *, channel : discord.VoiceChannel):
         if ctx.voice_client is not None:
             await ctx.voice_client.move_to(channel)
-            return await ctx.send(f'***MOVING TO*** `{channel}` ' \
+            return await ctx.send(f'**MOVING TO** `{channel}` ' \
                                    '\N{MULTIPLE MUSICAL NOTES}')
 
         await channel.connect()
-        await ctx.send(f'***CONNECTING TO*** `{channel}`. '
+        await ctx.send(f'**CONNECTING TO** `{channel}`. '
                         '\N{MULTIPLE MUSICAL NOTES}')
 
     @commands.command()
@@ -165,6 +165,8 @@ class Voice(commands.Cog):
     async def insure_voice_connection(self, ctx):
         if ctx.voice_client is None:
             if ctx.author.voice:
+                await ctx.send(f'**CONNECTING TO** `{channel}`. '
+                        '\N{MULTIPLE MUSICAL NOTES}')
                 await ctx.author.voice.channel.connect()
             else:
                 ctx.send('You are not connected to a voice channel '
