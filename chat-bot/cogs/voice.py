@@ -137,10 +137,12 @@ class Voice(commands.Cog):
         if not auth:
             return
         await ctx.voice_client.disconnect()
+        fmt = "**DISCONNECTING FROM** `{}` \N{WAVING HAND SIGN}"
+        channel = ctx.author.voice.channel
         if ctx.guild.id == DEV_SERVER_ID:
-            await ctx.send(f'**Left channel** \N{WAVING HAND SIGN}')
+            await ctx.send(fmt.format(channel))
             await self.bot.create_activity()
-        await ctx.send(f'**Left channel** \N{WAVING HAND SIGN}')
+        await ctx.send(fmt.format(channel))
 
     @commands.command()
     async def pause(self, ctx):
@@ -170,7 +172,7 @@ class Voice(commands.Cog):
                         '\N{MULTIPLE MUSICAL NOTES}')
                 await channel.connect()
             else:
-                ctx.send('You are not connected to a voice channel '
+                await ctx.send('You are not connected to a voice channel '
                 '\N{GRIMACING FACE}')
                 raise commands.CommandError('User not connected to VC.')
         elif ctx.voice_client.is_playing:
