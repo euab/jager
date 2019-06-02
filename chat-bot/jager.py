@@ -16,7 +16,7 @@ from ext.context import LeContext
 from discord.ext import commands
 from database import Db
 
-LOG_TO_SCREEN = False
+LOG_TO_SCREEN = True
 
 log = logging.getLogger('discord')
 
