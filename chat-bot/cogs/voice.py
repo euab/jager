@@ -165,9 +165,10 @@ class Voice(commands.Cog):
     async def insure_voice_connection(self, ctx):
         if ctx.voice_client is None:
             if ctx.author.voice:
+                channel = ctx.author.voice.channel
                 await ctx.send(f'**CONNECTING TO** `{channel}`. '
                         '\N{MULTIPLE MUSICAL NOTES}')
-                await ctx.author.voice.channel.connect()
+                await channel.connect()
             else:
                 ctx.send('You are not connected to a voice channel '
                 '\N{GRIMACING FACE}')
