@@ -76,9 +76,12 @@ class Chemicals(commands.Cog):
 
         # Arrange the data into an embed instance
         embed = discord.Embed()
+        
+        # Set the name of the embed to the first synonym to avoid a long
+        # IUPAC name as the title.
         embed.set_author(name='{} - Chemical information'.format(
-                            iupac_name)
-        )
+                            str(synonyms[0])
+        ))
         embed.set_thumbnail(url=thumbnail)
         embed.description = 'Click the image to enlarge the 2D structure.'
         embed.add_field(name='IUPAC Name', value=iupac_name, inline=False)
