@@ -21,38 +21,42 @@ class Chemicals(commands.Cog):
         Search for the chemical using keywords and then use the CID of the
         top result to get the molecular data of the chemical
         """
-        # Get the results for the chemical search.
-        chemicals = pubchempy.get_compounds(chemical, 'name')
-        total_chemicals = []
-        for chemical in chemicals:
-            vioxx = chemical.cid
-            total_chemicals.append(vioxx)
+        # Send typing to indicate that the bot is responding
+        async with ctx.typing():
+            # Get the results for the chemical search.
+            chemicals = pubchempy.get_compounds(chemical, 'name')
+            total_chemicals = []
+            for chemical in chemicals:
+                vioxx = chemical.cid
+                total_chemicals.append(vioxx)
 
-        # Get the molecular data using the CID from the first list element
-        try:
-            chemical_cid = total_chemicals[0]
+            # Get the molecular data using the CID from the first list element
+            try:
+                chemical_cid = total_chemicals[0]
 
-        # If the index is out of range we can assume that no results were
-        # returned and we can return an error.
-        except IndexError:
-            return await ctx.send('{} **Sorry! No chemicals could matched '
-                                  'with your search!**'.format(
-                                      ctx.author.mention
-                                  ))
+            # If the index is out of range we can assume that no results were
+            # returned and we can return an error.
+            except IndexError:
+                return await ctx.send('{} **Sorry! No chemicals could matched '
+                                    'with your search!**'.format(
+                                        ctx.author.mention
+                                    ))
 
-        # Send the data to be arranged into a visual format
-        embed = self.arrange_data(chemical_cid)
+            # Send the data to be arranged into a visual format
+            embed = self.arrange_data(chemical_cid)
 
-        # Send the embed into the chat
-        await ctx.send(embed=embed)
+            # Send the embed into the chat
+            await ctx.send(embed=embed)
 
     @commands.command()
     async def cid(self, ctx, *, cid):
-        # Pass the CID requested by the user to arrange_data
-        embed = self.arrange_data(cid)
+        # Send typing to indicate that the bot is responding
+        async with ctx.typing():
+            # Pass the CID requested by the user to arrange_data
+            embed = self.arrange_data(cid)
 
-        # Send the embed into the chat
-        await ctx.send(embed=embed)
+            # Send the embed into the chat
+            await ctx.send(embed=embed)
 
     def arrange_data(self, cid):
         # Get the data from the CID
