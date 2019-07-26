@@ -1,9 +1,10 @@
 psutil
 colorthief
-git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py[voice]
+discord.py[voice]
 aiomeasures
 youtube_dl
 lxml
 blockchain
 sentry-sdk
 requests
+pubchempy
