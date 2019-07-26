@@ -1,9 +1,13 @@
 import discord
 import pubchempy
+import requests
 
 from discord.ext import commands
+from lxml import html
 
-PUBCHEM_IMG_URL = "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid={}&t=l"
+PUBCHEM_IMG_URL   = "https://pubchem.ncbi.nlm.nih.gov/image/imgsrv.fcgi?cid={}&t=l"
+LCSS_BASE         = "https://pubchem.ncbi.nlm.nih.gov/compound/{}#datasheet=LCSS"
+PUBCHEM_PAGE_BASE = "https://pubchem.ncbi.nlm.nih.gov/compound/"
 
 
 class Chemicals(commands.Cog):
@@ -76,7 +80,7 @@ class Chemicals(commands.Cog):
 
         # Arrange the data into an embed instance
         embed = discord.Embed()
-        
+
         # Set the name of the embed to the first synonym to avoid a long
         # IUPAC name as the title.
         embed.set_author(name='{} - Chemical information'.format(
@@ -88,9 +92,10 @@ class Chemicals(commands.Cog):
         embed.add_field(name='Synonyms', value=synonyms, inline=False)
         embed.add_field(name='Molecular formula', value=molecular_formula, inline=False)
         embed.add_field(name='Molecular weight', value=molecular_weight, inline=False)
+        embed.add_field(name='Laboratory Chemical Safety Sheet (LCSS)',
+                        value=LCSS_BASE.format(cid))
         embed.add_field(name='Charge', value=charge, inline=False)
         embed.add_field(name='Elements', value=elements, inline=False)
-        embed.add_field(name='Bonds', value=bonds, inline=False)
         embed.add_field(name='SMILES', value=smiles, inline=False)
         embed.add_field(name='InChI', value=inchi, inline=False)
         embed.add_field(name='CID', value=cid)
