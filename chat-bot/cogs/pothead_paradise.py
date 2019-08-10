@@ -20,14 +20,14 @@ class PotheadParadise(commands.Cog):
         if role not in ctx.author.roles:
             await member.add_roles(role)
             await ctx.send('**{} Opted you into minecraft ' 
-                           'notifications.**'.format(
+                           'notifications and channels.**'.format(
                                member.mention
             ))
 
         else:
             await member.remove_roles(role)
             await ctx.send('**{} Opted you out of minecraft '
-                           'notifications.**'.format(
+                           'notifications and channels.**'.format(
                                 member.mention
             ))
 
