@@ -25,6 +25,7 @@ class Dev(commands.Cog):
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def listening(self, ctx, *, listening: str):
         try:
+            self.bot.display_ticker = False
             activity = discord.Activity(name=listening, type=2)
             await self.bot.change_presence(activity=activity)
             await ctx.message.add_reaction(SUCCESS)
@@ -36,6 +37,7 @@ class Dev(commands.Cog):
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def playing(self, ctx, *, playing: str):
         try:
+            self.bot.display_ticker = False
             activity = discord.Game(name=playing)
             await self.bot.change_presence(activity=activity)
             await ctx.message.add_reaction(SUCCESS)
@@ -47,6 +49,7 @@ class Dev(commands.Cog):
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def watching(self, ctx, *, watching: str):
         try:
+            self.bot.display_ticker = False
             activity = discord.Activity(name=watching, type=3)
             await self.bot.change_presence(activity=activity)
             await ctx.message.add_reaction(SUCCESS)
@@ -58,8 +61,18 @@ class Dev(commands.Cog):
     @commands.command(pass_context=True, no_pm=True, hidden=True)
     async def streaming(self, ctx, *, playing: str):
         try:
+            self.bot.display_ticker = False
             activity = discord.Streaming(name=playing, url="https://www.twitch.tv/euab")
             await self.bot.change_presence(activity=activity)
+            await ctx.message.add_reaction(SUCCESS)
+        except Exception as e:
+            log.error(e)
+            await ctx.message.add_reaction(FAILURE)
+
+    @commands.command(pass_context=True, no_pm=True, hidden=True)
+    async def ticker(self, ctx):
+        try:
+            self.bot.display_ticker = True
             await ctx.message.add_reaction(SUCCESS)
         except Exception as e:
             log.error(e)

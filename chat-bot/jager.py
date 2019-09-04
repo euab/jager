@@ -10,11 +10,13 @@ import secrets
 import json
 import asyncio
 import sentry_sdk
+import tqdm
 
 from collections import defaultdict
 from ext.context import LeContext
 from discord.ext import commands
 from database import Db
+from lxml import etree
 
 LOG_TO_SCREEN = True
 
@@ -39,6 +41,7 @@ class Jager(commands.AutoShardedBot):
         self.psa = None
         self.redis_url = secrets.REDIS_URL
         self.db = Db(self.redis_url)
+        self.display_ticker = True
 
     def _add_commands(self):
         """Adds commands automatically"""
@@ -82,7 +85,7 @@ class Jager(commands.AutoShardedBot):
 
     async def create_activity(self):
         """Create standard ticker presence"""
-        while True:
+        while self.display_ticker:
             activity = discord.Game(name="!help | Get help")
             await self.change_presence(activity=activity)
             await asyncio.sleep(12.0)
