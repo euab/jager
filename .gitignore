@@ -1,0 +1,16 @@
+/constants.yml
+*.class
+.DS_store
+
+*.jar
+!grade-wrapper.jar
+.gradle/*
+target/
+build/
+out/
+Jager.jar
+
+.idea
+/*.iws
+/*.ipr
+/*.iml
