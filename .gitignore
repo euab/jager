@@ -1,6 +1,7 @@
 /constants.yml
 *.class
 .DS_store
+*.json
 
 *.jar
 !grade-wrapper.jar
