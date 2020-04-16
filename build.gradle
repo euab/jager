@@ -1,11 +1,26 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'com.euii.jager'
 version '1.0-SNAPSHOT'
 
+mainClassName = 'com.euii.jager.Main'
+
 sourceCompatibility = 1.8
+
+shadowJar {
+    archiveName = "Jager.jar"
+
+    doLast {
+        copy {
+            from 'build/libs/Jager.jar'
+            into '.'
+        }
+    }
+}
 
 repositories {
     mavenCentral()

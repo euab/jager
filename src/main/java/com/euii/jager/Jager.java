@@ -74,8 +74,4 @@ public class Jager {
 
         System.out.printf(" - Successfully registered %s commands\n", CommandHandler.getCommands().size());
     }
-
-    public static void main(String[] args) throws IOException {
-        new Jager();
-    }
 }
