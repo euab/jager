@@ -41,7 +41,7 @@ public class PingCommand extends AbstractCommand {
 
     @Override
     public boolean onCommand(Message message, String[] args) {
-        MessageFactory.makeInfo(message, "Pong! Latency: %s ms", message.getJDA().getGatewayPing()).queue();
+        MessageFactory.makeSuccess(message, ":hourglass: %s ms", message.getJDA().getGatewayPing()).queue();
         return true;
     }
 }
