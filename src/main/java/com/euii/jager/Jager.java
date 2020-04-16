@@ -3,6 +3,7 @@ package com.euii.jager;
 import com.euii.jager.commands.CommandHandler;
 import com.euii.jager.commands.utility.InviteCommand;
 import com.euii.jager.commands.utility.PingCommand;
+import com.euii.jager.commands.utility.UptimeCommand;
 import com.euii.jager.config.Configuration;
 import com.euii.jager.config.ConfigurationLoader;
 import com.euii.jager.contracts.handlers.EventHandler;
@@ -71,8 +72,10 @@ public class Jager {
 
     private void registerCommands() {
         System.out.println("Registering commands...");
+
         CommandHandler.register(new PingCommand(this));
         CommandHandler.register(new InviteCommand(this));
+        CommandHandler.register(new UptimeCommand(this));
 
         System.out.printf(" - Successfully registered %s commands\n", CommandHandler.getCommands().size());
     }
