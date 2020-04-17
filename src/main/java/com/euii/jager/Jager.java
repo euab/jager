@@ -27,6 +27,7 @@ public class Jager {
     private JDA jda;
 
     public Jager() throws IOException {
+        System.out.println(getBanner());
         LOGGER.info("Welcome to Jager rolling...");
 
         LOGGER.info("- Getting configuration");
@@ -82,6 +83,18 @@ public class Jager {
         CommandHandler.register(new UptimeCommand(this));
 
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
+    }
+
+    private String getBanner() {
+        return "\n\n" +
+                "      _                         \n"+
+                "     | | __ _  __ _  ___ _ __   \n"+
+                "  _  | |/ _` |/ _` |/ _ \\ '__| \n"+
+                " | |_| | (_| | (_| |  __/ |     \n"+
+                "  \\___/ \\__,_|\\__, |\\___|_| \n"+
+                "              |___/             \n\n"+
+                "===============================";
+
     }
 
     public Configuration getConfig() {
