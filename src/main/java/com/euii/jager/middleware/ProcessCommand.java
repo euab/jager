@@ -26,7 +26,7 @@ public class ProcessCommand extends AbstractMiddleware {
     public boolean handle(Message message, MiddlewareStack stack, String... args) {
         String[] arguments = argumentsRegex.split(message.getContentRaw());
 
-        System.out.println(COMMAND_OUTPUT
+        jager.getLogger().info(COMMAND_OUTPUT
                 .replace("%command%", stack.getCommand().getName())
                 .replace("%category%", stack.getCommandContainer().getCategory().getName())
                 .replace("%author%", formatUsername(message))

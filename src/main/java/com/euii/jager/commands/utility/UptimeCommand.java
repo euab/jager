@@ -48,7 +48,7 @@ public class UptimeCommand extends AbstractCommand {
         long uptime = runtimeMXBean.getUptime();
         String humanUptime = Time.makeHumanReadableTime(uptime);
 
-        MessageFactory.makeInfo(message, "I have been online for: " + humanUptime).queue();
+        MessageFactory.makeInfo(message, ":stopwatch: " + humanUptime).queue();
 
         return true;
     }

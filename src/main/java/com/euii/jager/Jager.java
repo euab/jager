@@ -11,6 +11,8 @@ import com.euii.jager.handlers.EventTypes;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
@@ -18,29 +20,31 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Jager {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger("Jager");
+
     public final Configuration config;
 
     private JDA jda;
 
     public Jager() throws IOException {
-        System.out.println("Welcome to Jager rolling...");
+        LOGGER.info("Welcome to Jager rolling...");
 
-        System.out.println("- Getting configuration");
+        LOGGER.info("- Getting configuration");
         ConfigurationLoader configLoader = new ConfigurationLoader();
         this.config = (Configuration) configLoader.load("configuration.json", Configuration.class);
 
         if (this.config == null) {
-            System.out.println("An error occurred whilst loading the configuration. Exiting program...");
+            LOGGER.error("An error occurred whilst loading the configuration. Exiting program...");
             System.exit(0);
         }
 
         this.registerCommands();
 
         try {
-            System.out.println("Building JDA...");
+            LOGGER.info("Building JDA...");
             jda = prepareJDA().build();
         } catch (LoginException e) {
-            System.out.println("Something went wrong when connecting to Discord. Exiting program...");
+            LOGGER.error("Something went wrong when connecting to Discord. Exiting program...");
             System.exit(0);
         }
     }
@@ -59,11 +63,11 @@ public class Jager {
                     builder.addEventListeners(instance);
                 }
             } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
-                System.out.println("Invalid listener object parsed, could not create a new instance.");
-                System.out.println(e);
+                LOGGER.warn("Invalid listener object parsed, could not create a new instance.");
+                e.printStackTrace();
             } catch (IllegalAccessException e) {
-                System.out.println("An attempt was made to register a handler called " + event + "but it failed.");
-                System.out.println(e);
+                LOGGER.warn("An attempt was made to register a handler called " + event + "but it failed.");
+                e.printStackTrace();
             }
         }
 
@@ -71,16 +75,20 @@ public class Jager {
     }
 
     private void registerCommands() {
-        System.out.println("Registering commands...");
+        LOGGER.info("Registering commands...");
 
         CommandHandler.register(new PingCommand(this));
         CommandHandler.register(new InviteCommand(this));
         CommandHandler.register(new UptimeCommand(this));
 
-        System.out.printf(" - Successfully registered %s commands\n", CommandHandler.getCommands().size());
+        LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
     }
 
     public Configuration getConfig() {
         return config;
+    }
+
+    public Logger getLogger() {
+        return LOGGER;
     }
 }
