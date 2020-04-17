@@ -1,6 +1,7 @@
 package com.euii.jager;
 
 import com.euii.jager.commands.CommandHandler;
+import com.euii.jager.commands.utility.HelpCommand;
 import com.euii.jager.commands.utility.InviteCommand;
 import com.euii.jager.commands.utility.PingCommand;
 import com.euii.jager.commands.utility.UptimeCommand;
@@ -81,6 +82,7 @@ public class Jager {
         CommandHandler.register(new PingCommand(this));
         CommandHandler.register(new InviteCommand(this));
         CommandHandler.register(new UptimeCommand(this));
+        CommandHandler.register(new HelpCommand(this));
 
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
     }
