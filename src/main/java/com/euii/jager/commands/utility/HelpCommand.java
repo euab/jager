@@ -47,6 +47,11 @@ public class HelpCommand extends AbstractCommand {
 
     @Override
     public boolean onCommand(Message message, String[] args) {
+        if (!args[0].contains("!")) {
+            StringBuilder sb = new StringBuilder(args[0]);
+            sb.insert(0, "!");
+            args[0] = sb.toString();
+        }
         return showCommand(message, CommandHandler.getCommand(args[0]), args[0]);
     }
 
