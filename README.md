@@ -16,7 +16,7 @@ some tasks may be added or removed during the development process.
 
 - [x] Basic functionality
 - [x] Ping command
-- [ ] General utility and helper commands
+- [x] General utility and helper commands
 - [ ] Search commands
 - [ ] Music player
 - [ ] Database implementation
