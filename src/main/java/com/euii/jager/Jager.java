@@ -1,6 +1,8 @@
 package com.euii.jager;
 
 import com.euii.jager.commands.CommandHandler;
+import com.euii.jager.commands.search.InternetCommand;
+import com.euii.jager.commands.search.UrbanDictionaryCommand;
 import com.euii.jager.commands.utility.HelpCommand;
 import com.euii.jager.commands.utility.InviteCommand;
 import com.euii.jager.commands.utility.PingCommand;
@@ -12,6 +14,7 @@ import com.euii.jager.handlers.EventTypes;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.SelfUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,6 +86,7 @@ public class Jager {
         CommandHandler.register(new InviteCommand(this));
         CommandHandler.register(new UptimeCommand(this));
         CommandHandler.register(new HelpCommand(this));
+        CommandHandler.register(new UrbanDictionaryCommand(this));
 
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
     }
@@ -106,4 +110,10 @@ public class Jager {
     public Logger getLogger() {
         return LOGGER;
     }
+
+    public SelfUser getSelfUser() {
+        return jda.getSelfUser();
+    }
+
+
 }
