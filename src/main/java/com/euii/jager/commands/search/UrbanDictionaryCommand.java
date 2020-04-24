@@ -49,7 +49,8 @@ public class UrbanDictionaryCommand extends AbstractCommand {
     public boolean onCommand(Message message, String[] args) {
         // TODO: Add NSFW protection for this command.
 
-        message.getChannel().sendTyping();
+        message.getChannel().sendTyping().queue();
+
         RequestFactory.makeGetRequest("https://api.urbandictionary.com/v0/define")
                 .addParameter("term", String.join(" ", args))
                 .send((Consumer<Response>) response -> {
