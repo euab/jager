@@ -1,10 +1,8 @@
-# Jäger
-
-![V2](v2.png)
-
-Jager V2 is the next major version of Jager, a multipurpose Discord bot.
-This branch is the development branch for V2.
-This bot is being ported over from Python to Java as it gives me something to do during the Coronavirus lockdown.
+<p align="center">
+    <img src="https://i.imgur.com/FEkJZdh.png">
+    <h1 align="center">Jäger V2</h1>
+    <p align="center"><b>The development branch for the next major version of the Jäger Discord bot.</b></p>
+</p>
 
 > It is not recommended that you try and host your own instance of this bot. Not only is this branch very unstable and
 > subject to constant updates, but the bot is also built for the environment that it runs in. It will likely fail if
