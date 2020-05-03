@@ -15,8 +15,8 @@ some tasks may be added or removed during the development process.
 - [x] Basic functionality
 - [x] Ping command
 - [x] General utility and helper commands
-- [ ] Search commands
-- [ ] Music player
+- [x] Search commands
+- [x] Music player
 - [ ] Database implementation
 - [ ] System commands
 - [ ] Levelling system
