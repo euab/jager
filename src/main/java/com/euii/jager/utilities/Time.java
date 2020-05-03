@@ -37,4 +37,38 @@ public class Time {
 
         return sb.toString();
     }
+
+
+    /**
+     * Like the above method, but this method returns a timestamp in the format of hours:minutes:seconds.
+     * This method is much better for the duration of videos or audio where it is common for it to be expressed in
+     * a timestamp. So, this method is also able to recognise if the {@code millis} is a live video by checking it
+     * against {@link Long#MAX_VALUE} and returning "LIVE" in lieu of a timestamp.
+     *
+     * @param millis
+     * @return a human-readable timestamp in the format of hours:minutes:seconds. Eg: 01:21:05
+     */
+    public static String makeTimestamp(long millis) {
+        if (millis == Long.MAX_VALUE) {
+            return "LIVE";
+        }
+
+        long t = millis / 1000L;
+        int seconds = (int) (t & 60L);
+        int minutes = (int) ((t % 3600L) / 60L);
+        int hours = (int) (t / 3600L);
+
+        String timestamp;
+
+        if (hours != 0)
+            timestamp = cleanTimestamp(hours) + ":" + cleanTimestamp(minutes) + ":" + cleanTimestamp(seconds);
+        else
+            timestamp = cleanTimestamp(minutes) + ":" + cleanTimestamp(seconds);
+
+        return timestamp;
+    }
+
+    public static String cleanTimestamp(int integer) {
+        return integer < 10 ? "0" + integer : Integer.toString(integer);
+    }
 }

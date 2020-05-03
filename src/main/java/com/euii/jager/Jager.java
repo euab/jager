@@ -1,7 +1,7 @@
 package com.euii.jager;
 
 import com.euii.jager.commands.CommandHandler;
-import com.euii.jager.commands.search.InternetCommand;
+import com.euii.jager.commands.music.*;
 import com.euii.jager.commands.search.UrbanDictionaryCommand;
 import com.euii.jager.commands.utility.HelpCommand;
 import com.euii.jager.commands.utility.InviteCommand;
@@ -11,9 +11,12 @@ import com.euii.jager.config.Configuration;
 import com.euii.jager.config.ConfigurationLoader;
 import com.euii.jager.contracts.handlers.EventHandler;
 import com.euii.jager.handlers.EventTypes;
+import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.SelfUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +51,7 @@ public class Jager {
         try {
             LOGGER.info("Building JDA...");
             jda = prepareJDA().build();
+            this.setPresence();
         } catch (LoginException e) {
             LOGGER.error("Something went wrong when connecting to Discord. Exiting program...");
             System.exit(0);
@@ -87,8 +91,21 @@ public class Jager {
         CommandHandler.register(new UptimeCommand(this));
         CommandHandler.register(new HelpCommand(this));
         CommandHandler.register(new UrbanDictionaryCommand(this));
+        CommandHandler.register(new PlayCommand(this));
+        CommandHandler.register(new SkipCommand(this));
+        CommandHandler.register(new NowPlayingCommand(this));
+        CommandHandler.register(new PauseCommand(this));
+        CommandHandler.register(new ResumeCommand(this));
+        CommandHandler.register(new SummonCommand(this));
+        CommandHandler.register(new RepeatCommand(this));
+        CommandHandler.register(new ClearQueueCommand(this));
+        CommandHandler.register(new LeaveCommand(this));
 
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
+    }
+
+    private void setPresence() {
+        this.jda.getPresence().setActivity(Activity.playing("!help"));
     }
 
     private String getBanner() {
@@ -99,7 +116,12 @@ public class Jager {
                 " | |_| | (_| | (_| |  __/ |     \n"+
                 "  \\___/ \\__,_|\\__, |\\___|_| \n"+
                 "              |___/             \n\n"+
-                "===============================";
+                "-------------------------------------------------"+
+                "\n == Version information ==" +
+                "\n JVM           : " + System.getProperty("java.version") +
+                "\n JDA           : " + JDAInfo.VERSION +
+                "\n Lavaplayer    : " + PlayerLibrary.VERSION +
+                "\n=================================================";
 
     }
 

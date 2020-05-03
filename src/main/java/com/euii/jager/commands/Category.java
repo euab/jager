@@ -12,7 +12,8 @@ public enum Category {
     //NOTE: More categories will be added over time but the layout for an extension of categories is in place here.
 
     UTILITY("Utility"),
-    SEARCH("Search");
+    SEARCH("Search"),
+    MUSIC("Music");
 
     private static final List<Category> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
     private static final Random RANDOM = new Random();
