@@ -42,7 +42,7 @@ public class InviteCommand extends AbstractCommand {
     @Override
     public boolean onCommand(Message message, String[] args) {
         String response = "[Click here](oauth) to invite me to another server.";
-        String formattedResponse = response.replace("oauth", jager.getConfig().getBotAuth().getOauth());
+        String formattedResponse = response.replace("oauth", System.getenv("JAGEN_OAUTH"));
 
         MessageFactory.makeInfo(message, formattedResponse).queue();
 
