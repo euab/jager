@@ -4,6 +4,7 @@
 *.json
 
 *.jar
+!grade-wrapper.jar
 .gradle/*
 target/
 build/

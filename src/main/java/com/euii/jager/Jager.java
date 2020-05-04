@@ -30,12 +30,10 @@ public class Jager {
     private static final Logger LOGGER = LoggerFactory.getLogger("Jager");
 
     public final Configuration config;
-    private final RuntimeSettings runtimeSettings;
 
     private JDA jda;
 
-    public Jager(RuntimeSettings runtimeSettings) throws IOException {
-        this.runtimeSettings = runtimeSettings;
+    public Jager() throws IOException {
 
         System.out.println(getBanner());
         LOGGER.info("Welcome to Jager rolling...");
@@ -45,12 +43,8 @@ public class Jager {
         this.config = (Configuration) configLoader.load("configuration.json", Configuration.class);
 
         if (this.config == null) {
-            // TODO: Janky quick fix for Heroku. This needs to actually be something useful.
-
-            if (!this.runtimeSettings.isUseEnvironmentVariables()) {
-                LOGGER.error("An error occurred whilst loading the configuration. Exiting program...");
-                System.exit(0);
-            }
+            LOGGER.error("An error occurred whilst loading the configuration. Exiting program...");
+            System.exit(0);
         }
 
         this.registerCommands();
@@ -66,7 +60,7 @@ public class Jager {
     }
 
     private JDABuilder prepareJDA() {
-        JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(System.getenv("JAGER_TOKEN"));
+        JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(this.config.getBotAuth().getToken());
 
         Class[] eventArguments = new Class[1];
         eventArguments[0] = Jager.class;
