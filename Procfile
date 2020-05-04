@@ -1,1 +1,1 @@
-worker: java -jar Jager.jar --use-env
+worker: java -jar Jager.jar
