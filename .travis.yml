@@ -1,0 +1,22 @@
+language: java
+install: true
+
+os: linux
+dist: trusty
+jdk: openjdk8
+
+branches:
+  only:
+    - v2
+
+cache:
+  directories:
+    - $HOME/.gradle
+
+script:
+  - ./gradlew build
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
