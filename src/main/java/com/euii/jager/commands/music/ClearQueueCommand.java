@@ -14,7 +14,7 @@ import java.util.List;
 public class ClearQueueCommand extends AbstractCommand {
 
     public ClearQueueCommand(Jager jager) {
-        super(jager, true);
+        super(jager, false);
     }
 
     @Override
