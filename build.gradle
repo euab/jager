@@ -12,6 +12,8 @@ mainClassName = 'com.euii.jager.Main'
 sourceCompatibility = 1.8
 
 shadowJar {
+    dependsOn tasks.clean
+
     archiveName = "Jager.jar"
 
     doLast {
