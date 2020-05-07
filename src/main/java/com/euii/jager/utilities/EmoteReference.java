@@ -5,12 +5,12 @@ import java.util.Optional;
 public enum EmoteReference {
     WAVING_HAND(":wave", "\u1ffb"),
     WARNING("warning", "\u26a0"),
-    REPEAT(":repeat_button:", "\u1f501"),
+    REPEAT(":repeat_button:", "\uD83D\uDD01"),
     PAUSE(":pause_button:", "\u23f8"),
     PLAY(":arrow_forward:", "\u25b6"),
-    COUNTERCLOCKWISE_ARROWS(":arrows_counterclockwise:", "\u1f504"),
-    CRYING_FACE(":cry:", "\u1f622"),
-    SLIGHT_FROWN(":slight_frown:", "\u1f641"),
+    COUNTERCLOCKWISE_ARROWS(":arrows_counterclockwise:", "\uD83D\uDD04"),
+    CRYING_FACE(":cry:", "\uD83D\uDE22"),
+    SLIGHT_FROWN(":slight_frown:", "\uD83D\uDE41"),
     HOURGLASS(":hourglass:", "\u231b"),
     STOPWATCH(":stopwatch:", "\u23f1");
 
