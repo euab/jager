@@ -6,10 +6,10 @@ import com.euii.jager.audio.ConnectionStatus;
 import com.euii.jager.audio.TrackResponse;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import com.euii.jager.utilities.Time;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
@@ -58,7 +58,7 @@ public class PlayCommand extends AbstractCommand {
 
         ConnectionStatus connectionStatus = AudioHandler.connectToVoiceChannel(message);
         if (!connectionStatus.isSuccess()) {
-            MessageFactory.makeWarning(message, ":warning: **" + connectionStatus.getErrorMessage() + "**")
+            MessageFactory.makeWarning(message, EmoteReference.WARNING + "**" + connectionStatus.getErrorMessage() + "**")
                     .queue();
             return false;
         }

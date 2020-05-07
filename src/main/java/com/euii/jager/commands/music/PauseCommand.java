@@ -5,6 +5,7 @@ import com.euii.jager.audio.AudioHandler;
 import com.euii.jager.audio.GuildAudioController;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Collections;
@@ -49,13 +50,13 @@ public class PauseCommand extends AbstractCommand {
             return sendErrorMessage(message, "Nothing is playing in the voice channel.");
 
         if (controller.getPlayer().isPaused()) {
-            MessageFactory.makeWarning(message, ":warning: Already paused. Use `!resume` to resume playing.")
+            MessageFactory.makeWarning(message, EmoteReference.WARNING + "Already paused. Use `!resume` to resume playing.")
                     .queue();
             return true;
         }
 
         controller.getPlayer().setPaused(true);
-        message.getChannel().sendMessage(":pause_button:").queue();
+        message.getChannel().sendMessage(EmoteReference.PAUSE.toString()).queue();
 
         return true;
     }

@@ -3,6 +3,7 @@ package com.euii.jager.commands.utility;
 import com.euii.jager.Jager;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Collections;
@@ -41,7 +42,7 @@ public class PingCommand extends AbstractCommand {
 
     @Override
     public boolean onCommand(Message message, String[] args) {
-        MessageFactory.makeSuccess(message, ":hourglass: %s ms", message.getJDA().getGatewayPing()).queue();
+        MessageFactory.makeSuccess(message, EmoteReference.HOURGLASS + "%s ms", message.getJDA().getGatewayPing()).queue();
         return true;
     }
 }

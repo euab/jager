@@ -5,6 +5,7 @@ import com.euii.jager.audio.AudioHandler;
 import com.euii.jager.audio.ConnectionStatus;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Arrays;
@@ -46,12 +47,12 @@ public class SummonCommand extends AbstractCommand {
     public boolean onCommand(Message message, String[] args) {
         ConnectionStatus connectionStatus = AudioHandler.connectToVoiceChannel(message, true);
         if (!connectionStatus.isSuccess()) {
-            MessageFactory.makeWarning(message, ":warning: **" + connectionStatus.getErrorMessage() + "**")
+            MessageFactory.makeWarning(message, EmoteReference.WARNING + "**" + connectionStatus.getErrorMessage() + "**")
                     .queue();
             return false;
         }
 
-        MessageFactory.makeSuccess(message, String.format("Connecting to `%s` :wave:...",
+        MessageFactory.makeSuccess(message, String.format("Connecting to `%s` " + EmoteReference.WAVING_HAND,
                 message.getMember().getVoiceState().getChannel().getName())).queue();
 
         return true;

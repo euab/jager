@@ -5,6 +5,7 @@ import com.euii.jager.audio.AudioHandler;
 import com.euii.jager.audio.GuildAudioController;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class RepeatCommand extends AbstractCommand {
         controller.setRepeatingQueue(!controller.isRepeatingQueue());
 
         MessageFactory.makeSuccess(message, String.format(
-                "Repeat mode for your queue has been turned `%s` :repeat:",
+                "Repeat mode for your queue has been turned `%s` " + EmoteReference.REPEAT,
                 controller.isRepeatingQueue() ? "ON" : "OFF"
         )).queue();
 

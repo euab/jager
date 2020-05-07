@@ -5,6 +5,7 @@ import com.euii.jager.audio.AudioHandler;
 import com.euii.jager.audio.GuildAudioController;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Arrays;
@@ -52,7 +53,7 @@ public class LeaveCommand extends AbstractCommand {
         message.getGuild().getAudioManager().closeAudioConnection();
 
         MessageFactory.makeSuccess(message, "Left the voice channel. You can add me back using `!summon` or " +
-                "`!play <song>` :wave:.").queue();
+                "`!play <song>` " + EmoteReference.WAVING_HAND).queue();
 
         return true;
     }

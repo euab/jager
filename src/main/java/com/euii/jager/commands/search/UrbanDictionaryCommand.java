@@ -6,6 +6,7 @@ import com.euii.jager.factories.MessageFactory;
 import com.euii.jager.factories.RequestFactory;
 import com.euii.jager.requests.Response;
 import com.euii.jager.requests.services.UrbanDictionaryService;
+import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -59,7 +60,7 @@ public class UrbanDictionaryCommand extends AbstractCommand {
 
                     if (!service.hasData()) {
                         MessageFactory.makeWarning(message,
-                                String.format("I found no results for %s :cry:"
+                                String.format("I found no results for %s " + EmoteReference.CRYING_FACE
                                         , String.join(" ", args))).queue();
                         return;
                     }

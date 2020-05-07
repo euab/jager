@@ -6,6 +6,7 @@ import com.euii.jager.commands.CommandContainer;
 import com.euii.jager.commands.CommandHandler;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -57,7 +58,7 @@ public class HelpCommand extends AbstractCommand {
 
     private boolean showCommand(Message message, CommandContainer commandContainer, String commandString) {
         if (commandContainer == null) {
-            MessageFactory.makeWarning(message, "This command doesn't exist! :slight_frown:").queue();
+            MessageFactory.makeWarning(message, "This command doesn't exist! " + EmoteReference.SLIGHT_FROWN).queue();
             return false;
         }
 

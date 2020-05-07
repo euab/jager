@@ -3,6 +3,7 @@ package com.euii.jager.commands.utility;
 import com.euii.jager.Jager;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import com.euii.jager.utilities.Time;
 import net.dv8tion.jda.api.entities.Message;
 
@@ -48,7 +49,7 @@ public class UptimeCommand extends AbstractCommand {
         long uptime = runtimeMXBean.getUptime();
         String humanUptime = Time.makeHumanReadableTime(uptime);
 
-        MessageFactory.makeInfo(message, ":stopwatch: " + humanUptime).queue();
+        MessageFactory.makeInfo(message, EmoteReference.STOPWATCH + humanUptime).queue();
 
         return true;
     }
