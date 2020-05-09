@@ -24,7 +24,7 @@ public class TrackRequest extends AbstractFuture {
     }
 
     @Override
-    public void handle(Consumer success, Consumer<Throwable> failiure) {
+    public void handle(Consumer success, Consumer<Throwable> failure) {
         AudioHandler.AUDIO_PLAYER_MANAGER.loadItemOrdered(controller, trackUri, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
@@ -38,17 +38,22 @@ public class TrackRequest extends AbstractFuture {
                     trackLoaded(playlist.getTracks().get(0));
                     return;
                 }
+
+                success.accept(new TrackResponse(controller, playlist, trackUri));
+
+                for (AudioTrack track : playlist.getTracks())
+                    AudioHandler.play(message, controller, track);
             }
 
             @Override
             public void noMatches() {
-                failiure.accept(new FriendlyException("I found nothing matching your query.",
+                failure.accept(new FriendlyException("I found nothing matching your query.",
                         FriendlyException.Severity.COMMON, null));
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                failiure.accept(new FriendlyException("I couldn't add that to the queue.",
+                failure.accept(new FriendlyException("I couldn't add that to the queue.",
                         FriendlyException.Severity.COMMON, exception));
             }
         });
