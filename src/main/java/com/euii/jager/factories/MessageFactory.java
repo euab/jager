@@ -58,7 +58,7 @@ public class MessageFactory {
         ERROR("#EF5350"),
         WARNING("#FAA61A"),
         SUCCESS("#43B581"),
-        INFO("#3A71C1");
+        INFO("#3498DB");
 
         private final String colour;
 
