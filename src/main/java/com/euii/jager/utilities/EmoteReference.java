@@ -3,7 +3,7 @@ package com.euii.jager.utilities;
 import java.util.Optional;
 
 public enum EmoteReference {
-    WAVING_HAND(":wave", "\u1ffb"),
+    WAVING_HAND(":wave", "\uD83D\uDC4B"),
     WARNING("warning", "\u26a0"),
     REPEAT(":repeat_button:", "\uD83D\uDD01"),
     PAUSE(":pause_button:", "\u23f8"),
@@ -12,7 +12,9 @@ public enum EmoteReference {
     CRYING_FACE(":cry:", "\uD83D\uDE22"),
     SLIGHT_FROWN(":slight_frown:", "\uD83D\uDE41"),
     HOURGLASS(":hourglass:", "\u231b"),
-    STOPWATCH(":stopwatch:", "\u23f1");
+    STOPWATCH(":stopwatch:", "\u23f1"),
+    SCROLL(":scroll:", "\uD83D\uDCDC"),
+    GRIMACING(":grimace:", "\uD83D\uDE2C");
 
     final String notation;
     final String unicode;
