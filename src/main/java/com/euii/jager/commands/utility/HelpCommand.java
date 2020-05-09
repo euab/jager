@@ -168,6 +168,11 @@ public class HelpCommand extends AbstractCommand {
     private boolean isCommand(String command) {
         for (Category category : Category.values()) {
             if (CommandHandler.getCommand(command) != null)
+                if (!command.contains("!")) {
+                    StringBuilder sb = new StringBuilder(command);
+                    sb.insert(0, "!");
+                    command = sb.toString();
+                }
                 return true;
         }
 
