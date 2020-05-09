@@ -58,20 +58,14 @@ public class HelpCommand extends AbstractCommand {
 
     @Override
     public boolean onCommand(Message message, String[] args) {
-        if (args.length == 0) {
+        if (args.length == 0)
             return showCategories(message);
-        }
 
-        if (!isCommand(args[0]))
+        CommandContainer command = getCommand(message, args[0]);
+        if (command == null)
             return showCommandsByCategory(message, Category.fromLazyName(args[0]), args[0]);
 
-        if (!args[0].contains("!")) {
-            StringBuilder sb = new StringBuilder(args[0]);
-            sb.insert(0, "!");
-            args[0] = sb.toString();
-        }
-
-        return showCommand(message, CommandHandler.getCommand(args[0]), args[0]);
+        return showCommand(message, command, args[0]);
     }
 
     private boolean showCategories(Message message) {
@@ -165,14 +159,17 @@ public class HelpCommand extends AbstractCommand {
         return true;
     }
 
+    private CommandContainer getCommand(Message message, String commandString) {
+        CommandContainer command = CommandHandler.getCommand(commandString);
+        if (command != null)
+            return command;
+
+        return CommandHandler.getLazyCommand(commandString);
+    }
+
     private boolean isCommand(String command) {
         for (Category category : Category.values()) {
             if (CommandHandler.getCommand(command) != null)
-                if (!command.contains("!")) {
-                    StringBuilder sb = new StringBuilder(command);
-                    sb.insert(0, "!");
-                    command = sb.toString();
-                }
                 return true;
         }
 

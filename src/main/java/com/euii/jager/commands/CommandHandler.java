@@ -55,6 +55,20 @@ public class CommandHandler {
         return true;
     }
 
+    public static CommandContainer getLazyCommand(String commandTrigger) {
+        List<CommandContainer> commands = new ArrayList<>();
+        for (Map.Entry<List<String>, CommandContainer> entry : COMMANDS.entrySet()) {
+            for (String trigger : entry.getKey()) {
+                if (commandTrigger.equalsIgnoreCase(trigger))
+                    return entry.getValue();
+            }
+        }
+
+        return null;
+    }
+
+
+
     public static Collection<CommandContainer> getCommands() {
         return COMMANDS.values();
     }
