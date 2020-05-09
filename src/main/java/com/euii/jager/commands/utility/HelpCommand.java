@@ -26,7 +26,9 @@ public class HelpCommand extends AbstractCommand {
         categories = Arrays.stream(Category.values())
                 .map(Category::getName)
                 .sorted()
-                .collect(Collectors.joining("\n• ", "• ", "\n\n"));
+                .collect(Collectors.joining("\n" + EmoteReference.DOT + " ",
+                        EmoteReference.DOT + " ",
+                        "\n\n"));
     }
 
     @Override
@@ -138,7 +140,7 @@ public class HelpCommand extends AbstractCommand {
 
     private boolean showCommand(Message message, CommandContainer commandContainer, String commandString) {
         if (commandContainer == null) {
-            MessageFactory.makeWarning(message, "This command doesn't exist! :slight_frown:").queue();
+            MessageFactory.makeWarning(message, "This command doesn't exist!" + EmoteReference.SLIGHT_FROWN).queue();
             return false;
         }
 

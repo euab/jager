@@ -14,7 +14,8 @@ public enum EmoteReference {
     HOURGLASS(":hourglass:", "\u231b"),
     STOPWATCH(":stopwatch:", "\u23f1"),
     SCROLL(":scroll:", "\uD83D\uDCDC"),
-    GRIMACING(":grimace:", "\uD83D\uDE2C");
+    GRIMACING(":grimace:", "\uD83D\uDE2C"),
+    DOT("•", "\u2022");
 
     final String notation;
     final String unicode;
