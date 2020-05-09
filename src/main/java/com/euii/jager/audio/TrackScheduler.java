@@ -1,6 +1,7 @@
 package com.euii.jager.audio;
 
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.utilities.EmoteReference;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -8,9 +9,13 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
+
+    public final ExecutorService service = Executors.newCachedThreadPool();
 
     private final GuildAudioController controller;
     private final AudioPlayer player;
@@ -40,19 +45,23 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void nextTrack() {
         TrackContainer container = queue.poll();
-        trackContainer = container;
 
-        player.startTrack(container.getAudioTrack(), false);
+        if (container == null) {
+            if (controller.getLastMessage() == null)
+                return;
 
-        if (controller.getLastMessage() != null) {
-            sendNowPlaying(container);
+            service.submit(() -> handleEndOfQueue());
+            return;
         }
+
+        trackContainer = container;
+        player.playTrack(container.getAudioTrack());
+        if (controller.getLastMessage() != null)
+            sendNowPlaying(container);
     }
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason reason) {
-        // TODO: Fix NullPointerException when queue is finished.
-
         if (reason.mayStartNext) {
             if (controller.isRepeatingQueue())
                 queue.offer(new TrackContainer(track.makeClone(), getTrackContainer().getUser()));
@@ -63,13 +72,23 @@ public class TrackScheduler extends AudioEventAdapter {
 
         if (reason.equals(AudioTrackEndReason.FINISHED) && queue.isEmpty()) {
             if (controller.getLastMessage() != null) {
-                MessageFactory.makeSuccess(controller.getLastMessage(), "**We've reached the end of the " +
-                        "queue. ** Since there is nothing else for me to play, I've left the channel to clean things " +
-                        "up. You can request more music using `!play <song>` or put be back in the channel using " +
-                        "`!summon` :wave:.").queue();
-                controller.getLastMessage().getGuild().getAudioManager().closeAudioConnection();
+                service.submit(() -> handleEndOfQueue());
             }
         }
+    }
+
+    public void handleEndOfQueue() {
+        if (AudioHandler.CONTROLLER_MAP.containsKey(controller.getLastMessage().getGuild().getIdLong())) {
+            MessageFactory.makeSuccess(controller.getLastMessage(), "**We've reached the end of the queue. " +
+                    "** Since there is nothing else for me to play, I've left the channel to clean things up. " +
+                    "You can request more music using `!play <song>` or put be back in the channel using `!summon` " +
+                    EmoteReference.WAVING_HAND).queue();
+        }
+        controller.getLastMessage().getGuild().getAudioManager().closeAudioConnection();
+
+        AudioHandler.CONTROLLER_MAP.remove(
+                controller.getLastMessage().getGuild().getIdLong()
+        );
     }
 
     private void sendNowPlaying(TrackContainer container) {
