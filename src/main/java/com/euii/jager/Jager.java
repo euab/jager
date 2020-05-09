@@ -101,6 +101,7 @@ public class Jager {
         CommandHandler.register(new RepeatCommand(this));
         CommandHandler.register(new ClearQueueCommand(this));
         CommandHandler.register(new LeaveCommand(this));
+        CommandHandler.register(new ShuffleCommand(this));
 
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
     }
