@@ -11,12 +11,13 @@ import com.euii.jager.config.Configuration;
 import com.euii.jager.config.ConfigurationLoader;
 import com.euii.jager.contracts.handlers.EventHandler;
 import com.euii.jager.handlers.EventTypes;
+import com.euii.jager.tasks.ActivityTask;
+import com.euii.jager.tasks.TaskController;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.SelfUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +49,11 @@ public class Jager {
         }
 
         this.registerCommands();
+        this.registerTasks();
 
         try {
             LOGGER.info("Building JDA...");
             jda = prepareJDA().build();
-            this.setPresence();
         } catch (LoginException e) {
             LOGGER.error("Something went wrong when connecting to Discord. Exiting program...");
             System.exit(0);
@@ -106,8 +107,12 @@ public class Jager {
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
     }
 
-    private void setPresence() {
-        this.jda.getPresence().setActivity(Activity.playing("!help"));
+    private void registerTasks() {
+        LOGGER.info("Registering background tasks...");
+
+        TaskController.registerTask(new ActivityTask(this));
+
+        LOGGER.info("Registered {} tasks", TaskController.entrySet().size());
     }
 
     private String getBanner() {
@@ -139,5 +144,11 @@ public class Jager {
         return jda.getSelfUser();
     }
 
+    public JDA getJda() {
+        return jda;
+    }
 
+    public boolean isReady() {
+        return jda.getStatus() == JDA.Status.CONNECTED;
+    }
 }
