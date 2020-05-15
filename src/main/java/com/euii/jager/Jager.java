@@ -12,6 +12,7 @@ import com.euii.jager.config.ConfigurationLoader;
 import com.euii.jager.contracts.handlers.EventHandler;
 import com.euii.jager.handlers.EventTypes;
 import com.euii.jager.tasks.ActivityTask;
+import com.euii.jager.tasks.AudioInactivityTask;
 import com.euii.jager.tasks.TaskController;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.AccountType;
@@ -111,6 +112,7 @@ public class Jager {
         LOGGER.info("Registering background tasks...");
 
         TaskController.registerTask(new ActivityTask(this));
+        TaskController.registerTask(new AudioInactivityTask(this));
 
         LOGGER.info("Registered {} tasks", TaskController.entrySet().size());
     }

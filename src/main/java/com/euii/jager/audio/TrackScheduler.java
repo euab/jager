@@ -1,7 +1,6 @@
 package com.euii.jager.audio;
 
 import com.euii.jager.factories.MessageFactory;
-import com.euii.jager.utilities.EmoteReference;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -49,8 +48,6 @@ public class TrackScheduler extends AudioEventAdapter {
         if (container == null) {
             if (controller.getLastMessage() == null)
                 return;
-
-            service.submit(() -> handleEndOfQueue());
             return;
         }
 
@@ -69,26 +66,6 @@ public class TrackScheduler extends AudioEventAdapter {
             nextTrack();
             return;
         }
-
-        if (reason.equals(AudioTrackEndReason.FINISHED) && queue.isEmpty()) {
-            if (controller.getLastMessage() != null) {
-                service.submit(() -> handleEndOfQueue());
-            }
-        }
-    }
-
-    public void handleEndOfQueue() {
-        if (AudioHandler.CONTROLLER_MAP.containsKey(controller.getLastMessage().getGuild().getIdLong())) {
-            MessageFactory.makeSuccess(controller.getLastMessage(), "**We've reached the end of the queue. " +
-                    "** Since there is nothing else for me to play, I've left the channel to clean things up. " +
-                    "You can request more music using `!play <song>` or put be back in the channel using `!summon` " +
-                    EmoteReference.WAVING_HAND).queue();
-        }
-        controller.getLastMessage().getGuild().getAudioManager().closeAudioConnection();
-
-        AudioHandler.CONTROLLER_MAP.remove(
-                controller.getLastMessage().getGuild().getIdLong()
-        );
     }
 
     private void sendNowPlaying(TrackContainer container) {
