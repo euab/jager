@@ -5,8 +5,10 @@ import com.euii.jager.audio.AudioHandler;
 import com.euii.jager.audio.GuildAudioController;
 import com.euii.jager.contracts.commands.AbstractCommand;
 import com.euii.jager.factories.MessageFactory;
+import com.euii.jager.tasks.AudioInactivityTask;
 import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.managers.AudioManager;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,15 +47,32 @@ public class LeaveCommand extends AbstractCommand {
 
     @Override
     public boolean onCommand(Message message, String[] args) {
-        // TODO: Implement checks if bot is in active voice channel.
-
+        AudioManager manager = message.getGuild().getAudioManager();
         GuildAudioController controller = AudioHandler.getGuildAudioPlayer(message.getGuild());
 
-        controller.getPlayer().stopTrack();
-        message.getGuild().getAudioManager().closeAudioConnection();
+        if (!manager.isConnected())
+            return sendErrorMessage(message, "I am not connected to a voice channel. You can add me to one by " +
+                    "requesting music using `!play <song>`...");
 
-        MessageFactory.makeSuccess(message, "Left the voice channel. You can add me back using `!summon` or " +
-                "`!play <song>` " + EmoteReference.WAVING_HAND).queue();
+        String guildId = message.getGuild().getId();
+        int size = controller.getScheduler().getQueue().size();
+
+        controller.getPlayer().stopTrack();
+        controller.getScheduler().getQueue().clear();
+
+        AudioInactivityTask.PAUSED_PLAYERS.remove(guildId);
+        AudioInactivityTask.MISSING_LISTENERS.remove(guildId);
+        AudioInactivityTask.ORPHANED_PLAYERS.remove(guildId);
+
+        controller.getPlayer().destroy();
+        manager.closeAudioConnection();
+
+        MessageFactory.makeInfo(message, String.format("Disconnected from the voice channel. I have removed `%s song%s` from " +
+                "the queue. You can add me back by requesting more music using `!play <song>` " +
+                EmoteReference.WAVING_HAND,
+                size,
+                size > 1 ? "s" : "")
+        ).queue();
 
         return true;
     }
