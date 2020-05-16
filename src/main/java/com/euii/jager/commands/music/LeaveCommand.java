@@ -71,7 +71,7 @@ public class LeaveCommand extends AbstractCommand {
                 "the queue. You can add me back by requesting more music using `!play <song>` " +
                 EmoteReference.WAVING_HAND,
                 size,
-                size > 1 ? "s" : "")
+                size == 1 ? "" : "s")
         ).queue();
 
         return true;
