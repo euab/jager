@@ -1,7 +1,9 @@
 package com.euii.jager.middleware;
 
 import com.euii.jager.Jager;
+import com.euii.jager.api.Prometheus;
 import com.euii.jager.contracts.middleware.AbstractMiddleware;
+import io.prometheus.client.Histogram;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.util.Arrays;
@@ -35,7 +37,22 @@ public class ProcessCommand extends AbstractMiddleware {
                 .replace("%message%", message.getContentRaw())
         );
 
-        return stack.getCommand().onCommand(message, Arrays.copyOfRange(arguments, 1, arguments.length));
+        Histogram.Timer timer = null;
+
+        try {
+            Prometheus.processedCommands.labels(stack.getCommand().getClass().getSimpleName()).inc();
+            timer = Prometheus.executionTime.labels(stack.getCommand().getClass().getSimpleName()).startTimer();
+            return stack.getCommand().onCommand(message, Arrays.copyOfRange(arguments, 1, arguments.length));
+
+        } catch (Exception e) {
+            Prometheus.commandFailures.labels(e.getClass().getSimpleName()).inc();
+            e.printStackTrace();
+            return false;
+
+        } finally {
+            if (timer != null)
+                timer.observeDuration();
+        }
     }
 
     private String formatUsername(Message message) {

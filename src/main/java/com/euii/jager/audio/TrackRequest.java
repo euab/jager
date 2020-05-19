@@ -1,5 +1,6 @@
 package com.euii.jager.audio;
 
+import com.euii.jager.api.Prometheus;
 import com.euii.jager.contracts.async.AbstractFuture;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -25,9 +26,13 @@ public class TrackRequest extends AbstractFuture {
 
     @Override
     public void handle(Consumer success, Consumer<Throwable> failure) {
+        Prometheus.audioRequests.inc();
+
         AudioHandler.AUDIO_PLAYER_MANAGER.loadItemOrdered(controller, trackUri, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
+                Prometheus.tracksLoaded.inc();
+
                 success.accept(new TrackResponse(controller, track, trackUri));
                 AudioHandler.play(message, controller, track);
             }
@@ -47,12 +52,14 @@ public class TrackRequest extends AbstractFuture {
 
             @Override
             public void noMatches() {
+                Prometheus.trackLoadedFailures.inc();
                 failure.accept(new FriendlyException("I found nothing matching your query.",
                         FriendlyException.Severity.COMMON, null));
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
+                Prometheus.trackLoadedFailures.inc();
                 failure.accept(new FriendlyException("I couldn't add that to the queue.",
                         FriendlyException.Severity.COMMON, exception));
             }

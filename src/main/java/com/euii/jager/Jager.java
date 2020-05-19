@@ -1,5 +1,6 @@
 package com.euii.jager;
 
+import com.euii.jager.api.Prometheus;
 import com.euii.jager.commands.CommandHandler;
 import com.euii.jager.commands.music.*;
 import com.euii.jager.commands.search.UrbanDictionaryCommand;
@@ -32,6 +33,7 @@ public class Jager {
     private static final Logger LOGGER = LoggerFactory.getLogger("Jager");
 
     public final Configuration config;
+    private final Prometheus prometheus;
 
     private JDA jda;
 
@@ -51,6 +53,9 @@ public class Jager {
 
         this.registerCommands();
         this.registerTasks();
+
+        LOGGER.info("Starting prometheus...");
+        prometheus = new Prometheus(this);
 
         try {
             LOGGER.info("Building JDA...");
