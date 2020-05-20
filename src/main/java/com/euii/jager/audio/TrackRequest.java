@@ -25,7 +25,12 @@ public class TrackRequest extends AbstractFuture {
     }
 
     @Override
-    public void handle(Consumer success, Consumer<Throwable> failure) {
+    public void handle(final Consumer success, final Consumer<Throwable> failure) {
+        handle(success, failure, null);
+    }
+
+    public void handle(final Consumer success, final Consumer<Throwable> failure,
+                       final Consumer<Playlist> playlistConsumer) {
         Prometheus.audioRequests.inc();
 
         AudioHandler.AUDIO_PLAYER_MANAGER.loadItemOrdered(controller, trackUri, new AudioLoadResultHandler() {
@@ -39,15 +44,22 @@ public class TrackRequest extends AbstractFuture {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                if (trackUri.startsWith("ytsearch:")) {
-                    trackLoaded(playlist.getTracks().get(0));
+                if (trackUri.startsWith("ytsearch:") || trackUri.startsWith("scsearch:")) {
+                    if (playlistConsumer == null) {
+                        trackLoaded(playlist.getTracks().get(0));
+                        return;
+                    }
+
+                    playlistConsumer.accept(AudioHandler.createPlaylist(message, playlist));
                     return;
                 }
 
                 success.accept(new TrackResponse(controller, playlist, trackUri));
 
-                for (AudioTrack track : playlist.getTracks())
+                for (AudioTrack track : playlist.getTracks()) {
+                    Prometheus.tracksLoaded.inc();
                     AudioHandler.play(message, controller, track);
+                }
             }
 
             @Override

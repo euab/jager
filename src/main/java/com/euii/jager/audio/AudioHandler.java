@@ -3,6 +3,7 @@ package com.euii.jager.audio;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -18,10 +19,12 @@ public class AudioHandler {
 
     public static final AudioPlayerManager AUDIO_PLAYER_MANAGER;
     public static final Map<Long, GuildAudioController> CONTROLLER_MAP;
+    public static final Map<String, Playlist> PLAYLIST_MAP;
 
     static {
         CONTROLLER_MAP = new HashMap<>();
         AUDIO_PLAYER_MANAGER = new DefaultAudioPlayerManager();
+        PLAYLIST_MAP = new HashMap<>();
 
         AudioSourceManagers.registerRemoteSources(AUDIO_PLAYER_MANAGER);
         AudioSourceManagers.registerLocalSource(AUDIO_PLAYER_MANAGER);
@@ -114,5 +117,28 @@ public class AudioHandler {
         return controller.getPlayer().getPlayingTrack() == null ?
                 controller.getScheduler().getQueue().size() :
                 controller.getScheduler().getQueue().size() + 1;
+    }
+
+    public static Playlist createPlaylist(Message message, AudioPlaylist audioPlaylist) {
+        Playlist playlist = new Playlist(audioPlaylist);
+
+        PLAYLIST_MAP.put(
+                message.getGuild() + ":" + message.getAuthor().getId(),
+                playlist
+        );
+
+        return playlist;
+    }
+
+    public static boolean hasPlaylist(Message message) {
+        return PLAYLIST_MAP.containsKey(message.getGuild().getId() + ":" + message.getAuthor().getId());
+    }
+
+    public static Playlist getPlaylist(Message message) {
+        return PLAYLIST_MAP.getOrDefault(message.getGuild().getId() + ":" + message.getAuthor().getId(), null);
+    }
+
+    public static void removePlaylist(Message message) {
+        PLAYLIST_MAP.remove(message.getGuild().getId() + ":" + message.getAuthor().getId());
     }
 }
