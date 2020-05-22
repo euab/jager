@@ -133,6 +133,7 @@ public class Jager {
                 "              |___/             \n\n"+
                 "-------------------------------------------------"+
                 "\n == Version information ==" +
+                "\n Jager         : " + JagerInfo.getJagerInfo().version +
                 "\n JVM           : " + System.getProperty("java.version") +
                 "\n JDA           : " + JDAInfo.VERSION +
                 "\n Lavaplayer    : " + PlayerLibrary.VERSION +

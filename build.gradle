@@ -4,12 +4,20 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
-group 'com.euii.jager'
-version '1.0-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'idea'
+
+group = 'com.euii.jager'
+version = '2.0.1'
 
 mainClassName = 'com.euii.jager.Main'
 
 sourceCompatibility = 1.8
+
+ext {
+    moduleName = 'Jager'
+    versionName = 'Valencia'
+}
 
 shadowJar {
     archiveName = "Jager.jar"
@@ -44,4 +52,18 @@ dependencies {
     compile group: 'com.sparkjava', name: 'spark-core', version: '2.7.1'
     compile group: 'io.prometheus', name: 'simpleclient_servlet', version: '0.1.0'
     compile 'org.json:json:20190722'
+    compile 'com.rethinkdb:rethinkdb-driver:2.4.2'
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+processResources {
+    filesMatching("**/jager.properties") {
+        filter ReplaceTokens, tokens: [
+                "project.version"     : project.version,
+                "project.versionName" : project.ext.versionName,
+                "project.groupId"     : project.group,
+                "project.artifactId"  : project.ext.moduleName
+        ]
+    }
 }
