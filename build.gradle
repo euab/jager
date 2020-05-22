@@ -8,7 +8,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 
 group = 'com.euii.jager'
-version = '2.0.1'
+version = '2.0.2'
 
 mainClassName = 'com.euii.jager.Main'
 

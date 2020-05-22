@@ -65,6 +65,26 @@ public class Time {
         return response.toString();
     }
 
+    public static String makeTimestampedUptime(long millis) {
+        long d = TimeUnit.MILLISECONDS.toDays(millis);
+        long h = TimeUnit.MILLISECONDS.toHours(millis) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millis));
+        long m = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis));
+        long s = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
+
+        if (d > 0)
+            return String.format("%sd %sh %sm %ss", d, h, m, s);
+
+        if (h > 0)
+            return String.format("%sh %sm %ss", h, m, s);
+
+        if (m > 0)
+            return String.format("%sm %ss", m, s);
+
+        if (s == 0)
+            return "0 (just now)";
+
+        return String.format("%ss", s);
+    }
 
     /**
      * Like the above method, but this method returns a timestamp in the format of hours:minutes:seconds.

@@ -141,4 +141,19 @@ public class AudioHandler {
     public static void removePlaylist(Message message) {
         PLAYLIST_MAP.remove(message.getGuild().getId() + ":" + message.getAuthor().getId());
     }
+
+    public static int getControllerMapSize() {
+        int total = 0;
+
+        for (GuildAudioController controller : CONTROLLER_MAP.values()) {
+            if (controller.getLastMessage() == null)
+                continue;
+
+            AudioManager audioManager = controller.getLastMessage().getGuild().getAudioManager();
+            if (audioManager.isConnected() || audioManager.isAttemptingToConnect())
+                total ++;
+        }
+
+        return total;
+    }
 }

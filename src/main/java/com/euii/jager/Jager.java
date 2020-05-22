@@ -4,10 +4,7 @@ import com.euii.jager.api.Prometheus;
 import com.euii.jager.commands.CommandHandler;
 import com.euii.jager.commands.music.*;
 import com.euii.jager.commands.search.UrbanDictionaryCommand;
-import com.euii.jager.commands.utility.HelpCommand;
-import com.euii.jager.commands.utility.InviteCommand;
-import com.euii.jager.commands.utility.PingCommand;
-import com.euii.jager.commands.utility.UptimeCommand;
+import com.euii.jager.commands.utility.*;
 import com.euii.jager.config.Configuration;
 import com.euii.jager.config.ConfigurationLoader;
 import com.euii.jager.contracts.handlers.EventHandler;
@@ -110,6 +107,7 @@ public class Jager {
         CommandHandler.register(new LeaveCommand(this));
         CommandHandler.register(new ShuffleCommand(this));
         CommandHandler.register(new DenverCommand(this));
+        CommandHandler.register(new StatusCommand(this));
 
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
     }
