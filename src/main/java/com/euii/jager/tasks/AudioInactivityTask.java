@@ -27,7 +27,7 @@ public class AudioInactivityTask extends AbstractTask {
 
     @Override
     public void run() {
-        jager.getLogger().info("[BG task] AudioInactivityTask running now. UUID: {}", getUuid());
+        jager.getLogger().debug("[BG task] AudioInactivityTask running now. UUID: {}", getUuid());
 
         Iterator<AudioManager> iterator = jager.getJda().getAudioManagers().iterator();
 

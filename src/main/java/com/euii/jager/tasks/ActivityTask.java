@@ -17,7 +17,7 @@ public class ActivityTask extends AbstractTask {
     @Override
     public void run() {
 
-        jager.getLogger().info("[BG task] ActivityTask running now. UUID: {}", getUuid());
+        jager.getLogger().debug("[BG task] ActivityTask running now. UUID: {}", getUuid());
 
         if (!jager.isReady())
             return;
