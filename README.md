@@ -1,15 +1,15 @@
 <p align="center">
-    <img src="https://i.imgur.com/FEkJZdh.png" height="200" width="200">
+    <img src="https://i.imgur.com/8DZxj6X.png" height="300" width="500">
     <h1 align="center">Jäger V2</h1>
     <p align="center"><b>The development branch for the next major version of the Jäger Discord bot.</b></p>
 </p>
 
 <p align="center">
     <a href="https://travis-ci.org/github/Euab/jager">
-        <img alt="Travis (.org) branch" src="https://img.shields.io/travis/euab/jager/v2?style=for-the-badge">
+        <img alt="Travis (.org) branch" src="https://img.shields.io/travis/euab/jager/master?style=for-the-badge">
     </a>
     <a href="https://www.codacy.com/app/Euab/jager">
-        <img alt="Codacy branch grade" src="https://img.shields.io/codacy/grade/fa73126c883d4b769c68b403aa0acb7d/v2?style=for-the-badge">
+        <img alt="Codacy branch grade" src="https://img.shields.io/codacy/grade/fa73126c883d4b769c68b403aa0acb7d/mastger?style=for-the-badge">
     </a>
     <a href="https://discord.com/oauth2/authorize?client_id=495551162737754122&scope=bot&permissions=8">
         <img alt="Discord invite link" src="https://img.shields.io/badge/Discord-Invite-blueviolet?logo=discord&style=for-the-badge">

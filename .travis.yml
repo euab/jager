@@ -7,7 +7,7 @@ jdk: openjdk8
 
 branches:
   only:
-    - v2
+    - master
 
 cache:
   directories:
