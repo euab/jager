@@ -10,7 +10,6 @@ import com.euii.jager.utilities.EmoteReference;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;

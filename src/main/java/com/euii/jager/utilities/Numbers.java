@@ -1,6 +1,5 @@
 package com.euii.jager.utilities;
 
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 
 public class Numbers {
