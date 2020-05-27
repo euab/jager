@@ -106,7 +106,7 @@ public class StatusCommand extends AbstractCommand {
     private String formatMetrics(int n) {
         double value = n / ((double) ManagementFactory.getRuntimeMXBean().getUptime() / 1000D);
         return String.format(
-                (value < 1.5D ? "%s (per minute)" : "%s (per second)"),
+                value < 1.5D ? "%s (%s cmds/m)" : "%s (%s cmds/s)",
                 Numbers.formatValue(n),
                 Numbers.formatDecimals(value < 1.5D ? value * 60D : value)
         );
