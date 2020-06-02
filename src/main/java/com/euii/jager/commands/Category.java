@@ -13,7 +13,8 @@ public enum Category {
 
     UTILITY("Utility"),
     SEARCH("Search"),
-    MUSIC("Music");
+    MUSIC("Music"),
+    DEBUG("Debug");
 
     private static final List<Category> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
     private static final Random RANDOM = new Random();

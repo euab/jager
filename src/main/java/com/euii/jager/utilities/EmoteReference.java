@@ -16,7 +16,8 @@ public enum EmoteReference {
     SCROLL(":scroll:", "\uD83D\uDCDC"),
     GRIMACING(":grimace:", "\uD83D\uDE2C"),
     DOT("•", "\u2022"),
-    SHUFFLE(":twisted_rightwards_arrows:", "\uD83D\uDD00");
+    SHUFFLE(":twisted_rightwards_arrows:", "\uD83D\uDD00"),
+    X(":x:", "\u274C");
 
     final String notation;
     final String unicode;

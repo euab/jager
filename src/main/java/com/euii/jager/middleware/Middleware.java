@@ -2,7 +2,8 @@ package com.euii.jager.middleware;
 
 public enum Middleware {
 
-    PROCESS_COMMAND("process-command", ProcessCommand.class);
+    PROCESS_COMMAND("process-command", ProcessCommand.class),
+    IS_BOT_DEVELOPER("is-bot-developer", IsBotDeveloper.class);
 
     private final String name;
     private final Class instance;

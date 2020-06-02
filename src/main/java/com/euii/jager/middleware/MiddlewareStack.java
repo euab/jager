@@ -27,6 +27,7 @@ public class MiddlewareStack {
         this.command = command;
 
         middlewares.add(new MiddlewareContainer(Middleware.PROCESS_COMMAND));
+        this.buildMiddlewareStack();
     }
 
     private void buildMiddlewareStack() {

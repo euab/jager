@@ -2,6 +2,7 @@ package com.euii.jager;
 
 import com.euii.jager.api.Prometheus;
 import com.euii.jager.commands.CommandHandler;
+import com.euii.jager.commands.debug.EvalCommand;
 import com.euii.jager.commands.music.*;
 import com.euii.jager.commands.search.UrbanDictionaryCommand;
 import com.euii.jager.commands.utility.*;
@@ -108,6 +109,7 @@ public class Jager {
         CommandHandler.register(new ShuffleCommand(this));
         CommandHandler.register(new DenverCommand(this));
         CommandHandler.register(new StatusCommand(this));
+        CommandHandler.register(new EvalCommand(this));
 
         LOGGER.info(String.format("- Registered %s commands.", CommandHandler.getCommands().size()));
     }

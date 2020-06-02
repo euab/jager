@@ -10,6 +10,7 @@ public class Configuration implements CastableInterface {
     private BotAuth botAuth;
     private Database database;
     private ArrayList<String> activities;
+    private ArrayList<String> developers;
 
     public BotAuth getBotAuth() {
         return botAuth;
@@ -21,6 +22,10 @@ public class Configuration implements CastableInterface {
 
     public ArrayList<String> getActivities() {
         return activities;
+    }
+
+    public ArrayList<String> getDevelopers() {
+        return developers;
     }
 
     public class BotAuth {
